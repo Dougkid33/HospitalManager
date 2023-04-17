@@ -13,13 +13,13 @@ public class PessoaController {
         qtdPessoas = 0;
     }
 
-    public boolean cadastrarPessoa(String nome, String endereco, String cpf, String telefone, String login,
+    public boolean cadastrarPessoa(int id, String nome, String endereco, String cpf, String telefone, String login,
             String senha, String tipoUsuario) {
-        if (buscarPessoa(login) != null) {
+        if (buscarPessoa(id) != null) {
             return false; // Já existe uma pessoa com esse login
         }
 
-        int id = gerarNovoId();
+        
         Date dataCriacao = new Date();
         Pessoa novaPessoa = new Pessoa(id, nome, endereco, cpf, telefone, login, senha, tipoUsuario, dataCriacao, dataCriacao);
         pessoas[qtdPessoas] = novaPessoa;
@@ -27,8 +27,8 @@ public class PessoaController {
         return true;
     }
 
-    public boolean editarPessoa(String login, String novoNome, String novoEndereco, String novoCpf, String novoTelefone) {
-        Pessoa pessoa = buscarPessoa(login);
+    public boolean editarPessoa(int id, String login, String novoNome, String novoEndereco, String novoCpf, String novoTelefone) {
+        Pessoa pessoa = buscarPessoa(id);
         if (pessoa == null) {
             return false; // Pessoa não encontrada
         }
@@ -41,8 +41,8 @@ public class PessoaController {
         return true;
     }
 
-    public boolean alterarTipoUsuario(String login, String novoTipoUsuario) {
-        Pessoa pessoa = buscarPessoa(login);
+    public boolean alterarTipoUsuario(int id, String login, String novoTipoUsuario) {
+        Pessoa pessoa = buscarPessoa(id);
         if (pessoa == null) {
             return false; // Pessoa não encontrada
         }
@@ -51,23 +51,32 @@ public class PessoaController {
         return true;
     }
 
-    public Pessoa buscarPessoa(String login) {
+    public Pessoa buscarPessoa(int id) {
         for (int i = 0; i < qtdPessoas; i++) {
-            if (pessoas[i].getLogin().equals(login)) {
+            if (pessoas[i].getLogin().equals(id)) {
                 return pessoas[i];
             }
         }
         return null; // Pessoa não encontrada
     }
-
-    private int gerarNovoId() {
-        int novoId = 1;
+    public boolean removerPessoa(String login) {
         for (int i = 0; i < qtdPessoas; i++) {
-            if (pessoas[i].getId() >= novoId) {
-                novoId = pessoas[i].getId() + 1;
+            if (pessoas[i].getLogin().equals(login)) {
+                for (int j = i; j < qtdPessoas - 1; j++) {
+                    pessoas[j] = pessoas[j+1];
+                }
+                pessoas[qtdPessoas - 1] = null;
+                qtdPessoas--;
+                return true;
             }
         }
-        return novoId;
+        return false; // Pessoa não encontrada
+    }
+
+
+
+    public Pessoa[] listarPessoas() {
+        return pessoas;
     }
 
 }
