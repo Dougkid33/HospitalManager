@@ -1,9 +1,0 @@
-/**
- * 
- */
-/**
- * @author User
- *
- */
-module HospitalManager {
-}
