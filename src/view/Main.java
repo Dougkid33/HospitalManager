@@ -1,168 +1,94 @@
 package view;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
-
 import controller.PessoaController;
 import model.Pessoa;
-import model.DAO.PessoaDAO;
 
 public class Main {
-    private PessoaController pessoaController;
 
-    public Main() {
-        pessoaController = new PessoaController(10); // criar controller com capacidade para 10 pessoas
+    public void menuPrincipal(long id) {
+
     }
 
+    // MENU INICIO
     public boolean login() {
-    	
         try (Scanner scanner = new Scanner(System.in)) {
-			System.out.println("Digite seu login:");
-			String login = scanner.nextLine();
+            String usuario, senha;
+            boolean loginValido = false;
 
-			System.out.println("Digite sua senha:");
-			String senha = scanner.nextLine();
+            while (!loginValido) {
+                StringBuilder builder = new StringBuilder("");
 
-			PessoaDAO pessoaDAO = new PessoaDAO(10); // criar DAO com capacidade para 10 pessoas
-			Pessoa[] pessoas = pessoaDAO.listarPessoas();
+                builder.append(" ======================================");
+                builder.append(" Sistema de Gerenciamento de Hospitais - Login ");
+                builder.append(" ====================================\n");
+                builder.append("\n Entre com seus dados:\n");
+                System.out.print(builder.toString());
 
-			for (Pessoa pessoa : pessoas) {
-			    if (pessoa.getLogin().equals(login) && pessoa.getSenha().equals(senha)) {
-			        System.out.println("Login realizado com sucesso!");
-			        return true;
-			    }
-			}
-		}
+                System.out.print("Usuário: ");
+                usuario = scanner.nextLine();
 
-        System.out.println("Login ou senha incorretos!");
-        return false;
-    }
+                System.out.print("Senha: ");
+                senha = scanner.nextLine();
 
-    public void cadastrarPessoa() {
-        try (Scanner scanner = new Scanner(System.in)) {
-			System.out.println("Digite o nome:");
-			String nome = scanner.nextLine();
+                Pessoa pessoa = PessoaController.login(usuario, senha);
+                if (pessoa != null) {
+                    loginValido = true;
+                    menuPrincipal(pessoa.getId());
+                } else {
+                    System.out.println("\nUsuário ou senha inválidos. Tente novamente.\n");
+                }
 
-			System.out.println("Digite o e-mail:");
-			String email = scanner.nextLine();
+                System.out.println(builder.toString());
 
-			System.out.println("Digite o telefone:");
-			String telefone = scanner.nextLine();
-
-			Pessoa pessoa = new Pessoa(0, nome, email, telefone, telefone, telefone, telefone, telefone, null, null);
-			pessoaController.buscarPessoa(pessoa.getId());
-		}
-
-        System.out.println("Pessoa cadastrada com sucesso!");
-    }
-
-    public void listarPessoas() {
-        Pessoa[] pessoas = pessoaController.listarPessoas();
-
-        if (pessoas.length == 0) {
-            System.out.println("Nenhuma pessoa cadastrada!");
-        } else {
-            for (Pessoa pessoa : pessoas) {
-                System.out.println(pessoa);
             }
+            return loginValido;
         }
     }
 
-    public void atualizarPessoa() {
+    // MENU PRINCIPAL
+    public static int exibirMenu() {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("\n\n\n\n\n\n\n =============================================================\n");
+        builder.append(" Sistema de Gerenciamento de Clínicas Médicas \n");
+        builder.append(" ========================================================/Home\n");
+        builder.append("\n Escolha a opção desejada:\n");
+        builder.append("1. Pessoa \n");
+        builder.append("2. Médico \n");
+        builder.append("3. Franquia \n");
+        builder.append("4. Unidade de Franquia \n");
+        builder.append("5. Consulta \n");
+        builder.append("6. Informação de Consulta \n");
+        builder.append("7. Procedimento \n");
+        builder.append("8. Financeiro ADM \n");
+        builder.append("9. Financeiro Médico \n");
+        builder.append("10. Relatórios Financeiros \n");
+        builder.append("0. Sair \n");
+        builder.append("------------------------------------ \n");
+
+        System.out.println(builder.toString());
+
         try (Scanner scanner = new Scanner(System.in)) {
-			System.out.println("Digite o ID da pessoa que deseja atualizar:");
-			int id = scanner.nextInt();
-			scanner.nextLine();
-
-			Pessoa pessoa = pessoaController.buscarPessoa(id);
-
-			if (pessoa == null) {
-			    System.out.println("Pessoa não encontrada!");
-			    return;
-			}
-
-			System.out.println("Digite o novo nome (ou deixe em branco para manter o nome atual):");
-			String nome = scanner.nextLine();
-
-			System.out.println("Digite o novo e-mail (ou deixe em branco para manter o e-mail atual):");
-			String email = scanner.nextLine();
-
-			System.out.println("Digite o novo telefone (ou deixe em branco para manter o telefone atual):");
-			String telefone = scanner.nextLine();    if (!nome.isEmpty()) {
-			    pessoa.setNome(nome);
-			}
-
-
-			if (!telefone.isEmpty()) {
-			    pessoa.setTelefone(telefone);
-			}
-
-			pessoaController.editarPessoa(id, telefone, nome, nome, email, telefone);
-		}
-
-        System.out.println("Pessoa atualizada com sucesso!");
-    }
-
-    public void excluirPessoa() {
-        try (Scanner scanner = new Scanner(System.in)) {
-			System.out.println("Digite o ID da pessoa que deseja excluir:");
-			int id = scanner.nextInt();
-			scanner.nextLine();
-
-			Pessoa pessoa = pessoaController.buscarPessoa(id);
-
-			if (pessoa == null) {
-			    System.out.println("Pessoa não encontrada!");
-			    return;
-			}
-
-			pessoaController.removerPessoa(pessoa.getLogin());
-		}
-
-        System.out.println("Pessoa excluída com sucesso!");
-    }
-
-    public void menu() {
-        try (Scanner scanner = new Scanner(System.in)) {
-			while (true) {
-			    System.out.println("=== Menu ===");
-			    System.out.println("1. Cadastrar pessoa");
-			    System.out.println("2. Listar pessoas");
-			    System.out.println("3. Atualizar pessoa");
-			    System.out.println("4. Excluir pessoa");
-			    System.out.println("0. Sair");
-
-			    int opcao = scanner.nextInt();
-			    scanner.nextLine();
-
-			    switch (opcao) {
-			        case 1:
-			            cadastrarPessoa();
-			            break;
-			        case 2:
-			            listarPessoas();
-			            break;
-			        case 3:
-			            atualizarPessoa();
-			            break;
-			        case 4:
-			            excluirPessoa();
-			            break;
-			        case 0:
-			            System.out.println("Saindo...");
-			            return;
-			        default:
-			            System.out.println("Opção inválida!");
-			            break;
-			    }
-			}
-		}
+            int opcao = -1;
+            try {
+                opcao = scanner.nextInt();
+            } catch (InputMismatchException e) { // valida a opcao
+                System.out.println("Opção inválida. Tente novamente.");
+            }
+            return opcao;
+        }
     }
 
     public static void main(String[] args) {
+        // verificacao do login para entrar no menuPrincipal
         Main main = new Main();
-
-        if (main.login()) {
-            main.menu();
+        boolean loginValido = main.login();
+        if (loginValido) {
+            exibirMenu();
         }
+
     }
+
 }

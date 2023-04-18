@@ -3,6 +3,7 @@ package controller;
 import java.util.Date;
 
 import model.Pessoa;
+import model.DAO.PessoaDAO;
 
 public class PessoaController {
 	private Pessoa[] pessoas;
@@ -71,6 +72,16 @@ public class PessoaController {
             }
         }
         return false; // Pessoa não encontrada
+    }
+    
+    public static Pessoa login(String cpf, String senha) {
+        Pessoa pessoa = PessoaDAO.buscarPessoaPorCpf(cpf);
+
+        if (pessoa != null && pessoa.getSenha().equals(senha)) {
+            return pessoa;
+        }
+
+        return null;
     }
 
 
