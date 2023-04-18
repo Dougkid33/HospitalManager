@@ -1,6 +1,8 @@
-package model;
+package model.DAO;
 
 import java.util.Arrays;
+
+import model.Pessoa;
 public class PessoaDAO {
     private Pessoa[] pessoas;
     private int count;

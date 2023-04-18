@@ -1,6 +1,9 @@
-package model;
+package model.DAO;
 
 import java.util.Date;
+
+import model.Franquia;
+import model.Pessoa;
 
 public class FranquiaDao {
     private Franquia[] franquias;

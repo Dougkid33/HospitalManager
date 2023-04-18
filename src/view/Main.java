@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 import controller.PessoaController;
 import model.Pessoa;
-import model.PessoaDAO;
+import model.DAO.PessoaDAO;
 
 public class Main {
     private PessoaController pessoaController;

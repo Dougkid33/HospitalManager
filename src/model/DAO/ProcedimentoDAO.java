@@ -1,7 +1,10 @@
-package model;
+package model.DAO;
 
 import java.util.Arrays;
 import java.util.Date;
+
+import model.Consulta;
+import model.Procedimento;
 
 public class ProcedimentoDAO {
 

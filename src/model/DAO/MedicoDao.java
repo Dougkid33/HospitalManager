@@ -1,6 +1,8 @@
-package model;
+package model.DAO;
 
 import java.util.Date;
+
+import model.Medico;
 
 
 public class MedicoDao {

@@ -4,7 +4,7 @@ import java.util.Date;
 
 import model.Consulta;
 import model.Procedimento;
-import model.ProcedimentoDAO;
+import model.DAO.ProcedimentoDAO;
 
 public class ProcedimentoController {
 

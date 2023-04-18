@@ -1,6 +1,6 @@
 package controller;
 import model.FinanceiroMedico;
-import model.FinanceiroMedicoDAO;
+import model.DAO.FinanceiroMedicoDAO;
 public class FinanceiroMedicoController {
 	public static void cadastrarFinanceiroMedico(double valorMedico, String estado, double franquia) {
 	    FinanceiroMedicoDAO.cadastrarFinanceiroMedico(valorMedico, estado, franquia);

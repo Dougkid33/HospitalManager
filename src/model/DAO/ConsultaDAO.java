@@ -1,7 +1,12 @@
-package model;
+package model.DAO;
 
 import java.util.Arrays;
 import java.util.Date;
+
+import model.Consulta;
+import model.Medico;
+import model.Pessoa;
+import model.Unidade;
 
 
 

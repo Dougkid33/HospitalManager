@@ -1,7 +1,7 @@
 package controller;
 
-import model.FranquiaDao;
 import model.Pessoa;
+import model.DAO.FranquiaDao;
 import model.Franquia;
 
 public class FranquiaController {

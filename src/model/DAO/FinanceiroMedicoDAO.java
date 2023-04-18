@@ -1,7 +1,9 @@
-package model;
+package model.DAO;
 
 import java.util.Arrays;
 import java.util.Date;
+
+import model.FinanceiroMedico;
 
 public class FinanceiroMedicoDAO {
     private static FinanceiroMedico[] financeirosMedicos = new FinanceiroMedico[0];

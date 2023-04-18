@@ -5,7 +5,7 @@ import model.Consulta;
 import model.Medico;
 import model.Pessoa;
 import model.Unidade;
-import model.ConsultaDAO;
+import model.DAO.ConsultaDAO;
 public class ConsultaController {
 	public static void cadastrarConsulta(Date data, String hora, String estado, Medico medico, Pessoa paciente, double valor, Unidade unidade) {
 	    ConsultaDAO.cadastrarConsulta(data, hora, estado, medico, paciente, valor, unidade);

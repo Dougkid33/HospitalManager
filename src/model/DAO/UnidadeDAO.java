@@ -1,7 +1,10 @@
-package model;
+package model.DAO;
 
 
 import java.util.Date;
+
+import model.Pessoa;
+import model.Unidade;
 
 public class UnidadeDAO {
     private static Unidade[] unidades = new Unidade[100]; // vetor para armazenar as unidades

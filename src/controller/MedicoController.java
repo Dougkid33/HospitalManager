@@ -1,7 +1,7 @@
 package controller;
 
-import model.MedicoDao;
 import model.Medico;
+import model.DAO.MedicoDao;
 
 public class MedicoController {
 
