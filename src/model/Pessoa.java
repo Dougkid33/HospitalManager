@@ -18,7 +18,7 @@ public class Pessoa {
 
     public Pessoa(int id, String nome, String endereco, String cpf, String telefone, String login, String senha,
             String tipoUsuario, Date dataCriacao, Date dataModificacao) {
-        this.id = id;
+        this.id = gerarNovoId();
         this.nome = nome;
         this.endereco = endereco;
         this.cpf = cpf;
@@ -109,6 +109,11 @@ public class Pessoa {
 	public void setDataModificacao(Date dataModificacao) {
 		this.dataModificacao = dataModificacao;
 	}
+    private static int proximoId = 1;
+
+    private static int gerarNovoId() {
+        return proximoId++;
+    }
     
 
 }

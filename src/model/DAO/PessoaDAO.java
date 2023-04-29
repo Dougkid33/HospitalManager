@@ -3,12 +3,12 @@ package model.DAO;
 import java.util.Arrays;
 
 import model.Pessoa;
+
 public class PessoaDAO {
     private static Pessoa[] pessoas = new Pessoa[100];
     private static int count = 0;
 
-
-    public boolean cadastraPessoas(Pessoa pessoa) {
+    public boolean cadastraPessoa(Pessoa pessoa) {
         if (PessoaDAO.count >= PessoaDAO.pessoas.length) {
             PessoaDAO.pessoas = Arrays.copyOf(PessoaDAO.pessoas, PessoaDAO.pessoas.length + 100);
         }
@@ -17,7 +17,7 @@ public class PessoaDAO {
         return true;
     }
 
-    public boolean removePessoas(int id) {
+    public boolean removePessoa(int id) {
         for (int i = 0; i < PessoaDAO.count; i++) {
             if (PessoaDAO.pessoas[i].getId() == id) {
                 PessoaDAO.pessoas[i] = null;
@@ -40,7 +40,16 @@ public class PessoaDAO {
         return null;
     }
 
-    public boolean editarPessoas(Pessoa pessoa) {
+    public Pessoa buscarPessoaPorLogin(String login) {
+        for (int i = 0; i < PessoaDAO.count; i++) {
+            if (PessoaDAO.pessoas[i].getLogin().equals(login)) {
+                return PessoaDAO.pessoas[i];
+            }
+        }
+        return null;
+    }
+
+    public boolean editarPessoa(Pessoa pessoa) {
         for (int i = 0; i < PessoaDAO.count; i++) {
             if (PessoaDAO.pessoas[i].getId() == pessoa.getId()) {
                 PessoaDAO.pessoas[i] = pessoa;
@@ -51,11 +60,15 @@ public class PessoaDAO {
     }
 
     public Pessoa[] listarPessoas() {
-        return Arrays.copyOf(PessoaDAO.pessoas, PessoaDAO.count);
+        Pessoa[] pessoas = new Pessoa[PessoaDAO.count];
+        for (int i = 0; i < PessoaDAO.count; i++) {
+            pessoas[i] = PessoaDAO.pessoas[i];
+        }
+        return pessoas;
     }
 
     public static Pessoa buscarPessoaPorCpf(String cpf) {
-        for(int i = 0; i < count; i++) {
+        for (int i = 0; i < count; i++) {
             if (pessoas[i].getCpf().equals(cpf)) {
                 return pessoas[i];
             }

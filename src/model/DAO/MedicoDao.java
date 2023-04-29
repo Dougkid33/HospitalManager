@@ -1,13 +1,15 @@
 package model.DAO;
 
+
 import java.util.Date;
 
 import model.Medico;
 
 
+
 public class MedicoDao {
-    private Medico[] medicos;
-    private int qtdMedicos;
+    private static Medico[] medicos = new Medico[100];
+    private static int qtdMedicos;
 
     public MedicoDao(int tamanho) {
         medicos = new Medico[tamanho];
@@ -16,24 +18,28 @@ public class MedicoDao {
 
     public boolean cadastrarMedico(String nome, String endereco, String cpf, String telefone, String login,
             String senha, String tipoUsuario, int crm, String especialidade) {
-        if (buscarMedico(login) != null) {
+        int id = 0; // definindo um valor padrão para o id
+        if (buscarMedico(id) != null) {
             return false; // Já existe um médico com esse login
         }
 
-        int id = gerarNovoId();
+        id = gerarNovoId();
         Date dataCriacao = new Date();
         Medico novoMedico = new Medico(id, nome, endereco, cpf, telefone, login, senha, crm, especialidade, dataCriacao, dataCriacao);
         medicos[qtdMedicos] = novoMedico;
         qtdMedicos++;
         return true;
-    }
+}
+
 
     public boolean editarMedico(String login, String novoNome, String novoEndereco, String novoCpf, String novoTelefone, int novoCrm, String novaEspecialidade) {
-        Medico medico = buscarMedico(login);
+        int id = 0;
+    	Medico medico = buscarMedico(id);
         if (medico == null) {
             return false; // Médico não encontrado
         }
 
+         id = medico.getId(); // obtendo o id do médico retornado
         medico.setNome(novoNome);
         medico.setEndereco(novoEndereco);
         medico.setCpf(novoCpf);
@@ -42,12 +48,12 @@ public class MedicoDao {
         medico.setEspecialidade(novaEspecialidade);
         medico.setDataModificacao(new Date());
         return true;
-    }
+}
 
-    public boolean excluirMedico(String login) {
+    public boolean excluirMedico(int id) {
         int indice = -1;
         for (int i = 0; i < qtdMedicos; i++) {
-            if (medicos[i].getLogin().equals(login)) {
+        	if (Integer.valueOf(medicos[i].getId()).equals(id)) {
                 indice = i;
                 break;
             }
@@ -65,9 +71,9 @@ public class MedicoDao {
         return true;
     }
 
-    public Medico buscarMedico(String login) {
+    public Medico buscarMedico(int id) {
         for (int i = 0; i < qtdMedicos; i++) {
-            if (medicos[i].getLogin().equals(login)) {
+            if (Integer.valueOf(medicos[i].getId()).equals(id)) {
                 return medicos[i];
             }
         }
@@ -82,5 +88,12 @@ public class MedicoDao {
             }
         }
         return novoId;
+    }
+    public Medico[] listarMedicos() {
+        Medico[] medicos = new Medico[MedicoDao.qtdMedicos];
+        for (int i = 0; i < MedicoDao.qtdMedicos; i++) {
+            medicos[i] = MedicoDao.medicos[i];
+        }
+        return medicos;
     }
 }
