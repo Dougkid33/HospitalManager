@@ -79,7 +79,14 @@ public class MedicoDao {
         }
         return null; // Médico não encontrado
     }
-
+    public Medico buscarMedicoPorCRM(int crm) {
+        for (int i = 0; i < qtdMedicos; i++) {
+            if (medicos[i].getCrm() == crm) {
+                return medicos[i];
+            }
+        }
+        return null; // Médico não encontrado
+    }
     private int gerarNovoId() {
         int novoId = 1;
         for (int i = 0; i < qtdMedicos; i++) {

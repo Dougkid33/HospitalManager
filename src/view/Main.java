@@ -7,7 +7,7 @@ import java.util.Scanner;
 import controller.FranquiaController;
 import controller.MedicoController;
 import controller.PessoaController;
-
+import controller.UnidadeController;
 import model.Pessoa;
 
 
@@ -127,7 +127,7 @@ public class Main {
 					break;
 				case 4:
 					System.out.println("Selecionou Unidade de Franquia.");
-					// faça algo relacionado a Unidade de Franquia
+					UnidadeController.menuUnidade();
 					break;
 				case 5:
 					System.out.println("Selecionou Consulta.");

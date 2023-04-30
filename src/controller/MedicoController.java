@@ -32,6 +32,9 @@ public class MedicoController {
 	public Medico buscarMedico(int id) {
 		return medicoDao.buscarMedico(id);
 	}
+	public Medico buscarMedicoPorCRM(int crm) {
+	    return medicoDao.buscarMedicoPorCRM(crm);
+	}
 
 	public Medico[] listarMedicos() {
 		return medicos;
