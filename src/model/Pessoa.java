@@ -109,6 +109,21 @@ public class Pessoa {
 	public void setDataModificacao(Date dataModificacao) {
 		this.dataModificacao = dataModificacao;
 	}
+	
+	@Override
+    public String toString() {
+        return nome + ": {" 
+                + "id = " + id 
+                + ", endereco = " + endereco 
+                + ", cpf = " + cpf 
+                + ", telefone = " + telefone 
+                + ", login = " + login 
+                + ", tipoUsuario = " + tipoUsuario 
+                + ", dataCriacao = " + dataCriacao 
+                + ", dataModificacao = " + dataModificacao 
+                + "}";
+    }
+	
     private static int proximoId = 1;
 
     private static int gerarNovoId() {
