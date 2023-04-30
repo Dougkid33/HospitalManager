@@ -22,7 +22,7 @@ public class UnidadeDAO {
     }
     
     // método para atualizar uma unidade existente
-    public static boolean atualizarUnidade(Unidade unidade) {
+    public  boolean atualizarUnidade(Unidade unidade) {
         for (int i = 0; i < count; i++) {
             if (unidades[i].getIdUnidade() == unidade.getIdUnidade()) {
                 unidades[i] = unidade;
@@ -33,7 +33,7 @@ public class UnidadeDAO {
     }
     
     // método para excluir uma unidade existente
-    public static boolean excluirUnidade(int idUnidade) {
+    public  boolean excluirUnidade(int idUnidade) {
         for (int i = 0; i < count; i++) {
             if (unidades[i].getIdUnidade() == idUnidade) {
                 for (int j = i; j < count - 1; j++) {
@@ -48,7 +48,7 @@ public class UnidadeDAO {
     }
     
     // método para buscar uma unidade pelo ID
-    public static Unidade buscarUnidade(int idUnidade) {
+    public  Unidade buscarUnidade(int idUnidade) {
         for (int i = 0; i < count; i++) {
             if (unidades[i].getIdUnidade() == idUnidade) {
                 return unidades[i];
@@ -58,7 +58,7 @@ public class UnidadeDAO {
     }
     
     // método para buscar todas as unidades cadastradas
-    public static Unidade[] buscarTodasUnidades() {
+    public  Unidade[] listarUnidades() {
         Unidade[] todasUnidades = new Unidade[count];
         for (int i = 0; i < count; i++) {
             todasUnidades[i] = unidades[i];
@@ -67,12 +67,13 @@ public class UnidadeDAO {
     }
     
     // método para criar uma nova unidade
-    public static Unidade criarUnidade(int id, String nome, String cnpj, String cidade, String endereco, 
+    public static Unidade criarUnidade( String nome, String cnpj, String cidade, String endereco, 
             Pessoa responsavel, Date dataCriacao, Date dataModificacao, int idUnidade, String cidadeUnidade, 
             String enderecoUnidade, Pessoa responsavelUnidade, Date dataCriacaoUnidade, Date dataModificacaoUnidade) {
-        Unidade unidade = new Unidade(id, nome, cnpj, cidade, endereco, responsavel, dataCriacao, dataModificacao,
+        Unidade unidade = new Unidade(nome, cnpj, cidade, endereco, responsavel, dataCriacao, dataModificacao,
                 idUnidade, cidadeUnidade, enderecoUnidade, responsavelUnidade, dataCriacaoUnidade, dataModificacaoUnidade);
         cadastrarUnidade(unidade);
         return unidade;
     }
+
 }

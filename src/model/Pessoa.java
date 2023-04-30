@@ -16,7 +16,7 @@ public class Pessoa {
     public Pessoa() {
     }
 
-    public Pessoa(int id, String nome, String endereco, String cpf, String telefone, String login, String senha,
+    public Pessoa( String nome, String endereco, String cpf, String telefone, String login, String senha,
             String tipoUsuario, Date dataCriacao, Date dataModificacao) {
         this.id = gerarNovoId();
         this.nome = nome;

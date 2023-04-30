@@ -75,9 +75,6 @@ public class MedicoController {
 						if (!permissao) {
 							System.out.println("Você não tem permissão para realizar esta ação.");
 						} else {
-							System.out.print("Digite o ID do médico: ");
-							 id = scanner.nextInt();
-							scanner.nextLine();
 							System.out.print("Digite o nome do médico: ");
 							String nome = scanner.nextLine();
 							System.out.print("Digite o endereço do médico: ");
@@ -137,9 +134,7 @@ public class MedicoController {
 								System.out.print(
 										"Digite o novo telefone do médico (atual: " + medico.getTelefone() + "): ");
 								String telefone = scanner.nextLine();
-								System.out.print("Digite o novo tipo de usuário do médico (atual: "
-										+ medico.getTipoUsuario() + "): ");
-								String tipoUsuario = scanner.nextLine();
+
 								System.out.print("Digite a nova especialidade do médico (atual: "
 										+ medico.getEspecialidade() + "): ");
 								String especialidade = scanner.nextLine();

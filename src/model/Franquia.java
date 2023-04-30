@@ -11,10 +11,10 @@ public class Franquia {
     private Pessoa responsavel;
     private Date dataCriacao;
     private Date dataModificacao;
-	public Franquia(int id, String nome, String cnpj, String cidade, String endereco, Pessoa responsavel,
+	public Franquia( String nome, String cnpj, String cidade, String endereco, Pessoa responsavel,
 			Date dataCriacao, Date dataModificacao) {
 		super();
-		this.id = id;
+		this.id = gerarNovoId();
 		this.nome = nome;
 		this.cnpj = cnpj;
 		this.cidade = cidade;
@@ -23,6 +23,11 @@ public class Franquia {
 		this.dataCriacao = dataCriacao;
 		this.dataModificacao = dataModificacao;
 	}
+    private static int proximoId = 1;
+
+    private static int gerarNovoId() {
+        return proximoId++;
+    }
 	public int getId() {
 		return id;
 	}

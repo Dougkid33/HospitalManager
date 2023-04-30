@@ -65,9 +65,7 @@ public class PessoaController {
 
 					switch (opcao) {
 					case 1:
-						System.out.print("Digite o ID da pessoa: ");
-						id = scanner.nextInt();
-						scanner.nextLine();
+
 						System.out.print("Digite o nome da pessoa: ");
 						String nome = scanner.nextLine();
 						System.out.print("Digite o endereço da pessoa: ");
@@ -82,7 +80,7 @@ public class PessoaController {
 						String senha = scanner.nextLine();
 						System.out.print("Digite o tipo de usuário da pessoa: ");
 						String tipoUsuario = scanner.nextLine();
-						boolean cadastrado = pessoaController.cadastrarPessoa(new Pessoa(id, nome, endereco, cpf, telefone, login, senha, tipoUsuario, null, null));
+						boolean cadastrado = pessoaController.cadastrarPessoa(new Pessoa( nome, endereco, cpf, telefone, login, senha, tipoUsuario, null, null));
 						if (cadastrado) {
 							System.out.println("Pessoa cadastrada com sucesso.");
 						} else {
@@ -90,76 +88,76 @@ public class PessoaController {
 						}
 						break;
 					case 2:
-						System.out.print("Digite o ID da pessoa a ser editada: ");
-						id = scanner.nextInt();
-						System.out.print("Digite o login da pessoa a ser removida: ");
-						login = scanner.nextLine();
-						scanner.nextLine();
-						pessoaController = new PessoaController();
-						Pessoa editarPessoa = pessoaController.buscarPessoaPorId(id);
-						if (editarPessoa == null) {
-							System.out.println("Pessoa não encontrada.");
-							break;
-						}
-						System.out.print("Digite o novo nome da pessoa: ");
-						nome = scanner.nextLine();
-						System.out.print("Digite o novo endereço da pessoa: ");
-						endereco = scanner.nextLine();
-						System.out.print("Digite o novo CPF da pessoa: ");
-						cpf = scanner.nextLine();
-						System.out.print("Digite o novo telefone da pessoa: ");
-						telefone = scanner.nextLine();
-						boolean editado = pessoaController.editarPessoa(editarPessoa);
-						if (editado) {
-							System.out.println("Pessoa editada com sucesso.");
-						} else {
-							System.out.println("Não foi possível editar a pessoa. ID da pessoa não encontrado.");
-						}
-						break;
+					    System.out.print("Digite o ID da pessoa a ser editada: ");
+					    id = scanner.nextInt();
+					    scanner.nextLine();
+					    Pessoa editarPessoa = pessoaController.buscarPessoaPorId(id);
+					    if (editarPessoa == null) {
+					        System.out.println("Pessoa não encontrada.");
+					        break;
+					    }
+					    System.out.print("Digite o novo nome da pessoa: ");
+					    nome = scanner.nextLine();
+					    System.out.print("Digite o novo endereço da pessoa: ");
+					    endereco = scanner.nextLine();
+					    System.out.print("Digite o novo CPF da pessoa: ");
+					    cpf = scanner.nextLine();
+					    System.out.print("Digite o novo telefone da pessoa: ");
+					    telefone = scanner.nextLine();
+					    System.out.print("Digite o novo login da pessoa: ");
+					    login = scanner.nextLine();
+					    System.out.print("Digite a nova senha da pessoa: ");
+					    senha = scanner.nextLine();
+					    System.out.print("Digite o novo tipo de usuário da pessoa: ");
+					    tipoUsuario = scanner.nextLine();
+					    Pessoa novaPessoa = new Pessoa(nome, endereco, cpf, telefone, login, senha, tipoUsuario, null, null);
+					    boolean editado = pessoaController.editarPessoa(novaPessoa);
+					    if (editado) {
+					        System.out.println("Pessoa editada com sucesso.");
+					    } else {
+					        System.out.println("Não foi possível editar a pessoa. ID da pessoa não encontrado.");
+					    }
+					    break;
 					case 3:
-						System.out.print("Digite o ID da pessoa a ter o tipo de usuário alterado: ");
-						id = scanner.nextInt();
-						scanner.nextLine();
-						PessoaController pessoaController2 = new PessoaController();
-						Pessoa alterarTipo = pessoaController2.buscarPessoaPorId(id);
-						if (alterarTipo == null) {
-							System.out.println("Pessoa não encontrada.");
-							break;
-						}
-						System.out.print("Digite o novo tipo de usuário da pessoa: ");
-						tipoUsuario = scanner.nextLine();
-						System.out.print("Digite o login da pessoa a ser removida: ");
-						nome = scanner.nextLine();
-						boolean tipoAlterado = pessoaController2.editarPessoa(alterarTipo);
-						if (tipoAlterado) {
-							System.out.println("Tipo de usuário alterado com sucesso.");
-						} else {
-							System.out.println("Não foi possível alterar o tipo de usuário. ID da pessoa não encontrado.");
-						}
-						break;
+					    System.out.print("Digite o ID da pessoa a ter o tipo de usuário alterado: ");
+					    id = scanner.nextInt();
+					    scanner.nextLine();
+					    Pessoa alterarTipo = pessoaController.buscarPessoaPorId(id);
+					    if (alterarTipo == null) {
+					        System.out.println("Pessoa não encontrada.");
+					        break;
+					    }
+					    System.out.print("Digite o novo tipo de usuário da pessoa: ");
+					    tipoUsuario = scanner.nextLine();
+					    boolean tipoAlterado = pessoaController.editarPessoa(alterarTipo);
+					    if (tipoAlterado) {
+					        System.out.println("Tipo de usuário alterado com sucesso.");
+					    } else {
+					        System.out.println("Não foi possível alterar o tipo de usuário. ID da pessoa não encontrado.");
+					    }
+					    break;
 					case 4:
-						System.out.print("Digite o ID da pessoa a ser buscada: ");
-						id = scanner.nextInt();
-						scanner.nextLine();
-						PessoaController pessoaController3 = new PessoaController();
-						Pessoa buscarPessoa = pessoaController3.buscarPessoaPorId(id);
-						if (buscarPessoa == null) {
-							System.out.println("Pessoa não encontrada.");
-						} else {
-							System.out.println(buscarPessoa);
-						}
-						break;
+					    System.out.print("Digite o ID da pessoa a ser buscada: ");
+					    id = scanner.nextInt();
+					    scanner.nextLine();
+					    Pessoa buscarPessoa = pessoaController.buscarPessoaPorId(id);
+					    if (buscarPessoa == null) {
+					        System.out.println("Pessoa não encontrada.");
+					    } else {
+					        System.out.println(buscarPessoa);
+					    }
+					    break;
 					case 5:
-						System.out.print("Digite o ID da pessoa a ser removida: ");
-						id = scanner.nextInt(id);
-						scanner.nextLine();
-						boolean removido = pessoaController.removerPessoa(id);
-						if (removido) {
-							System.out.println("Pessoa removida com sucesso.");
-						} else {
-							System.out.println("Não foi possível remover a pessoa. ID da pessoa não encontrado.");
-						}
-						break;
+					    System.out.print("Digite o ID da pessoa a ser removida: ");
+					    id = scanner.nextInt();
+					    scanner.nextLine();
+					    boolean removido = pessoaController.removerPessoa(id);
+					    if (removido) {
+					        System.out.println("Pessoa removida com sucesso.");
+					    } else {
+					        System.out.println("Não foi possível remover a pessoa. ID da pessoa não encontrado.");
+					    }
+					    break; 
 					case 6:
 						Pessoa[] pessoas = pessoaController.listarPessoas();
 						boolean existePessoas = false;

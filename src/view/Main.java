@@ -4,6 +4,7 @@ package view;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import controller.FranquiaController;
 import controller.MedicoController;
 import controller.PessoaController;
 
@@ -13,12 +14,17 @@ import model.Pessoa;
 
 
 public class Main {
+	
+
+	Pessoa pessoa = new Pessoa( "Administrador", "Xablau", "validador", "33334380", "admin", "12345", "DonoFranquia", null, null);
+	
 
 	public void menuPrincipal(long id) {
 
 	}
 
 	// MENU INICIO
+	@SuppressWarnings("null")
 	public boolean login() {
 	    Scanner scanner = new Scanner(System.in);
 
@@ -45,17 +51,21 @@ public class Main {
 	    } while (senha.isEmpty());
 
 	    try {
-	        Pessoa pessoa = PessoaController.login(usuario, senha);
-	        if (pessoa != null) {
-	            menuPrincipal(pessoa.getId());
-	            exibirMenu();
-	            return true;
-	        } else {
-	            System.out.println("\nUsuário ou senha inválidos. Tente novamente.\n");
+	    	// this.nomeDeUsuarioPadrao == "admin" && this.senhaPadrao == "12345"
+	    	PessoaController controller = new PessoaController();
+	    	//Pessoa pessoa = new Pessoa( "Administrador", "Xablau", "validador", "33334380", "admin", "12345", "DonoFranquia", null, null);
+	    	controller.cadastrarPessoa(this.pessoa);
+	    	System.out.println("Este é seu ID: " + pessoa.getId()+" .");
+	    	if (pessoa != null && pessoa.getSenha().equals("12345")) {
+	    	    menuPrincipal(pessoa.getId());
+	    	    exibirMenu();
+	    	    return true;
+	    	} else {
+	            System.out.println("\n Usuário ou senha inválidos. Tente novamente.\n");
 	            return false;
 	        }
 	    } catch (Exception e) {
-	        System.out.println("\nErro ao realizar o login. Tente novamente mais tarde.\n");
+	        System.out.println("\n Erro ao realizar o login. Tente novamente mais tarde.\n");
 	        return false;
 	    } finally {
 	        scanner.close();
@@ -111,8 +121,9 @@ public class Main {
 					MedicoController.menuMedico();
 					break;
 				case 3:
+					
 					System.out.println("Selecionou Franquia.");
-					// faça algo relacionado a Franquia
+					FranquiaController.menuFranquia();
 					break;
 				case 4:
 					System.out.println("Selecionou Unidade de Franquia.");
@@ -151,6 +162,7 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
+
 		// verificacao do login para entrar no menuPrincipal
 		Main main = new Main();
 		boolean loginValido = main.login();

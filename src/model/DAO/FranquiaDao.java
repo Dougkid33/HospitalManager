@@ -18,10 +18,8 @@ public class FranquiaDao {
         if (buscarFranquia(cnpj) != null) {
             return false; // Já existe uma franquia com esse CNPJ
         }
-
-        int id = gerarNovoId();
         Date dataCriacao = new Date();
-        Franquia novaFranquia = new Franquia(id, nome, cnpj, cidade, endereco, responsavelId, dataCriacao, dataCriacao);
+        Franquia novaFranquia = new Franquia( nome, cnpj, cidade, endereco, responsavelId, dataCriacao, dataCriacao);
         franquias[qtdFranquias] = novaFranquia;
         qtdFranquias++;
         return true;
@@ -70,13 +68,4 @@ public class FranquiaDao {
         return null; // Franquia não encontrada
     }
 
-    private int gerarNovoId() {
-        int novoId = 1;
-        for (int i = 0; i < qtdFranquias; i++) {
-            if (franquias[i].getId() >= novoId) {
-                novoId = franquias[i].getId() + 1;
-            }
-        }
-        return novoId;
-    }
 }

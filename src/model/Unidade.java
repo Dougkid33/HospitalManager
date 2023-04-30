@@ -10,11 +10,11 @@ public class Unidade extends Franquia {
     private Date dataCriacaoUnidade;
     private Date dataModificacaoUnidade;
     
-    public Unidade(int id, String nome, String cnpj, String cidade, String endereco, Pessoa responsavel,
+    public Unidade(String nome, String cnpj, String cidade, String endereco, Pessoa responsavel,
             Date dataCriacao, Date dataModificacao, int idUnidade, String cidadeUnidade, String enderecoUnidade, 
             Pessoa responsavelUnidade, Date dataCriacaoUnidade, Date dataModificacaoUnidade) {
-        super(id, nome, cnpj, cidade, endereco, responsavel, dataCriacao, dataModificacao);
-        this.idUnidade = idUnidade;
+        super( nome, cnpj, cidade, endereco, responsavel, dataCriacao, dataModificacao);
+        this.idUnidade = gerarNovoId();
         this.cidadeUnidade = cidadeUnidade;
         this.enderecoUnidade = enderecoUnidade;
         this.responsavelUnidade = responsavelUnidade;
@@ -68,5 +68,10 @@ public class Unidade extends Franquia {
 
     public void setDataModificacaoUnidade(Date dataModificacaoUnidade) {
         this.dataModificacaoUnidade = dataModificacaoUnidade;
+    }
+    private static int proximoId = 1;
+
+    private static int gerarNovoId() {
+        return proximoId++;
     }
 }
