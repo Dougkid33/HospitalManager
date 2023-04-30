@@ -7,6 +7,7 @@ import model.Consulta;
 import model.Medico;
 import model.Pessoa;
 import model.Unidade;
+import model.enums.EstadoConsulta;
 
 
 
@@ -15,13 +16,13 @@ public class ConsultaDAO {
     private static Consulta[] consultas = new Consulta[0];
     private static int id = 1;
 
-    public static void cadastrarConsulta(Date data, String hora, String estado, Medico medico, Pessoa paciente, double valor, Unidade unidade) {
-        Consulta consulta = new Consulta(id++, data, hora, estado, medico, paciente, valor, unidade, new Date(), new Date());
+    public static void cadastrarConsulta(Date data, String hora, EstadoConsulta estadoConsulta, Medico medico, Pessoa paciente, double valor, Unidade unidade) {
+        Consulta consulta = new Consulta(id++, data, hora, estadoConsulta, medico, paciente, valor, unidade, new Date(), new Date());
         consultas = Arrays.copyOf(consultas, consultas.length + 1);
         consultas[consultas.length - 1] = consulta;
     }
 
-    public static void atualizarConsulta(int id, Date data, String hora, String estado, Medico medico, Pessoa paciente, double valor, Unidade unidade) {
+    public static void atualizarConsulta(int id, Date data, String hora, EstadoConsulta estado, Medico medico, Pessoa paciente, double valor, Unidade unidade) {
         for (int i = 0; i < consultas.length; i++) {
             if (consultas[i].getId() == id) {
                 consultas[i].setData(data);

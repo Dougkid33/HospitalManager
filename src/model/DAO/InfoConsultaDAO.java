@@ -8,13 +8,14 @@ import model.InfoConsulta;
 import model.Medico;
 import model.Pessoa;
 import model.Unidade;
+import model.enums.EstadoConsulta;
 
 public class InfoConsultaDAO {
 
     private static InfoConsulta[] infoConsultas = new InfoConsulta[0];
     private static int id = 1;
 
-    public static void cadastrarInfoConsulta(Date data, String hora, String estado, Medico medico, Pessoa paciente, double valor, Unidade unidade, String descricao) {
+    public static void cadastrarInfoConsulta(Date data, String hora, EstadoConsulta estado, Medico medico, Pessoa paciente, double valor, Unidade unidade, String descricao) {
         InfoConsulta infoConsulta = new InfoConsulta(id++, data, hora, estado, medico, paciente, valor, unidade, descricao, new Date(), new Date());
         infoConsultas = Arrays.copyOf(infoConsultas, infoConsultas.length + 1);
         infoConsultas[infoConsultas.length - 1] = infoConsulta;

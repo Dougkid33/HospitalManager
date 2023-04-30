@@ -2,11 +2,13 @@ package model;
 
 import java.util.Date;
 
+import model.enums.EstadoConsulta;
+
 public class Consulta {
     private int id;
     private Date data;
     private String hora;
-    private String estado;
+    private EstadoConsulta estado;
     private Medico medico;
     private Pessoa paciente;
     private double valor;
@@ -14,7 +16,7 @@ public class Consulta {
     private Date dataCriacao;
     private Date dataModificacao;
 
-    public Consulta(int id, Date data, String hora, String estado, Medico medico, Pessoa paciente, double valor, Unidade unidade, Date dataCriacao, Date dataModificacao) {
+    public Consulta(int id, Date data, String hora, EstadoConsulta estado, Medico medico, Pessoa paciente, double valor, Unidade unidade, Date dataCriacao, Date dataModificacao) {
         this.id = id;
         this.data = data;
         this.hora = hora;
@@ -51,11 +53,11 @@ public class Consulta {
         this.hora = hora;
     }
 
-    public String getEstado() {
+    public EstadoConsulta getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(EstadoConsulta estado) {
         this.estado = estado;
     }
 
