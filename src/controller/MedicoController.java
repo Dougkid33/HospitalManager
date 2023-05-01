@@ -6,6 +6,7 @@ import java.util.Scanner;
 import model.Medico;
 import model.Pessoa;
 import model.DAO.MedicoDao;
+import static view.Main.exibirMenu;
 
 public class MedicoController {
 	private Medico[] medicos;
@@ -41,7 +42,7 @@ public class MedicoController {
 	}
 
 	public static void menuMedico() {
-		try (Scanner scanner = new Scanner(System.in)) {
+		try (Scanner sc = new Scanner(System.in)) {
 			MedicoController medicoController = new MedicoController(new MedicoDao(100));
 			boolean sair = false;
 
@@ -57,44 +58,50 @@ public class MedicoController {
 				System.out.println("0. Sair");
 
 				try {
-					int opcao = scanner.nextInt();
-					scanner.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
+                                        int id = 0;
+                                        boolean permissao = false;
+					int opcao = sc.nextInt();
+                                        
+					sc.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
 					
-					
-					System.out.println("Digite o seu ID :");
-					int id = scanner.nextInt();
-					scanner.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
+					if(opcao != 0){
+                                            System.out.println("Digite o seu ID :");
+                                            id = sc.nextInt();
+                                            sc.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
+                                            
+                                            PessoaController pessoaController = new PessoaController();
+                                            Pessoa pessoa = pessoaController.buscarPessoaPorId(id);
+                                            
+
+                                            if (pessoa.getTipoUsuario().equals("DonoFranquia") || pessoa.getTipoUsuario().equals("DonoUnidade")) {
+                                                permissao = true;
+                                            }
+                                        }
 					
 
-					PessoaController pessoaController = new PessoaController();
-					Pessoa pessoa = pessoaController.buscarPessoaPorId(id);
-					boolean permissao = false;
-
-					if (pessoa.getTipoUsuario().equals("DonoFranquia") || pessoa.getTipoUsuario().equals("DonoUnidade")) {
-					    permissao = true;
-					}
+					
 					switch (opcao) {
 					case 1:
 						if (!permissao) {
 							System.out.println("Você não tem permissão para realizar esta ação.");
 						} else {
 							System.out.print("Digite o nome do médico: ");
-							String nome = scanner.nextLine();
+							String nome = sc.nextLine();
 							System.out.print("Digite o endereço do médico: ");
-							String endereco = scanner.nextLine();
+							String endereco = sc.nextLine();
 							System.out.print("Digite o CPF do médico: ");
-							String cpf = scanner.nextLine();
+							String cpf = sc.nextLine();
 							System.out.print("Digite o login do médico: ");
-							String login = scanner.nextLine();
+							String login = sc.nextLine();
 							System.out.print("Digite a senha do médico: ");
-							String senha = scanner.nextLine();
+							String senha = sc.nextLine();
 							System.out.print("Digite o telefone do médico: ");
-							String telefone = scanner.nextLine();
+							String telefone = sc.nextLine();
 							System.out.print("Digite O tipo de usuário: ");
-							String tipoUsuario = scanner.nextLine();
+							String tipoUsuario = sc.nextLine();
 
 							System.out.print("Digite a especialidade do médico: ");
-							String especialidade = scanner.nextLine();
+							String especialidade = sc.nextLine();
 							boolean cadastrado = medicoController.cadastrarMedico(nome, endereco, cpf, login, senha,
 									telefone, tipoUsuario, id, especialidade);
 							if (cadastrado) {
@@ -109,26 +116,26 @@ public class MedicoController {
 							System.out.println("Você não tem permissão para realizar esta ação.");
 						} else {
 							System.out.print("Digite o ID do médico que deseja editar: ");
-							 id = scanner.nextInt();
-							scanner.nextLine();
+							 id = sc.nextInt();
+							sc.nextLine();
 							Medico medico = medicoController.buscarMedico(id);
 
 							if (medico == null) {
 								System.out.println("Médico não encontrado.");
 							} else {
 								System.out.print("Digite o novo nome do médico (atual: " + medico.getNome() + "): ");
-								String nome = scanner.nextLine();
+								String nome = sc.nextLine();
 								System.out.print(
 										"Digite o novo endereço do médico (atual: " + medico.getEndereco() + "): ");
-								String endereco = scanner.nextLine();
+								String endereco = sc.nextLine();
 								System.out.print("Digite o novo CPF do médico (atual: " + medico.getCpf() + "): ");
-								String cpf = scanner.nextLine();
+								String cpf = sc.nextLine();
 								System.out.print("Digite o novo login do médico (atual: " + medico.getLogin() + "): ");
-								String login = scanner.nextLine();
+								String login = sc.nextLine();
 								System.out.print("Digite a nova senha do médico (atual: " + medico.getSenha() + "): ");
-								String senha = scanner.nextLine();
+								String senha = sc.nextLine();
 								System.out.print("Confirme a nova senha do médico: ");
-								String confirmacaoSenha = scanner.nextLine();
+								String confirmacaoSenha = sc.nextLine();
 
 								if (!senha.equals(confirmacaoSenha)) {
 								    System.out.println("As senhas não coincidem. Tente novamente.");
@@ -136,11 +143,11 @@ public class MedicoController {
 								}
 								System.out.print(
 										"Digite o novo telefone do médico (atual: " + medico.getTelefone() + "): ");
-								String telefone = scanner.nextLine();
+								String telefone = sc.nextLine();
 
 								System.out.print("Digite a nova especialidade do médico (atual: "
 										+ medico.getEspecialidade() + "): ");
-								String especialidade = scanner.nextLine();
+								String especialidade = sc.nextLine();
 
 								boolean atualizado = medicoController.editarMedico(login, nome, endereco, cpf, telefone,
 										id, especialidade);
@@ -164,8 +171,8 @@ public class MedicoController {
 						break;
 					case 3:
 						System.out.print("Digite o ID do médico que deseja buscar: ");
-						 id = scanner.nextInt();
-						scanner.nextLine();
+						 id = sc.nextInt();
+						sc.nextLine();
 
 						Medico medico = medicoController.buscarMedico(id);
 
@@ -187,8 +194,8 @@ public class MedicoController {
 							System.out.println("Você não tem permissão para realizar esta ação.");
 						} else {
 							System.out.print("Digite o ID do médico que deseja remover: ");
-							int idMedico = scanner.nextInt();
-							scanner.nextLine();
+							int idMedico = sc.nextInt();
+							sc.nextLine();
 							boolean removido = medicoController.excluirMedico(idMedico);
 							if (removido) {
 								System.out.println("Médico removido com sucesso.");
@@ -211,13 +218,15 @@ public class MedicoController {
 						break;
 					case 0:
 						sair = true;
+                                                
 						break;
 					default:
 						System.out.println("Opção inválida.");
 					}
+                                        exibirMenu();
 				} catch (InputMismatchException e) {
 					System.out.println("Entrada inválida. Digite apenas números.");
-					scanner.nextLine();
+					sc.nextLine();
 				}
 			}
 		}

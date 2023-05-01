@@ -7,6 +7,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import model.Franquia;
+import static view.Main.exibirMenu;
 
 public class FranquiaController {
 	private static FranquiaDao franquiaDao;
@@ -47,7 +48,7 @@ public class FranquiaController {
 				permissao = true;
 			}
 			if (permissao) {
-				try (Scanner s = new Scanner(System.in)) {
+				try (Scanner sc = new Scanner(System.in)) {
 					boolean sair = false;
 					Pessoa responsavel = null;
 					while (!sair) {
@@ -61,23 +62,23 @@ public class FranquiaController {
 						System.out.println("0. Sair");
 
 						try {
-							int opcao = s.nextInt();
-							s.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
+							int opcao = sc.nextInt();
+							sc.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
 
 							switch (opcao) {
 							case 1:
 								System.out.print("Digite o nome da franquia: ");
-								String nome = s.nextLine();
+								String nome = sc.nextLine();
 								System.out.print("Digite o CNPJ da franquia: ");
-								String cnpj = s.nextLine();
+								String cnpj = sc.nextLine();
 								System.out.print("Digite a cidade da franquia: ");
-								String cidade = s.nextLine();
+								String cidade = sc.nextLine();
 								System.out.print("Digite o endereço da franquia: ");
-								String endereco = s.nextLine();
+								String endereco = sc.nextLine();
 
 								System.out.println("Digite o ID do responsável pela franquia: ");
-								int idResponsavel = s.nextInt();
-								s.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
+								int idResponsavel = sc.nextInt();
+								sc.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
 								responsavel = pessoaController.buscarPessoaPorId(idResponsavel);
 
 								if (responsavel == null) {
@@ -96,7 +97,7 @@ public class FranquiaController {
 								break;
 							case 2:
 								System.out.print("Digite o CNPJ da franquia que deseja editar: ");
-								cnpj = s.nextLine();
+								cnpj = sc.nextLine();
 								Franquia franquia = franquiaController.buscarFranquia(cnpj);
 
 								if (franquia == null) {
@@ -104,20 +105,20 @@ public class FranquiaController {
 								} else {
 									System.out.print(
 											"Digite o novo nome da franquia (atual: " + franquia.getNome() + "): ");
-									String novoNome = s.nextLine();
+									String novoNome = sc.nextLine();
 									System.out.print(
 											"Digite o novo CNPJ da franquia (atual: " + franquia.getCnpj() + "): ");
-									String novoCnpj = s.nextLine();
+									String novoCnpj = sc.nextLine();
 									System.out.print(
 											"Digite a nova cidade da franquia (atual: " + franquia.getCidade() + "): ");
-									String novaCidade = s.nextLine();
+									String novaCidade = sc.nextLine();
 									System.out.print("Digite o novo endereço da franquia (atual: "
 											+ franquia.getEndereco() + "): ");
-									String novoEndereco = s.nextLine();
+									String novoEndereco = sc.nextLine();
 									System.out.println("Digite o ID do novo responsável pela franquia (atual: "
 											+ franquia.getResponsavel().getId() + "): ");
-									idResponsavel = s.nextInt();
-									s.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
+									idResponsavel = sc.nextInt();
+									sc.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
 									responsavel = pessoaController.buscarPessoaPorId(idResponsavel);
 
 									if (responsavel == null) {
@@ -137,7 +138,7 @@ public class FranquiaController {
 								break;
 							case 3:
 								System.out.print("Digite o CNPJ da franquia que deseja buscar: ");
-								cnpj = s.nextLine();
+								cnpj = sc.nextLine();
 								Franquia franquiaBusca = franquiaController.buscarFranquia(cnpj);
 
 								if (franquiaBusca == null) {
@@ -153,7 +154,7 @@ public class FranquiaController {
 								break;
 							case 4:
 								System.out.print("Digite o CNPJ da franquia que deseja excluir: ");
-								cnpj = s.nextLine();
+								cnpj = sc.nextLine();
 								Franquia franquiaExclusao = franquiaController.buscarFranquia(cnpj);
 
 								if (franquiaExclusao == null) {
@@ -171,14 +172,16 @@ public class FranquiaController {
 								break;
 							case 0:
 								sair = true;
+                                                                
 								break;
 							default:
 								System.out.println("Opção inválida. Digite novamente.");
 								break;
 							}
+                                                        exibirMenu();
 						} catch (InputMismatchException e) {
 							System.out.println("Entrada inválida. Digite novamente.");
-							s.nextLine(); // para limpar o buffer do scanner e evitar loop infinito
+							sc.nextLine(); // para limpar o buffer do scanner e evitar loop infinito
 						}
 					}
 				}

@@ -1,6 +1,5 @@
 package view;
 
-
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -10,32 +9,24 @@ import controller.PessoaController;
 import controller.UnidadeController;
 import model.Pessoa;
 
-
-
-
 public class Main {
-	
-
 	Pessoa pessoa = new Pessoa( "Administrador", "Xablau", "validador", "33334380", "admin", "12345", "DonoFranquia", null, null);
 	
-
 	public void menuPrincipal(long id) {
-
 	}
-
 	// MENU INICIO
 	@SuppressWarnings("null")
 	public boolean login() {
-	    Scanner scanner = new Scanner(System.in);
+	    Scanner sc = new Scanner(System.in);
 
-	    System.out.println("======================================");
+	    System.out.println("==============================================");
 	    System.out.println("Sistema de Gerenciamento de Hospitais - Login");
-	    System.out.println("======================================\n");
+	    System.out.println("=============================================\n");
 
 	    String usuario;
 	    do {
 	        System.out.print("Usuário: ");
-	        usuario = scanner.nextLine().trim();
+	        usuario = sc.nextLine().trim();
 	        if (usuario.isEmpty()) {
 	            System.out.println("Usuário inválido. Tente novamente.");
 	        }
@@ -44,7 +35,7 @@ public class Main {
 	    String senha;
 	    do {
 	        System.out.print("Senha: ");
-	        senha = scanner.nextLine().trim();
+	        senha = sc.nextLine().trim();
 	        if (senha.isEmpty()) {
 	            System.out.println("Senha inválida. Tente novamente.");
 	        }
@@ -68,7 +59,7 @@ public class Main {
 	        System.out.println("\n Erro ao realizar o login. Tente novamente mais tarde.\n");
 	        return false;
 	    } finally {
-	        scanner.close();
+	        sc.close();
 	    }
 	}
 
