@@ -3,6 +3,7 @@ package model;
 import java.util.Date;
 
 public class FinanceiroMedico {
+
     private int id;
     private double valorMedico;
     private String estado;
@@ -11,7 +12,7 @@ public class FinanceiroMedico {
     private Date dataCriacao;
     private Date dataModificacao;
 
-    public FinanceiroMedico(int id, double valorMedico, String estado, double franquia,String descricao, Date dataCriacao, Date dataModificacao) {
+    public FinanceiroMedico(int id, double valorMedico, String estado, double franquia, String descricao, Date dataCriacao, Date dataModificacao) {
         this.id = id;
         this.valorMedico = valorMedico;
         this.estado = estado;
@@ -22,14 +23,14 @@ public class FinanceiroMedico {
     }
 
     public String getDescricao() {
-		return descricao;
-	}
+        return descricao;
+    }
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
 
-	public int getId() {
+    public int getId() {
         return id;
     }
 

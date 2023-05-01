@@ -6,6 +6,7 @@ import model.Franquia;
 import model.Pessoa;
 
 public class FranquiaDao {
+
     private Franquia[] franquias;
     private int qtdFranquias;
 
@@ -19,7 +20,7 @@ public class FranquiaDao {
             return false; // Já existe uma franquia com esse CNPJ
         }
         Date dataCriacao = new Date();
-        Franquia novaFranquia = new Franquia( nome, cnpj, cidade, endereco, responsavelId, dataCriacao, dataCriacao);
+        Franquia novaFranquia = new Franquia(nome, cnpj, cidade, endereco, responsavelId, dataCriacao, dataCriacao);
         franquias[qtdFranquias] = novaFranquia;
         qtdFranquias++;
         return true;

@@ -9,12 +9,12 @@ import model.DAO.ProcedimentoDAO;
 public class ProcedimentoController {
 
     public static void cadastrarProcedimento(String nome, Consulta consulta, Date diaHorario, String estado,
-        double valor, String laudo) {
+            double valor, String laudo) {
         ProcedimentoDAO.cadastrarProcedimento(nome, consulta, diaHorario, estado, valor, laudo);
     }
 
     public static void atualizarProcedimento(int id, String nome, Consulta consulta, Date diaHorario, String estado,
-        double valor, String laudo) {
+            double valor, String laudo) {
         ProcedimentoDAO.atualizarProcedimento(id, nome, consulta, diaHorario, estado, valor, laudo);
     }
 

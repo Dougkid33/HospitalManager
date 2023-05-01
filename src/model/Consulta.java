@@ -5,6 +5,7 @@ import java.util.Date;
 import model.enums.EstadoConsulta;
 
 public class Consulta {
+
     private int id;
     private Date data;
     private String hora;
@@ -109,4 +110,3 @@ public class Consulta {
         this.dataModificacao = dataModificacao;
     }
 }
-

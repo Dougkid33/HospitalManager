@@ -58,12 +58,13 @@ public class InfoConsultaController {
         InfoConsulta[] infosMedico = new InfoConsulta[0];
         for (InfoConsulta info : infos) {
             if (info.getMedico().equals(medico)) {
-            	infosMedico = Arrays.copyOf(infosMedico, infosMedico.length + 1);
-            	infosMedico[infosMedico.length - 1] = info;
-            	}
-            	}
-            	return infosMedico;
-            	}
+                infosMedico = Arrays.copyOf(infosMedico, infosMedico.length + 1);
+                infosMedico[infosMedico.length - 1] = info;
+            }
+        }
+        return infosMedico;
+    }
+
     public static InfoConsulta[] listarInfosConsultaPorPaciente(Pessoa paciente) {
         InfoConsulta[] infosPaciente = new InfoConsulta[0];
         for (InfoConsulta info : infos) {
@@ -99,4 +100,3 @@ public class InfoConsultaController {
         return gastos;
     }
 }
-

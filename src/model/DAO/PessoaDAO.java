@@ -5,6 +5,7 @@ import java.util.Arrays;
 import model.Pessoa;
 
 public class PessoaDAO {
+
     private static Pessoa[] pessoas = new Pessoa[100];
     private static int count = 0;
 
