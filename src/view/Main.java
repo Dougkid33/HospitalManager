@@ -4,6 +4,7 @@ package view;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import controller.ConsultaController;
 import controller.FranquiaController;
 import controller.MedicoController;
 import controller.PessoaController;
@@ -131,7 +132,7 @@ public class Main {
 					break;
 				case 5:
 					System.out.println("Selecionou Consulta.");
-					// faça algo relacionado a Consulta
+					ConsultaController.menuConsulta();
 					break;
 				case 6:
 					System.out.println("Selecionou Informação de Consulta.");
