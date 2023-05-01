@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import model.Pessoa;
 import model.DAO.PessoaDAO;
+import static view.Main.exibirMenu;
 
 public class PessoaController {
     private PessoaDAO dao;
@@ -201,12 +202,12 @@ public class PessoaController {
 						break;
 					case 0:
 						sair = true;
-						System.out.println("Encerrando o programa...");
+						System.out.println("Encerrando o programa...");                                                
 						break;
 					default:
 						System.out.println("Opção inválida. Tente novamente.");
 					}
-
+                                        exibirMenu();
 				} catch (InputMismatchException e) {
 					System.out.println("Entrada inválida. Tente novamente.");
 					sc.nextLine(); // para limpar o buffer do scanner

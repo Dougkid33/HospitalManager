@@ -7,6 +7,7 @@ import java.util.Scanner;
 import model.Pessoa;
 import model.Unidade;
 import model.DAO.UnidadeDAO;
+import static view.Main.exibirMenu;
 
 public class UnidadeController {
 
@@ -37,7 +38,7 @@ public class UnidadeController {
     }
     
     public static void menuUnidade() {
-    	try (Scanner scanner = new Scanner(System.in)) {
+    	try (Scanner sc = new Scanner(System.in)) {
             UnidadeController unidadeController = new UnidadeController(new UnidadeDAO());
             System.out.println("\n==============================");
             System.out.println("       MENU DE UNIDADES");
@@ -53,17 +54,17 @@ public class UnidadeController {
                 System.out.println("0. Sair");
 
                 try {
-                    int opcao = scanner.nextInt();
-                    scanner.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
+                    int opcao = sc.nextInt();
+                    sc.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
 
                     switch (opcao) {
                         case 1:
                             System.out.print("Digite o nome da unidade: ");
-                            String nome = scanner.nextLine();
+                            String nome = sc.nextLine();
                             System.out.print("Digite a cidade da unidade: ");
-                            String cidade = scanner.nextLine();
+                            String cidade = sc.nextLine();
                             System.out.print("Digite o endereço da unidade: ");
-                            String endereco = scanner.nextLine();
+                            String endereco = sc.nextLine();
 
                             boolean cadastrado = unidadeController.cadastrarUnidade(new Unidade(nome, cidade, endereco, nome, null, null, null, opcao, nome, nome, null, null, null));
 
@@ -75,19 +76,19 @@ public class UnidadeController {
                             break;
                         case 2:
                         	System.out.print("Digite o ID da unidade que deseja editar: ");
-                        	int idUnidade = scanner.nextInt();
-                        	scanner.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
+                        	int idUnidade = sc.nextInt();
+                        	sc.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
                         	Unidade unidade = unidadeController.buscarUnidade(idUnidade);
 
                         	if (unidade == null) {
                         	    System.out.println("Unidade não encontrada.");
                         	} else {
                         	    System.out.print("Digite o novo nome da unidade (atual: " + unidade.getNome() + "): ");
-                        	    String novoNome = scanner.nextLine();
+                        	    String novoNome = sc.nextLine();
                         	    System.out.print("Digite a nova cidade da unidade (atual: " + unidade.getCidade() + "): ");
-                        	    String novaCidade = scanner.nextLine();
+                        	    String novaCidade = sc.nextLine();
                         	    System.out.print("Digite o novo endereço da unidade (atual: " + unidade.getEndereco() + "): ");
-                        	    String novoEndereco = scanner.nextLine();
+                        	    String novoEndereco = sc.nextLine();
                         	    Pessoa responsavelUnidade = null; // defina a pessoa responsável pela unidade
                         	    Date dataCriacaoUnidade = null; // defina a data de criação da unidade
                         	    Date dataModificacaoUnidade = null; // defina a data de modificação da unidade
@@ -103,8 +104,8 @@ public class UnidadeController {
                         	break;
                         case 3:
                             System.out.print("Digite o ID da unidade que deseja buscar: ");
-                            idUnidade = scanner.nextInt();
-                            scanner.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
+                            idUnidade = sc.nextInt();
+                            sc.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
                             unidade = unidadeController.buscarUnidade(idUnidade);
 
                             if (unidade == null) {
@@ -117,8 +118,8 @@ public class UnidadeController {
                             break;
                         case 4:
                         	System.out.print("Digite o ID da unidade que deseja excluir: ");
-                        	idUnidade = scanner.nextInt();
-                        	scanner.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
+                        	idUnidade = sc.nextInt();
+                        	sc.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
                             boolean excluido = unidadeController.excluirUnidade(idUnidade);
 
                             if (excluido) {
@@ -145,15 +146,16 @@ public class UnidadeController {
                             break;
                         case 0:
                             System.out.println("Saindo do menu de unidades...");
-                            sair = true;
+                            sair = true;                            
                             break;
                         default:
                             System.out.println("Opção inválida. Tente novamente.");
                             break;
                     }
+                    exibirMenu();
                 } catch (InputMismatchException e) {
                     System.out.println("Entrada inválida. Tente novamente.");
-                    scanner.nextLine(); // para consumir a entrada inválida
+                    sc.nextLine(); // para consumir a entrada inválida
                 }
             }
         }
