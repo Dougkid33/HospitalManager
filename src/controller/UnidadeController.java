@@ -58,7 +58,7 @@ public class UnidadeController {
                     sc.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
 
                     switch (opcao) {
-                        case 1:
+                        case 1://CADASTRAR
                             System.out.print("Digite o nome da unidade: ");
                             String nome = sc.nextLine();
                             System.out.print("Digite a cidade da unidade: ");
@@ -74,7 +74,7 @@ public class UnidadeController {
                                 System.out.println("Não foi possível cadastrar a unidade.");
                             }
                             break;
-                        case 2:
+                        case 2://EDITAR
                             System.out.print("Digite o ID da unidade que deseja editar: ");
                             int idUnidade = sc.nextInt();
                             sc.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
@@ -102,7 +102,7 @@ public class UnidadeController {
                                 }
                             }
                             break;
-                        case 3:
+                        case 3://BUSCAR
                             System.out.print("Digite o ID da unidade que deseja buscar: ");
                             idUnidade = sc.nextInt();
                             sc.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
@@ -116,7 +116,7 @@ public class UnidadeController {
                                 System.out.println("Endereço: " + unidade.getEndereco());
                             }
                             break;
-                        case 4:
+                        case 4://EXCLUIR
                             System.out.print("Digite o ID da unidade que deseja excluir: ");
                             idUnidade = sc.nextInt();
                             sc.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
@@ -128,7 +128,7 @@ public class UnidadeController {
                                 System.out.println("Não foi possível excluir a unidade.");
                             }
                             break;
-                        case 5:
+                        case 5://LISTAR
                             Unidade[] unidades = unidadeController.listarUnidades();
 
                             if (unidades.length == 0) {

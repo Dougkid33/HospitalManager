@@ -67,7 +67,7 @@ public class FranquiaController {
                             sc.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
 
                             switch (opcao) {
-                                case 1:
+                                case 1://CADASTRAR
                                     System.out.print("Digite o nome da franquia: ");
                                     String nome = sc.nextLine();
                                     System.out.print("Digite o CNPJ da franquia: ");
@@ -96,7 +96,7 @@ public class FranquiaController {
                                     }
 
                                     break;
-                                case 2:
+                                case 2://EDITAR
                                     System.out.print("Digite o CNPJ da franquia que deseja editar: ");
                                     cnpj = sc.nextLine();
                                     Franquia franquia = franquiaController.buscarFranquia(cnpj);
@@ -137,7 +137,7 @@ public class FranquiaController {
                                     }
 
                                     break;
-                                case 3:
+                                case 3://BUSCAR
                                     System.out.print("Digite o CNPJ da franquia que deseja buscar: ");
                                     cnpj = sc.nextLine();
                                     Franquia franquiaBusca = franquiaController.buscarFranquia(cnpj);
@@ -153,7 +153,7 @@ public class FranquiaController {
                                     }
 
                                     break;
-                                case 4:
+                                case 4://EXCLUIR
                                     System.out.print("Digite o CNPJ da franquia que deseja excluir: ");
                                     cnpj = sc.nextLine();
                                     Franquia franquiaExclusao = franquiaController.buscarFranquia(cnpj);

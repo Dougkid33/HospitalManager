@@ -13,8 +13,8 @@ public class MedicoController {
     private Medico[] medicos;
     private MedicoDao medicoDao;
 
-    public MedicoController(MedicoDao medicoDao) {
-        this.medicoDao = medicoDao;
+    public MedicoController() {
+        medicoDao = new MedicoDao();
     }
 
     public boolean cadastrarMedico(String nome, String endereco, String cpf, String telefone, String login,
@@ -22,9 +22,9 @@ public class MedicoController {
         return medicoDao.cadastrarMedico(nome, endereco, cpf, telefone, login, senha, tipoUsuario, crm, especialidade);
     }
 
-    public boolean editarMedico(String login, String novoNome, String novoEndereco, String novoCpf, String novoTelefone,
+    public boolean editarMedico(int id, String login, String novoNome, String novoEndereco, String novoCpf, String novoTelefone,
             int novoCrm, String novaEspecialidade) {
-        return medicoDao.editarMedico(login, novoNome, novoEndereco, novoCpf, novoTelefone, novoCrm, novaEspecialidade);
+        return medicoDao.editarMedico(id, login, novoNome, novoEndereco, novoCpf, novoTelefone, novoCrm, novaEspecialidade);
     }
 
     public boolean excluirMedico(int id) {
@@ -40,12 +40,12 @@ public class MedicoController {
     }
 
     public Medico[] listarMedicos() {
-        return medicos;
+        return medicoDao.listarMedicos();
     }
 
     public static void menuMedico() {
         try (Scanner sc = new Scanner(System.in)) {
-            MedicoController medicoController = new MedicoController(new MedicoDao(100));
+            MedicoController medicoController = new MedicoController();
             boolean sair = false;
 
             while (!sair) {
@@ -147,7 +147,7 @@ public class MedicoController {
                                             + medico.getEspecialidade() + "): ");
                                     String especialidade = sc.nextLine();
 
-                                    boolean atualizado = medicoController.editarMedico(login, nome, endereco, cpf, telefone,
+                                    boolean atualizado = medicoController.editarMedico(id, login, nome, endereco, cpf, telefone,
                                             id, especialidade);
 
                                     if (atualizado) {
@@ -156,7 +156,7 @@ public class MedicoController {
                                         System.out.println("Não foi possível atualizar o médico.");
                                     }
 
-                                    boolean atualizado1 = medicoController.editarMedico(login, nome, endereco, cpf, telefone,
+                                    boolean atualizado1 = medicoController.editarMedico(id, login, nome, endereco, cpf, telefone,
                                             id, especialidade);
 
                                     if (atualizado1) {
