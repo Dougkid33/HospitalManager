@@ -3,6 +3,7 @@ package view;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import controller.ConsultaController;
 import controller.FranquiaController;
 import controller.MedicoController;
 import controller.PessoaController;
@@ -91,6 +92,53 @@ public class Main {
 
             System.out.println(builder.toString());
 
+<<<<<<< HEAD
+					break;
+				case 2:
+					System.out.println("Selecionou Médico.");
+					MedicoController.menuMedico();
+					break;
+				case 3:
+					
+					System.out.println("Selecionou Franquia.");
+					FranquiaController.menuFranquia();
+					break;
+				case 4:
+					System.out.println("Selecionou Unidade de Franquia.");
+					UnidadeController.menuUnidade();
+					break;
+				case 5:
+					System.out.println("Selecionou Consulta.");
+					ConsultaController.menuConsulta();
+					break;
+				case 6:
+					System.out.println("Selecionou Informação de Consulta.");
+					// faça algo relacionado a Informação de Consulta
+					break;
+				case 7:
+					System.out.println("Selecionou Procedimento.");
+					// faça algo relacionado a Procedimento
+					break;
+				case 8:
+					System.out.println("Selecionou Financeiro ADM.");
+					// faça algo relacionado a Financeiro ADM
+					break;
+				case 9:
+					System.out.println("Selecionou Financeiro Médico.");
+					// faça algo relacionado a Financeiro Médico
+					break;
+				case 10:
+					System.out.println("Selecionou Relatórios Financeiros.");
+					// faça algo relacionado a Relatórios Financeiros
+					break;
+				default:
+					System.out.println("Opção inválida. Tente novamente.");
+					break;
+				}
+			}
+		}
+	}
+=======
             try (Scanner scanner = new Scanner(System.in)) {
                 int opcao = -1;
                 try {
@@ -113,6 +161,7 @@ public class Main {
                         MedicoController.menuMedico();
                         break;
                     case 3:
+>>>>>>> de5b561e04d780c034eae01f9fd7a4d86e74762e
 
                         System.out.println("Selecionou Franquia.");
                         FranquiaController.menuFranquia();
