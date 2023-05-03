@@ -3,17 +3,18 @@ package model;
 import java.util.Date;
 
 public class Unidade extends Franquia {
+
     private int idUnidade;
     private String cidadeUnidade;
     private String enderecoUnidade;
     private Pessoa responsavelUnidade;
     private Date dataCriacaoUnidade;
     private Date dataModificacaoUnidade;
-    
+
     public Unidade(String nome, String cnpj, String cidade, String endereco, Pessoa responsavel,
-            Date dataCriacao, Date dataModificacao, int idUnidade, String cidadeUnidade, String enderecoUnidade, 
+            Date dataCriacao, Date dataModificacao, int idUnidade, String cidadeUnidade, String enderecoUnidade,
             Pessoa responsavelUnidade, Date dataCriacaoUnidade, Date dataModificacaoUnidade) {
-        super( nome, cnpj, cidade, endereco, responsavel, dataCriacao, dataModificacao);
+        super(nome, cnpj, cidade, endereco, responsavel, dataCriacao, dataModificacao);
         this.idUnidade = gerarNovoId();
         this.cidadeUnidade = cidadeUnidade;
         this.enderecoUnidade = enderecoUnidade;

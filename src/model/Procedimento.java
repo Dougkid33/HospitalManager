@@ -1,9 +1,9 @@
 package model;
 
-
 import java.util.Date;
 
 public class Procedimento {
+
     private int id;
     private String nome;
     private Consulta consulta;
@@ -26,77 +26,76 @@ public class Procedimento {
         this.dataModificacao = dataModificacao;
     }
 
-	public int getId() {
-		return id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public String getNome() {
-		return nome;
-	}
+    public String getNome() {
+        return nome;
+    }
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-	public Consulta getConsulta() {
-		return consulta;
-	}
+    public Consulta getConsulta() {
+        return consulta;
+    }
 
-	public void setConsulta(Consulta consulta) {
-		this.consulta = consulta;
-	}
+    public void setConsulta(Consulta consulta) {
+        this.consulta = consulta;
+    }
 
-	public Date getDiaHorario() {
-		return diaHorario;
-	}
+    public Date getDiaHorario() {
+        return diaHorario;
+    }
 
-	public void setDiaHorario(Date diaHorario) {
-		this.diaHorario = diaHorario;
-	}
+    public void setDiaHorario(Date diaHorario) {
+        this.diaHorario = diaHorario;
+    }
 
-	public String getEstado() {
-		return estado;
-	}
+    public String getEstado() {
+        return estado;
+    }
 
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
 
-	public double getValor() {
-		return valor;
-	}
+    public double getValor() {
+        return valor;
+    }
 
-	public void setValor(double valor) {
-		this.valor = valor;
-	}
+    public void setValor(double valor) {
+        this.valor = valor;
+    }
 
-	public String getLaudo() {
-		return laudo;
-	}
+    public String getLaudo() {
+        return laudo;
+    }
 
-	public void setLaudo(String laudo) {
-		this.laudo = laudo;
-	}
+    public void setLaudo(String laudo) {
+        this.laudo = laudo;
+    }
 
-	public Date getDataCriacao() {
-		return dataCriacao;
-	}
+    public Date getDataCriacao() {
+        return dataCriacao;
+    }
 
-	public void setDataCriacao(Date dataCriacao) {
-		this.dataCriacao = dataCriacao;
-	}
+    public void setDataCriacao(Date dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
 
-	public Date getDataModificacao() {
-		return dataModificacao;
-	}
+    public Date getDataModificacao() {
+        return dataModificacao;
+    }
 
-	public void setDataModificacao(Date dataModificacao) {
-		this.dataModificacao = dataModificacao;
-	}
+    public void setDataModificacao(Date dataModificacao) {
+        this.dataModificacao = dataModificacao;
+    }
 
-   
 }

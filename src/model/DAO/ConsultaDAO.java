@@ -9,8 +9,6 @@ import model.Pessoa;
 import model.Unidade;
 import model.enums.EstadoConsulta;
 
-
-
 public class ConsultaDAO {
 
     private static Consulta[] consultas = new Consulta[0];
@@ -89,4 +87,3 @@ public class ConsultaDAO {
         return consultasPaciente;
     }
 }
-

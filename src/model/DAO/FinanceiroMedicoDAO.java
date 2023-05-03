@@ -6,6 +6,7 @@ import java.util.Date;
 import model.FinanceiroMedico;
 
 public class FinanceiroMedicoDAO {
+
     private static FinanceiroMedico[] financeirosMedicos = new FinanceiroMedico[0];
     private static int id = 1;
 
@@ -36,9 +37,11 @@ public class FinanceiroMedicoDAO {
             }
         }
         if (removeIndex != -1) {
-            financeirosMedicos = removeElementFromArray(financeirosMedicos,financeirosMedicos[removeIndex]);
+            financeirosMedicos = removeElementFromArray(financeirosMedicos, financeirosMedicos[removeIndex]);
         }
-    }public static FinanceiroMedico[] listarFinanceirosMedicos() {
+    }
+
+    public static FinanceiroMedico[] listarFinanceirosMedicos() {
         return financeirosMedicos;
     }
 
@@ -80,4 +83,3 @@ public class FinanceiroMedicoDAO {
         }
     }
 }
-

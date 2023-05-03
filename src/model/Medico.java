@@ -3,6 +3,7 @@ package model;
 import java.util.Date;
 
 public class Medico extends Pessoa {
+
     private int crm;
     private String especialidade;
     private Date dataCriacao;
@@ -10,7 +11,7 @@ public class Medico extends Pessoa {
 
     public Medico(int id, String nome, String endereco, String cpf, String telefone, String login, String senha,
             int crm, String especialidade, Date dataCriacao, Date dataModificacao) {
-        super( nome, endereco, cpf, telefone, login, senha, especialidade, dataModificacao, dataModificacao);
+        super(nome, endereco, cpf, telefone, login, senha, especialidade, dataModificacao, dataModificacao);
         this.crm = crm;
         this.especialidade = especialidade;
         this.dataCriacao = dataCriacao;
@@ -49,4 +50,3 @@ public class Medico extends Pessoa {
         this.dataModificacao = dataModificacao;
     }
 }
-

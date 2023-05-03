@@ -1,4 +1,5 @@
 package model;
+
 import java.util.Date;
 
 import model.enums.EstadoConsulta;
