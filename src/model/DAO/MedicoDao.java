@@ -1,5 +1,6 @@
 package model.DAO;
 
+import java.util.Arrays;
 import java.util.Date;
 
 import model.Medico;
@@ -7,12 +8,12 @@ import model.Medico;
 public class MedicoDao {
 
     private static Medico[] medicos = new Medico[100];
-    private static int qtdMedicos;
+    private static int qtdMedicos = 0;
 
-    public MedicoDao(int tamanho) {
-        medicos = new Medico[tamanho];
-        qtdMedicos = 0;
-    }
+//    public MedicoDao(int tamanho) {
+//        medicos = new Medico[tamanho];
+//        qtdMedicos = 0;
+//    }
 
     public boolean cadastrarMedico(String nome, String endereco, String cpf, String telefone, String login,
             String senha, String tipoUsuario, int crm, String especialidade) {
@@ -23,19 +24,19 @@ public class MedicoDao {
         id = gerarNovoId();
         Date dataCriacao = new Date();
         Medico novoMedico = new Medico(id, nome, endereco, cpf, telefone, login, senha, crm, especialidade, dataCriacao, dataCriacao);
-        medicos[qtdMedicos] = novoMedico;
-        qtdMedicos++;
+        if (MedicoDao.qtdMedicos >= MedicoDao.medicos.length) {
+            MedicoDao.medicos = Arrays.copyOf(MedicoDao.medicos, MedicoDao.medicos.length + 100);
+        }
+        MedicoDao.medicos[MedicoDao.qtdMedicos] = novoMedico;
+        MedicoDao.qtdMedicos++;
         return true;
     }
 
-    public boolean editarMedico(String login, String novoNome, String novoEndereco, String novoCpf, String novoTelefone, int novoCrm, String novaEspecialidade) {
-        int id = 0;
+    public boolean editarMedico(int id, String login, String novoNome, String novoEndereco, String novoCpf, String novoTelefone, int novoCrm, String novaEspecialidade) {    
         Medico medico = buscarMedico(id);
         if (medico == null) {
             return false; // Médico não encontrado
-        }
-
-        id = medico.getId(); // obtendo o id do médico retornado
+        }        
         medico.setNome(novoNome);
         medico.setEndereco(novoEndereco);
         medico.setCpf(novoCpf);

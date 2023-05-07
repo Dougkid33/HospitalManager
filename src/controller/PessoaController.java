@@ -89,7 +89,7 @@ public class PessoaController {
                     sc.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
 
                     switch (opcao) {
-                        case 1:
+                        case 1://CADASTRAR
 
                             System.out.print("Digite o nome da pessoa: ");
                             String nome = sc.nextLine();
@@ -112,7 +112,7 @@ public class PessoaController {
                                 System.out.println("Não foi possível cadastrar a pessoa. Já existe uma pessoa com esse ID.");
                             }
                             break;
-                        case 2:
+                        case 2://EDITAR
                             System.out.print("Digite o ID da pessoa a ser editada: ");
                             id = sc.nextInt();
                             sc.nextLine();
@@ -142,7 +142,7 @@ public class PessoaController {
                                 System.out.println("Não foi possível editar a pessoa. ID da pessoa não encontrado.");
                             }
                             break;
-                        case 3:
+                        case 3://EDITAR
                             System.out.print("Digite o ID da pessoa a ter o tipo de usuário alterado: ");
                             id = sc.nextInt();
                             sc.nextLine();
@@ -160,7 +160,7 @@ public class PessoaController {
                                 System.out.println("Não foi possível alterar o tipo de usuário. ID da pessoa não encontrado.");
                             }
                             break;
-                        case 4:
+                        case 4: //BUSCAR
                             System.out.print("Digite o ID da pessoa a ser buscada: ");
                             id = sc.nextInt();
                             sc.nextLine();
@@ -171,7 +171,7 @@ public class PessoaController {
                                 System.out.println(buscarPessoa);
                             }
                             break;
-                        case 5:
+                        case 5://EXCLUIR
                             System.out.print("Digite o ID da pessoa a ser removida: ");
                             id = sc.nextInt();
                             sc.nextLine();
@@ -182,7 +182,7 @@ public class PessoaController {
                                 System.out.println("Não foi possível remover a pessoa. ID da pessoa não encontrado.");
                             }
                             break;
-                        case 6:
+                        case 6://LISTAR
                             Pessoa[] pessoas = pessoaController.listarPessoas();
                             boolean existePessoas = false;
                             for (int i = 0; i < pessoas.length; i++) {

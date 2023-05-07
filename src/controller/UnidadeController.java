@@ -25,8 +25,8 @@ public class UnidadeController {
         return unidadeDAO.buscarUnidade(idUnidade);
     }
 
-    public boolean atualizarUnidade(Unidade unidadeAtualizada) {
-        return unidadeDAO.atualizarUnidade(unidadeAtualizada);
+    public boolean atualizarUnidade(int id, String nome, String cidade, String endereco) {
+        return unidadeDAO.atualizarUnidade(id, nome, cidade, endereco);
     }
 
     public boolean excluirUnidade(int idUnidade) {
@@ -58,7 +58,7 @@ public class UnidadeController {
                     sc.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
 
                     switch (opcao) {
-                        case 1:
+                        case 1://CADASTRAR
                             System.out.print("Digite o nome da unidade: ");
                             String nome = sc.nextLine();
                             System.out.print("Digite a cidade da unidade: ");
@@ -74,7 +74,7 @@ public class UnidadeController {
                                 System.out.println("Não foi possível cadastrar a unidade.");
                             }
                             break;
-                        case 2:
+                        case 2://EDITAR
                             System.out.print("Digite o ID da unidade que deseja editar: ");
                             int idUnidade = sc.nextInt();
                             sc.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
@@ -90,10 +90,13 @@ public class UnidadeController {
                                 System.out.print("Digite o novo endereço da unidade (atual: " + unidade.getEndereco() + "): ");
                                 String novoEndereco = sc.nextLine();
                                 Pessoa responsavelUnidade = null; // defina a pessoa responsável pela unidade
-                                Date dataCriacaoUnidade = null; // defina a data de criação da unidade
-                                Date dataModificacaoUnidade = null; // defina a data de modificação da unidade
+                                
 
-                                boolean atualizado = unidadeController.atualizarUnidade(new Unidade(novoNome, unidade.getCnpj(), novaCidade, novoEndereco, null, null, null, idUnidade, unidade.getCidadeUnidade(), unidade.getEnderecoUnidade(), responsavelUnidade, dataCriacaoUnidade, dataModificacaoUnidade));
+                                boolean atualizado = unidadeController.atualizarUnidade(idUnidade, novoNome, novaCidade, novoEndereco);
+//                                        new Unidade(novoNome, unidade.getCnpj(), novaCidade, novoEndereco, 
+//                                                null, null, null, idUnidade, 
+//                                                unidade.getCidadeUnidade(), unidade.getEnderecoUnidade(), 
+//                                                responsavelUnidade, dataCriacaoUnidade, dataModificacaoUnidade));
 
                                 if (atualizado) {
                                     System.out.println("Unidade atualizada com sucesso.");
@@ -102,7 +105,7 @@ public class UnidadeController {
                                 }
                             }
                             break;
-                        case 3:
+                        case 3://BUSCAR
                             System.out.print("Digite o ID da unidade que deseja buscar: ");
                             idUnidade = sc.nextInt();
                             sc.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
@@ -111,12 +114,11 @@ public class UnidadeController {
                             if (unidade == null) {
                                 System.out.println("Unidade não encontrada.");
                             } else {
-                                System.out.println("Nome: " + unidade.getNome());
-                                System.out.println("Cidade: " + unidade.getCidade());
-                                System.out.println("Endereço: " + unidade.getEndereco());
+                                System.out.println(unidade);
+                                
                             }
                             break;
-                        case 4:
+                        case 4://EXCLUIR
                             System.out.print("Digite o ID da unidade que deseja excluir: ");
                             idUnidade = sc.nextInt();
                             sc.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
@@ -128,7 +130,7 @@ public class UnidadeController {
                                 System.out.println("Não foi possível excluir a unidade.");
                             }
                             break;
-                        case 5:
+                        case 5://LISTAR
                             Unidade[] unidades = unidadeController.listarUnidades();
 
                             if (unidades.length == 0) {
@@ -136,11 +138,8 @@ public class UnidadeController {
                             } else {
                                 System.out.println("Unidades cadastradas:\n");
                                 for (int i = 0; i < unidades.length; i++) {
-                                    System.out.println("ID: " + unidades[i].getId());
-                                    System.out.println("Nome: " + unidades[i].getNome());
-                                    System.out.println("Cidade: " + unidades[i].getCidade());
-                                    System.out.println("Endereço: " + unidades[i].getEndereco());
-                                    System.out.println("------------------------------");
+                                    System.out.println(unidades[i]);                             
+                                    System.out.println("\n------------------------------\n");
                                 }
                             }
                             break;

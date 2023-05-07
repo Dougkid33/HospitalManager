@@ -93,9 +93,13 @@ public class Main {
             builder.append("0. Sair \n");
             builder.append("------------------------------------ \n");
 
+<<<<<<< HEAD
             System.out.println(builder.toString());
 
 
+=======
+            System.out.println(builder.toString());		
+>>>>>>> 03000fe3af52ee7c1dbe6fc04ffe29ed0439d1d3
             try (Scanner scanner = new Scanner(System.in)) {
                 int opcao = -1;
                 try {
@@ -118,8 +122,11 @@ public class Main {
                         MedicoController.menuMedico();
                         break;
                     case 3:
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 03000fe3af52ee7c1dbe6fc04ffe29ed0439d1d3
                         System.out.println("Selecionou Franquia.");
                         FranquiaController.menuFranquia();
                         break;
@@ -158,7 +165,6 @@ public class Main {
             }
         }
     }
-
     public static void main(String[] args) {
 
         // verificacao do login para entrar no menuPrincipal

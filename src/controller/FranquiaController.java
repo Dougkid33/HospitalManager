@@ -11,32 +11,32 @@ import static view.Main.exibirMenu;
 
 public class FranquiaController {
 
-    private static FranquiaDao franquiaDao;
+    private static FranquiaDao dao;
 
-    public FranquiaController(FranquiaDao franquiaDao) {
-        FranquiaController.franquiaDao = franquiaDao;
+    public FranquiaController() {
+        dao = new FranquiaDao();
     }
 
     public boolean cadastrarFranquia(String nome, String cnpj, String cidade, String endereco, Pessoa responsavel) {
-        return franquiaDao.cadastrarFranquia(nome, cnpj, cidade, endereco, responsavel);
+        return dao.cadastrarFranquia(nome, cnpj, cidade, endereco, responsavel);
     }
 
-    public boolean editarFranquia(String novoNome, String novoCnpj, String novaCidade, String novoEndereco,
+    public boolean editarFranquia(String cnpjant ,String novoNome, String novoCnpj, String novaCidade, String novoEndereco,
             Pessoa novoResponsavel) {
-        return franquiaDao.editarFranquia(novoNome, novoCnpj, novaCidade, novoEndereco);
+        return dao.editarFranquia(cnpjant, novoNome, novoCnpj, novaCidade, novoEndereco);
     }
 
     public boolean excluirFranquia(String cnpj) {
-        return franquiaDao.excluirFranquia(cnpj);
+        return dao.excluirFranquia(cnpj);
     }
 
     public Franquia buscarFranquia(String cnpj) {
-        return franquiaDao.buscarFranquia(cnpj);
+        return dao.buscarFranquia(cnpj);
     }
 
     public static void menuFranquia() {
         try (Scanner scanner = new Scanner(System.in)) {
-            FranquiaController franquiaController = new FranquiaController(new FranquiaDao(100));
+            FranquiaController franquiaController = new FranquiaController();
             PessoaController pessoaController = new PessoaController();
             System.out.println("Digite o seu ID:");
             int id = scanner.nextInt();
@@ -67,7 +67,7 @@ public class FranquiaController {
                             sc.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
 
                             switch (opcao) {
-                                case 1:
+                                case 1://CADASTRAR
                                     System.out.print("Digite o nome da franquia: ");
                                     String nome = sc.nextLine();
                                     System.out.print("Digite o CNPJ da franquia: ");
@@ -96,7 +96,7 @@ public class FranquiaController {
                                     }
 
                                     break;
-                                case 2:
+                                case 2://EDITAR
                                     System.out.print("Digite o CNPJ da franquia que deseja editar: ");
                                     cnpj = sc.nextLine();
                                     Franquia franquia = franquiaController.buscarFranquia(cnpj);
@@ -125,7 +125,7 @@ public class FranquiaController {
                                         if (responsavel == null) {
                                             System.out.println("Pessoa não encontrada.");
                                         } else {
-                                            boolean atualizado = franquiaController.editarFranquia(novoNome, novoCnpj,
+                                            boolean atualizado = franquiaController.editarFranquia(franquia.getCnpj(), novoNome, novoCnpj,
                                                     novaCidade, novoEndereco, responsavel);
 
                                             if (atualizado) {
@@ -137,7 +137,7 @@ public class FranquiaController {
                                     }
 
                                     break;
-                                case 3:
+                                case 3://BUSCAR
                                     System.out.print("Digite o CNPJ da franquia que deseja buscar: ");
                                     cnpj = sc.nextLine();
                                     Franquia franquiaBusca = franquiaController.buscarFranquia(cnpj);
@@ -153,7 +153,7 @@ public class FranquiaController {
                                     }
 
                                     break;
-                                case 4:
+                                case 4://EXCLUIR
                                     System.out.print("Digite o CNPJ da franquia que deseja excluir: ");
                                     cnpj = sc.nextLine();
                                     Franquia franquiaExclusao = franquiaController.buscarFranquia(cnpj);

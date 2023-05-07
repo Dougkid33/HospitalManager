@@ -80,7 +80,7 @@ public class ConsultaController {
                 input.nextLine(); // consome a quebra de linha após a opção digitada
 
                 switch (opcao) {
-                    case 1:
+                    case 1://CADASTRAR
                         EstadoConsulta estadoConsulta = null;
                         System.out.println("----- CADASTRO DE CONSULTA -----");
                         System.out.print("Digite a data da consulta (dd/mm/aaaa): ");
@@ -97,7 +97,7 @@ public class ConsultaController {
                         String horaConsulta = input.nextLine();
                         System.out.print("Digite o CRM do médico: ");
                         int crmMedico = input.nextInt();
-                        MedicoController medicoController = new MedicoController(null);
+                        MedicoController medicoController = new MedicoController();
                         Medico medico = medicoController.buscarMedicoPorCRM(crmMedico);
                         if (medico == null) {
                             System.out.println("Médico não encontrado.");
@@ -125,7 +125,7 @@ public class ConsultaController {
                         System.out.println("Consulta cadastrada com sucesso!");
                         estadoConsulta = EstadoConsulta.AGENDADA;
                         break;
-                    case 2:
+                    case 2://EDITAR
                         EstadoConsulta estadoConsultaEdit = null;
                         System.out.println("----- ATUALIZAÇÃO DE CONSULTA -----");
                         System.out.print("Digite o código da consulta a ser atualizada: ");
@@ -176,7 +176,7 @@ public class ConsultaController {
                         int crmMedicoedit = input.nextInt();
                         input.nextLine();
                         if (crmMedicoedit != 0) {
-                            MedicoController medicoControlleredit = new MedicoController(null);
+                            MedicoController medicoControlleredit = new MedicoController();
                             Medico medicoedit = medicoControlleredit.buscarMedicoPorCRM(crmMedicoedit);
                             if (medicoedit == null) {
                                 System.out.println("Médico não encontrado.");
@@ -216,7 +216,7 @@ public class ConsultaController {
                         }
                         System.out.println("Consulta atualizada com sucesso!");
                         break;
-                    case 3:
+                    case 3://EXCLUIR
                         System.out.println("----- REMOÇÃO DE CONSULTA-----");
                         System.out.print("Digite o código da consulta a ser removida: ");
                         int idremoverConsulta = input.nextInt();
@@ -240,7 +240,7 @@ public class ConsultaController {
                             System.out.println(consultaEncontrada);
                         }
                         break;
-                    case 5:
+                    case 5://LISTAR
                         System.out.println("----- LISTA DE CONSULTAS -----");
                         Consulta[] consultas = ConsultaController.listarConsultas();
                         for (Consulta consultalista : consultas) {
@@ -255,10 +255,10 @@ public class ConsultaController {
                             System.out.println("------------------------------------");
                         }
                         break;
-                    case 6:
+                    case 6://BUSCAR
                         System.out.print("Digite o CRM do médico para buscar suas consultas: ");
                         int crm = input.nextInt();
-                        MedicoController medicoControllerconsulta = new MedicoController(null);
+                        MedicoController medicoControllerconsulta = new MedicoController();
                         Medico medicoConsultas = medicoControllerconsulta.buscarMedicoPorCRM(crm);
                         if (medicoConsultas == null) {
                             System.out.println("Médico não encontrado.");
@@ -269,7 +269,7 @@ public class ConsultaController {
                             System.out.println(consultaPorMedico.toString());
                         }
                         break;
-                    case 7:
+                    case 7://BUSCAR POR PACIENTE
                         System.out.print("Digite o CPF do paciente (seu CPF) para buscar suas consultas: ");
                         String cpf = input.nextLine();
                         Consulta consulta11 = null;
