@@ -2,17 +2,19 @@ package model;
 
 import java.util.Date;
 
+import model.enums.TipoMovimento;
+
 public class FinanceiroADM {
 
     private int id;
-    private String tipoMovimento;
+    TipoMovimento tipoMovimento;
     private double valor;
     private String unidade;
     private String descritivoMovimento;
     private Date dataCriacao;
     private Date dataModificacao;
 
-    public FinanceiroADM(int id, String tipoMovimento, double valor, String unidade, String descritivoMovimento, Date dataCriacao, Date dataModificacao) {
+    public FinanceiroADM(int id, TipoMovimento tipoMovimento, double valor, String unidade, String descritivoMovimento, Date dataCriacao, Date dataModificacao) {
         this.id = id;
         this.tipoMovimento = tipoMovimento;
         this.valor = valor;
@@ -30,11 +32,11 @@ public class FinanceiroADM {
         this.id = id;
     }
 
-    public String getTipoMovimento() {
+    public TipoMovimento getTipoMovimento() {
         return tipoMovimento;
     }
 
-    public void setTipoMovimento(String tipoMovimento) {
+    public void setTipoMovimento(TipoMovimento tipoMovimento) {
         this.tipoMovimento = tipoMovimento;
     }
 

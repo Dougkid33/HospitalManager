@@ -4,19 +4,20 @@ import java.util.Arrays;
 import java.util.Date;
 
 import model.FinanceiroADM;
+import model.enums.TipoMovimento;
 
 public class FinanceiroADMDAO {
 
     private static FinanceiroADM[] financeiros = new FinanceiroADM[0];
     private static int id = 1;
 
-    public static void cadastrarFinanceiro(String tipoMovimento, double valor, String unidade, String descritivoMovimento) {
+    public static void cadastrarFinanceiro(TipoMovimento tipoMovimento, double valor, String unidade, String descritivoMovimento) {
         FinanceiroADM financeiro = new FinanceiroADM(id++, tipoMovimento, valor, unidade, descritivoMovimento, new Date(), new Date());
         financeiros = Arrays.copyOf(financeiros, financeiros.length + 1);
         financeiros[financeiros.length - 1] = financeiro;
     }
 
-    public static void atualizarFinanceiro(int id, String tipoMovimento, double valor, String unidade, String descritivoMovimento) {
+    public static void atualizarFinanceiro(int id, TipoMovimento tipoMovimento, double valor, String unidade, String descritivoMovimento) {
         for (FinanceiroADM financeiro : financeiros) {
             if (financeiro.getId() == id) {
                 financeiro.setTipoMovimento(tipoMovimento);
