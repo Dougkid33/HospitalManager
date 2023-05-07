@@ -3,36 +3,83 @@ package controller;
 import model.Pessoa;
 import model.DAO.FranquiaDao;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import model.FinanceiroADM;
+import model.FinanceiroMedico;
 import model.Franquia;
 import static view.Main.exibirMenu;
 
 public class FranquiaController {
+	private static FranquiaDao dao;
 
-    private static FranquiaDao dao;
+	public FranquiaController() {
+	    dao = new FranquiaDao();
+	}
 
-    public FranquiaController() {
-        dao = new FranquiaDao();
+	public boolean cadastrarFranquia(String nome, String cnpj, String cidade, String endereco, Pessoa responsavel) {
+	    return dao.cadastrarFranquia(nome, cnpj, cidade, endereco, responsavel);
+	}
+
+	public boolean editarFranquia(int id, String novoNome, String novoCnpj, String novaCidade, String novoEndereco, Pessoa novoResponsavel) {
+	    Franquia franquia = dao.buscarFranquia(id);
+	    if (franquia == null) {
+	        return false; // Franquia não encontrada
+	    }
+	    franquia.setNome(novoNome);
+	    franquia.setCnpj(novoCnpj);
+	    franquia.setCidade(novaCidade);
+	    franquia.setEndereco(novoEndereco);
+	    franquia.setResponsavel(novoResponsavel);
+	    franquia.setDataModificacao(new Date());
+	    return dao.editarFranquia(id, novoCnpj, novoNome, novaCidade, novoEndereco);
+	}
+
+	public boolean excluirFranquia(int idRemove) {
+	    return dao.excluirFranquia(idRemove);
+	}
+
+	public Franquia buscarFranquia(int id) {
+	    return dao.buscarFranquia(id);
+	}
+    public static void gerarRelatorioFinanceiro() {
+        FranquiaController franquiaController = new FranquiaController();
+        Franquia franquia = franquiaController.buscarFranquia(); 
+        FinanceiroMedico[] pagamentos = franquia.getPagamentosMedico(); // Obter os pagamentos aos médicos da franquia
+        FinanceiroADM[] administrativos = franquia.getAdministrativos(); // Obter as despesas administrativas da franquia
+        float[] totalDespesas = {0};
+        float[] totalPagamentos = {0};
+        float[] totalAdministrativos = {0};
+
+        // Calcula o total de despesas médicas
+        for (int i = 0; i < pagamentos.length; i++) {
+            if (pagamentos[i].getData().getMonth() == LocalDate.now().getMonth()) { // Verificar se o pagamento foi registrado no mês atual
+                totalPagamentos[0] += pagamentos[i].getValor();
+            }
+        }
+
+        // Calcula o total de despesas administrativas
+        for (int i = 0; i < administrativos.length; i++) {
+            if (administrativos[i].getData().getMonth() == LocalDate.now().getMonth()) { // Verificar se a despesa administrativa foi registrada no mês atual
+                totalAdministrativos[0] += administrativos[i].getValor();
+            }
+        }
+
+        float totalReceitas = totalPagamentos[0];
+        float totalDespesasMensais = totalDespesas[0] + totalAdministrativos[0];
+        float lucroOuPrejuizo = totalReceitas - totalDespesasMensais;
+
+        System.out.println("Relatório Financeiro Mensal");
+        System.out.println("----------------------------");
+        System.out.println("Receitas: R$" + totalReceitas);
+        System.out.println("Despesas: R$" + totalDespesasMensais);
+        System.out.println("Lucro/Prejuízo: R$" + lucroOuPrejuizo);
     }
 
-    public boolean cadastrarFranquia(String nome, String cnpj, String cidade, String endereco, Pessoa responsavel) {
-        return dao.cadastrarFranquia(nome, cnpj, cidade, endereco, responsavel);
-    }
 
-    public boolean editarFranquia(String cnpjant ,String novoNome, String novoCnpj, String novaCidade, String novoEndereco,
-            Pessoa novoResponsavel) {
-        return dao.editarFranquia(cnpjant, novoNome, novoCnpj, novaCidade, novoEndereco);
-    }
-
-    public boolean excluirFranquia(String cnpj) {
-        return dao.excluirFranquia(cnpj);
-    }
-
-    public Franquia buscarFranquia(String cnpj) {
-        return dao.buscarFranquia(cnpj);
-    }
 
     public static void menuFranquia() {
         try (Scanner scanner = new Scanner(System.in)) {
@@ -98,8 +145,8 @@ public class FranquiaController {
                                     break;
                                 case 2://EDITAR
                                     System.out.print("Digite o CNPJ da franquia que deseja editar: ");
-                                    cnpj = sc.nextLine();
-                                    Franquia franquia = franquiaController.buscarFranquia(cnpj);
+                                    int idEditar = sc.nextInt();
+                                    Franquia franquia = franquiaController.buscarFranquia(idEditar);
 
                                     if (franquia == null) {
                                         System.out.println("Franquia não encontrada.");
@@ -125,8 +172,8 @@ public class FranquiaController {
                                         if (responsavel == null) {
                                             System.out.println("Pessoa não encontrada.");
                                         } else {
-                                            boolean atualizado = franquiaController.editarFranquia(franquia.getCnpj(), novoNome, novoCnpj,
-                                                    novaCidade, novoEndereco, responsavel);
+                                            boolean atualizado = franquiaController.editarFranquia(franquia.getId(),franquia.getCnpj(), novoNome, novoCnpj,
+                                                    novaCidade,  responsavel);
 
                                             if (atualizado) {
                                                 System.out.println("Franquia atualizada com sucesso.");
@@ -138,9 +185,9 @@ public class FranquiaController {
 
                                     break;
                                 case 3://BUSCAR
-                                    System.out.print("Digite o CNPJ da franquia que deseja buscar: ");
-                                    cnpj = sc.nextLine();
-                                    Franquia franquiaBusca = franquiaController.buscarFranquia(cnpj);
+                                    System.out.print("Digite o ID da franquia que deseja buscar: ");
+                                   int idBusca = sc.nextInt();
+                                    Franquia franquiaBusca = franquiaController.buscarFranquia(idBusca);
 
                                     if (franquiaBusca == null) {
                                         System.out.println("Franquia não encontrada.");
@@ -155,13 +202,13 @@ public class FranquiaController {
                                     break;
                                 case 4://EXCLUIR
                                     System.out.print("Digite o CNPJ da franquia que deseja excluir: ");
-                                    cnpj = sc.nextLine();
-                                    Franquia franquiaExclusao = franquiaController.buscarFranquia(cnpj);
+                                    int idRemove = sc.nextInt();
+                                    Franquia franquiaExclusao = franquiaController.buscarFranquia(idRemove);
 
                                     if (franquiaExclusao == null) {
                                         System.out.println("Franquia não encontrada.");
                                     } else {
-                                        boolean excluido = franquiaController.excluirFranquia(cnpj);
+                                        boolean excluido = franquiaController.excluirFranquia(idRemove);
 
                                         if (excluido) {
                                             System.out.println("Franquia excluída com sucesso.");

@@ -108,7 +108,7 @@ public class InfoConsultaController {
 			         System.out.print("ID do médico: ");
 			         int idMedico = scanner.nextInt();
 			         scanner.nextLine();
-			         MedicoController medicoController = new MedicoController(null);
+			         MedicoController medicoController = new MedicoController();
 			         Medico medico = medicoController.buscarMedico(idMedico);
 
 			         System.out.print("Nome do paciente: ");

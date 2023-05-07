@@ -61,6 +61,8 @@ public class FinanceiroMedicoDAO {
         }
         return montanteTotalPago;
     }
+    
+    
 
     private static FinanceiroMedico[] removeElementFromArray(FinanceiroMedico[] arr, FinanceiroMedico element) {
         int index = -1;

@@ -12,8 +12,9 @@ public class Franquia {
     private Pessoa responsavel;
     private Date dataCriacao;
     private Date dataModificacao;
+    private FinanceiroADM[] despesas;
 
-    public Franquia(String nome, String cnpj, String cidade, String endereco, Pessoa responsavel,
+    public Franquia(int id, String nome, String cnpj, String cidade, String endereco, Pessoa responsavel,
             Date dataCriacao, Date dataModificacao) {
         super();
         this.id = gerarNovoId();
@@ -93,6 +94,9 @@ public class Franquia {
 
     public void setDataModificacao(Date dataModificacao) {
         this.dataModificacao = dataModificacao;
+    }
+    public FinanceiroADM[] getDespesas() {
+        return this.despesas;
     }
 
 }
