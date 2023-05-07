@@ -25,8 +25,8 @@ public class UnidadeController {
         return unidadeDAO.buscarUnidade(idUnidade);
     }
 
-    public boolean atualizarUnidade(Unidade unidadeAtualizada) {
-        return unidadeDAO.atualizarUnidade(unidadeAtualizada);
+    public boolean atualizarUnidade(int id, String nome, String cidade, String endereco) {
+        return unidadeDAO.atualizarUnidade(id, nome, cidade, endereco);
     }
 
     public boolean excluirUnidade(int idUnidade) {
@@ -90,10 +90,13 @@ public class UnidadeController {
                                 System.out.print("Digite o novo endereço da unidade (atual: " + unidade.getEndereco() + "): ");
                                 String novoEndereco = sc.nextLine();
                                 Pessoa responsavelUnidade = null; // defina a pessoa responsável pela unidade
-                                Date dataCriacaoUnidade = null; // defina a data de criação da unidade
-                                Date dataModificacaoUnidade = null; // defina a data de modificação da unidade
+                                
 
-                                boolean atualizado = unidadeController.atualizarUnidade(new Unidade(novoNome, unidade.getCnpj(), novaCidade, novoEndereco, null, null, null, idUnidade, unidade.getCidadeUnidade(), unidade.getEnderecoUnidade(), responsavelUnidade, dataCriacaoUnidade, dataModificacaoUnidade));
+                                boolean atualizado = unidadeController.atualizarUnidade(idUnidade, novoNome, novaCidade, novoEndereco);
+//                                        new Unidade(novoNome, unidade.getCnpj(), novaCidade, novoEndereco, 
+//                                                null, null, null, idUnidade, 
+//                                                unidade.getCidadeUnidade(), unidade.getEnderecoUnidade(), 
+//                                                responsavelUnidade, dataCriacaoUnidade, dataModificacaoUnidade));
 
                                 if (atualizado) {
                                     System.out.println("Unidade atualizada com sucesso.");
@@ -111,9 +114,8 @@ public class UnidadeController {
                             if (unidade == null) {
                                 System.out.println("Unidade não encontrada.");
                             } else {
-                                System.out.println("Nome: " + unidade.getNome());
-                                System.out.println("Cidade: " + unidade.getCidade());
-                                System.out.println("Endereço: " + unidade.getEndereco());
+                                System.out.println(unidade);
+                                
                             }
                             break;
                         case 4://EXCLUIR
@@ -136,11 +138,8 @@ public class UnidadeController {
                             } else {
                                 System.out.println("Unidades cadastradas:\n");
                                 for (int i = 0; i < unidades.length; i++) {
-                                    System.out.println("ID: " + unidades[i].getId());
-                                    System.out.println("Nome: " + unidades[i].getNome());
-                                    System.out.println("Cidade: " + unidades[i].getCidade());
-                                    System.out.println("Endereço: " + unidades[i].getEndereco());
-                                    System.out.println("------------------------------");
+                                    System.out.println(unidades[i]);                             
+                                    System.out.println("\n------------------------------\n");
                                 }
                             }
                             break;

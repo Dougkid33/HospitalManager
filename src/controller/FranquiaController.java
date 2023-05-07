@@ -11,32 +11,32 @@ import static view.Main.exibirMenu;
 
 public class FranquiaController {
 
-    private static FranquiaDao franquiaDao;
+    private static FranquiaDao dao;
 
-    public FranquiaController(FranquiaDao franquiaDao) {
-        FranquiaController.franquiaDao = franquiaDao;
+    public FranquiaController() {
+        dao = new FranquiaDao();
     }
 
     public boolean cadastrarFranquia(String nome, String cnpj, String cidade, String endereco, Pessoa responsavel) {
-        return franquiaDao.cadastrarFranquia(nome, cnpj, cidade, endereco, responsavel);
+        return dao.cadastrarFranquia(nome, cnpj, cidade, endereco, responsavel);
     }
 
-    public boolean editarFranquia(String novoNome, String novoCnpj, String novaCidade, String novoEndereco,
+    public boolean editarFranquia(String cnpjant ,String novoNome, String novoCnpj, String novaCidade, String novoEndereco,
             Pessoa novoResponsavel) {
-        return franquiaDao.editarFranquia(novoNome, novoCnpj, novaCidade, novoEndereco);
+        return dao.editarFranquia(cnpjant, novoNome, novoCnpj, novaCidade, novoEndereco);
     }
 
     public boolean excluirFranquia(String cnpj) {
-        return franquiaDao.excluirFranquia(cnpj);
+        return dao.excluirFranquia(cnpj);
     }
 
     public Franquia buscarFranquia(String cnpj) {
-        return franquiaDao.buscarFranquia(cnpj);
+        return dao.buscarFranquia(cnpj);
     }
 
     public static void menuFranquia() {
         try (Scanner scanner = new Scanner(System.in)) {
-            FranquiaController franquiaController = new FranquiaController(new FranquiaDao(100));
+            FranquiaController franquiaController = new FranquiaController();
             PessoaController pessoaController = new PessoaController();
             System.out.println("Digite o seu ID:");
             int id = scanner.nextInt();
@@ -125,7 +125,7 @@ public class FranquiaController {
                                         if (responsavel == null) {
                                             System.out.println("Pessoa não encontrada.");
                                         } else {
-                                            boolean atualizado = franquiaController.editarFranquia(novoNome, novoCnpj,
+                                            boolean atualizado = franquiaController.editarFranquia(franquia.getCnpj(), novoNome, novoCnpj,
                                                     novaCidade, novoEndereco, responsavel);
 
                                             if (atualizado) {

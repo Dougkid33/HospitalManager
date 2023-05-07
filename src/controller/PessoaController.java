@@ -171,7 +171,7 @@ public class PessoaController {
                                 System.out.println(buscarPessoa);
                             }
                             break;
-                        case 5:
+                        case 5://EXCLUIR
                             System.out.print("Digite o ID da pessoa a ser removida: ");
                             id = sc.nextInt();
                             sc.nextLine();
