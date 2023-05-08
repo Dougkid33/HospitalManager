@@ -37,6 +37,7 @@ public class Consulta {
     public void setId(int id) {
         this.id = id;
     }
+
     public double calcularEntradaFranquia() {
         return this.valor * 0.2; // considerando que a unidade de franquia recebe 20% do valor da consulta/procedimento
     }

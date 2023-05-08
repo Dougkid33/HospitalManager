@@ -12,9 +12,9 @@ import model.enums.TipoMovimento;
 
 public class FinanceiroADMController {
 
-	public static void cadastrarFinanceiro(TipoMovimento tipoMovimento, double valor, String unidade, String descritivoMovimento) {
-	    FinanceiroADMDAO.cadastrarFinanceiro(tipoMovimento, valor, unidade, descritivoMovimento);
-	}
+    public static void cadastrarFinanceiro(TipoMovimento tipoMovimento, double valor, String unidade, String descritivoMovimento) {
+        FinanceiroADMDAO.cadastrarFinanceiro(tipoMovimento, valor, unidade, descritivoMovimento);
+    }
 
     public static void atualizarFinanceiro(int id, TipoMovimento tipoMovimento, double valor, String unidade, String descritivoMovimento) {
         FinanceiroADMDAO.atualizarFinanceiro(id, tipoMovimento, valor, unidade, descritivoMovimento);
@@ -34,7 +34,8 @@ public class FinanceiroADMController {
                 System.out.println(financeiro);
             }
         }
-	}
+    }
+
     private static FinanceiroADM buscarFinanceiroPorId(int id) {
         FinanceiroADM[] financeiros = FinanceiroADMDAO.listarFinanceiros();
         for (FinanceiroADM financeiro : financeiros) {
@@ -44,17 +45,18 @@ public class FinanceiroADMController {
         }
         return null;
     }
+
     public static void realizarPagamentoAdministradora() {
         // Obter a data atual
         Date dataAtual = new Date();
-        
+
         // Verificar se é dia 01 do mês
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(dataAtual);
         if (calendar.get(Calendar.DAY_OF_MONTH) != 1) {
             return;
         }
-        
+
         // Calcular o valor a ser pago
         double valorBase = 1000.0;
         double faturamentoTotal = 0.0;
@@ -65,137 +67,135 @@ public class FinanceiroADMController {
             faturamentoTotal += procedimento.getValor();
         }
         double valorPagamento = valorBase + (faturamentoTotal * 0.05);
-        
+
         // Registrar a movimentação financeira
         String unidade = "Administração";
         String descritivoMovimento = "Pagamento à administradora";
         FinanceiroADMController.cadastrarFinanceiro(TipoMovimento.SAIDA, valorPagamento, unidade, descritivoMovimento);
-        
+
         // Exibir mensagem de confirmação
         System.out.println("Pagamento à administradora realizado com sucesso!");
     }
 
-	public static void menuFinanceiroADM() {
-		
-		try (Scanner scanner = new Scanner(System.in)) {
-			int opcao = 0;
-			do {// verifica toda vez se eh o primeiro dia do mes para realizar o pagamento
-				Calendar calendar = Calendar.getInstance();
-		        if (calendar.get(Calendar.DAY_OF_MONTH) != 1) {
-		        	realizarPagamentoAdministradora();
-		        }
-				
-			    System.out.println("Selecione uma opção:");
-			    System.out.println("1 - Cadastrar financeiro");
-			    System.out.println("2 - Atualizar financeiro");
-			    System.out.println("3 - Remover financeiro");
-			    System.out.println("4 - Listar financeiros");
-			    System.out.println("0 - Sair");
+    public static void menuFinanceiroADM() {
 
-			    opcao = scanner.nextInt();
-			    scanner.nextLine();
+        try (Scanner scanner = new Scanner(System.in)) {
+            int opcao = 0;
+            do {// verifica toda vez se eh o primeiro dia do mes para realizar o pagamento
+                Calendar calendar = Calendar.getInstance();
+                if (calendar.get(Calendar.DAY_OF_MONTH) != 1) {
+                    realizarPagamentoAdministradora();
+                }
 
-			    switch (opcao) {
-			        case 1:
-			        	TipoMovimento tipoMovimento = null;
-			            System.out.print("Tipo do movimento// Digite Entrada ou Saida:\n ");
-			            String tipoMov = scanner.nextLine();
-			            
-			            if(tipoMov == "Entrada") {
-			            	 tipoMovimento = TipoMovimento.ENTRADA;
-			            }
-			            else if(tipoMov == "Saida") {
-			            	 tipoMovimento = TipoMovimento.SAIDA;
-			            }
-			            
-			            System.out.print("Valor: ");
-			            double valor = scanner.nextDouble();
-			            scanner.nextLine();
+                System.out.println("Selecione uma opção:");
+                System.out.println("1 - Cadastrar financeiro");
+                System.out.println("2 - Atualizar financeiro");
+                System.out.println("3 - Remover financeiro");
+                System.out.println("4 - Listar financeiros");
+                System.out.println("0 - Sair");
 
-			            System.out.print("Unidade: ");
-			            String unidade = scanner.nextLine();
+                opcao = scanner.nextInt();
+                scanner.nextLine();
 
-			            System.out.print("Descritivo do movimento: ");
-			            String descritivoMovimento = scanner.nextLine();
+                switch (opcao) {
+                    case 1:
+                        TipoMovimento tipoMovimento = null;
+                        System.out.print("Tipo do movimento// Digite Entrada ou Saida:\n ");
+                        String tipoMov = scanner.nextLine();
 
-			            FinanceiroADMDAO.cadastrarFinanceiro(tipoMovimento, valor, unidade, descritivoMovimento);
+                        if (tipoMov == "Entrada") {
+                            tipoMovimento = TipoMovimento.ENTRADA;
+                        } else if (tipoMov == "Saida") {
+                            tipoMovimento = TipoMovimento.SAIDA;
+                        }
 
-			            System.out.println("Financeiro cadastrado com sucesso!");
-			            break;
-			        case 2:
-			        	 System.out.print("ID do financeiro a ser atualizado: ");
-			             int idedit = scanner.nextInt();
-			             scanner.nextLine();
+                        System.out.print("Valor: ");
+                        double valor = scanner.nextDouble();
+                        scanner.nextLine();
 
-			             FinanceiroADM financeiro = buscarFinanceiroPorId(idedit);
-			             if (financeiro == null) {
-			                 System.out.println("Financeiro não encontrado!");
-			                 return;
-			             }
+                        System.out.print("Unidade: ");
+                        String unidade = scanner.nextLine();
 
-				        	TipoMovimento tipoMovimentoedit = null;
-				            System.out.print("Digite o tipo do movimento// Digite Entrada ou Saida:\n ");
-				            String tipoMovedit = scanner.nextLine();
-				            
-				            if(tipoMovedit == "Entrada") {
-				            	 tipoMovimentoedit = TipoMovimento.ENTRADA;
-				            }
-				            else if(tipoMovedit == "Saida") {
-				            	 tipoMovimentoedit = TipoMovimento.SAIDA;
-				            }
+                        System.out.print("Descritivo do movimento: ");
+                        String descritivoMovimento = scanner.nextLine();
 
-			             System.out.print("Valor (" + financeiro.getValor() + "): ");
-			             double valoredit = scanner.nextDouble();
-			             scanner.nextLine();
+                        FinanceiroADMDAO.cadastrarFinanceiro(tipoMovimento, valor, unidade, descritivoMovimento);
 
-			             System.out.print("Unidade (" + financeiro.getUnidade() + "): ");
-			             String unidadeedit = scanner.nextLine();
+                        System.out.println("Financeiro cadastrado com sucesso!");
+                        break;
+                    case 2:
+                        System.out.print("ID do financeiro a ser atualizado: ");
+                        int idedit = scanner.nextInt();
+                        scanner.nextLine();
 
-			             System.out.print("Descritivo do movimento (" + financeiro.getDescritivoMovimento() + "): ");
-			             String descritivoMovimentoedit = scanner.nextLine();
+                        FinanceiroADM financeiro = buscarFinanceiroPorId(idedit);
+                        if (financeiro == null) {
+                            System.out.println("Financeiro não encontrado!");
+                            return;
+                        }
 
-			             FinanceiroADMDAO.atualizarFinanceiro(idedit, tipoMovimentoedit, valoredit, unidadeedit, descritivoMovimentoedit);
+                        TipoMovimento tipoMovimentoedit = null;
+                        System.out.print("Digite o tipo do movimento// Digite Entrada ou Saida:\n ");
+                        String tipoMovedit = scanner.nextLine();
 
-			             System.out.println("Financeiro atualizado com sucesso!");
-			            break;
-			        case 3:
-			            System.out.print("ID do financeiro a ser removido: ");
-			            int idremove = scanner.nextInt();
-			            scanner.nextLine();
+                        if (tipoMovedit == "Entrada") {
+                            tipoMovimentoedit = TipoMovimento.ENTRADA;
+                        } else if (tipoMovedit == "Saida") {
+                            tipoMovimentoedit = TipoMovimento.SAIDA;
+                        }
 
-			            FinanceiroADM financeiroremove = buscarFinanceiroPorId(idremove);
-			            if (financeiroremove == null) {
-			                System.out.println("Financeiro não encontrado!");
-			                return;
-			            }
+                        System.out.print("Valor (" + financeiro.getValor() + "): ");
+                        double valoredit = scanner.nextDouble();
+                        scanner.nextLine();
 
-			            FinanceiroADMDAO.removerFinanceiro(idremove);
+                        System.out.print("Unidade (" + financeiro.getUnidade() + "): ");
+                        String unidadeedit = scanner.nextLine();
 
-			            System.out.println("Financeiro removido com sucesso!");
-			        
-			            break;
-					case 4:
-						FinanceiroADM[] financeiros = FinanceiroADMDAO.listarFinanceiros();
-						if (financeiros.length == 0) {
-							System.out.println("Nenhum financeiro cadastrado!");
-							return;
-						}
-						System.out.println("Lista de financeiros:");
-						for (FinanceiroADM financeiro1 : financeiros) {
-							System.out.println("ID: " + financeiro1.getId() + ", Tipo de movimento: "
-									+ financeiro1.getTipoMovimento() + ", Valor: " + financeiro1.getValor() + ", Unidade: "
-									+ financeiro1.getUnidade() + ", Descritivo do movimento: "
-									+ financeiro1.getDescritivoMovimento());
-						}
-						break;
-			        case 0:
-			            System.out.println("Saindo...");
-			            break;
-			        default:
-			            System.out.println("Opção inválida!");
-			    }
-			} while (opcao != 0);
-		}
-    
-	}
+                        System.out.print("Descritivo do movimento (" + financeiro.getDescritivoMovimento() + "): ");
+                        String descritivoMovimentoedit = scanner.nextLine();
+
+                        FinanceiroADMDAO.atualizarFinanceiro(idedit, tipoMovimentoedit, valoredit, unidadeedit, descritivoMovimentoedit);
+
+                        System.out.println("Financeiro atualizado com sucesso!");
+                        break;
+                    case 3:
+                        System.out.print("ID do financeiro a ser removido: ");
+                        int idremove = scanner.nextInt();
+                        scanner.nextLine();
+
+                        FinanceiroADM financeiroremove = buscarFinanceiroPorId(idremove);
+                        if (financeiroremove == null) {
+                            System.out.println("Financeiro não encontrado!");
+                            return;
+                        }
+
+                        FinanceiroADMDAO.removerFinanceiro(idremove);
+
+                        System.out.println("Financeiro removido com sucesso!");
+
+                        break;
+                    case 4:
+                        FinanceiroADM[] financeiros = FinanceiroADMDAO.listarFinanceiros();
+                        if (financeiros.length == 0) {
+                            System.out.println("Nenhum financeiro cadastrado!");
+                            return;
+                        }
+                        System.out.println("Lista de financeiros:");
+                        for (FinanceiroADM financeiro1 : financeiros) {
+                            System.out.println("ID: " + financeiro1.getId() + ", Tipo de movimento: "
+                                    + financeiro1.getTipoMovimento() + ", Valor: " + financeiro1.getValor() + ", Unidade: "
+                                    + financeiro1.getUnidade() + ", Descritivo do movimento: "
+                                    + financeiro1.getDescritivoMovimento());
+                        }
+                        break;
+                    case 0:
+                        System.out.println("Saindo...");
+                        break;
+                    default:
+                        System.out.println("Opção inválida!");
+                }
+            } while (opcao != 0);
+        }
+
+    }
 }

@@ -19,7 +19,7 @@ public class UnidadeDAO {
         unidade.setDataCriacaoUnidade(new Date());
         UnidadeDAO.unidades[UnidadeDAO.count] = unidade;
         UnidadeDAO.count++;
-        return true;        
+        return true;
     }
 
     // método para atualizar uma unidade existente
@@ -28,19 +28,19 @@ public class UnidadeDAO {
         if (unidade == null) {
             return false; // Unidade não encontrada
         }
-        
+
         unidade.setNome(nome);
         unidade.setCidade(cidade);
         unidade.setEnderecoUnidade(endereco);
         unidade.setDataModificacaoUnidade(new Date());
-        
+
         for (int i = 0; i < UnidadeDAO.count; i++) {
             if (UnidadeDAO.unidades[i].getId() == idUnidade) {
                 UnidadeDAO.unidades[i] = unidade;
                 return true;
             }
         }
-        return false;        
+        return false;
     }
 
     // método para excluir uma unidade existente
@@ -55,7 +55,7 @@ public class UnidadeDAO {
                 return true;
             }
         }
-        return false;        
+        return false;
     }
 
     // método para buscar uma unidade pelo ID
@@ -86,5 +86,4 @@ public class UnidadeDAO {
 //        cadastrarUnidade(unidade);
 //        return unidade;
 //    }
-
 }

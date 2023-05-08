@@ -12,6 +12,7 @@ import model.Medico;
 import model.Pessoa;
 import model.Unidade;
 import model.enums.EstadoConsulta;
+import static view.Main.exibirMenu;
 
 public class InfoConsultaController {
 
@@ -67,137 +68,138 @@ public class InfoConsultaController {
         }
         return infoConsultas;
     }
-    
+
     public static void menuInfoConsulta() {
-    	try (Scanner scanner = new Scanner(System.in)) {
-			int opcao;
-			do {
-				System.out.println("----- MENU INFORMAÇÃO DE CONSULTA-----");
-			    System.out.println("1. Cadastrar informação de consulta");
-			    System.out.println("2. Atualizar informação de consulta");
-			    System.out.println("3. Remover informação de consulta");
-			    System.out.println("4. Buscar  informação de consulta");
-			    System.out.println("5. Listar informação de consultas");
-			    System.out.println("6. Listar informação de consultas por médico");
-			    System.out.println("7. Listar informação de consultas por paciente");
-			    System.out.println("0. Sair");
-			    System.out.print("Digite a opção desejada: ");
-			    opcao = scanner.nextInt();
-			    scanner.nextLine(); // consome a quebra de linha após a opção digitada
-			    
-			    switch(opcao) {
-			    case 1:
-			    	 System.out.println("Cadastro de nova consulta:\n\n");
-                     System.out.print("Digite a data da consulta (dd/mm/aaaa): ");
-                     String dataConsultaStr = scanner.nextLine();
-                     Date dataConsulta = null;
-                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                     try {
-                         dataConsulta = dateFormat.parse(dataConsultaStr);
-                     } catch (ParseException e) {
-                         System.out.println("Data inválida!");
-                         return;
-                     }
+        try (Scanner scanner = new Scanner(System.in)) {
+            int opcao;
+            do {
+                System.out.println("----- MENU INFORMAÇÃO DE CONSULTA-----");
+                System.out.println("1. Cadastrar informação de consulta");
+                System.out.println("2. Atualizar informação de consulta");
+                System.out.println("3. Remover informação de consulta");
+                System.out.println("4. Buscar  informação de consulta");
+                System.out.println("5. Listar informação de consultas");
+                System.out.println("6. Listar informação de consultas por médico");
+                System.out.println("7. Listar informação de consultas por paciente");
+                System.out.println("0. Sair");
+                System.out.print("Digite a opção desejada: ");
+                opcao = scanner.nextInt();
+                scanner.nextLine(); // consome a quebra de linha após a opção digitada
 
-			         System.out.print("Hora (HH:mm): ");
-			         String hora = scanner.nextLine();
+                switch (opcao) {
+                    case 1:
+                        System.out.println("Cadastro de nova consulta:\n\n");
+                        System.out.print("Digite a data da consulta (dd/mm/aaaa): ");
+                        String dataConsultaStr = scanner.nextLine();
+                        Date dataConsulta = null;
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                        try {
+                            dataConsulta = dateFormat.parse(dataConsultaStr);
+                        } catch (ParseException e) {
+                            System.out.println("Data inválida!");
+                            return;
+                        }
 
-			         System.out.print("Estado da consulta (AGENDADA, REALIZADA, CANCELADA): ");
-			         
+                        System.out.print("Hora (HH:mm): ");
+                        String hora = scanner.nextLine();
 
-			         System.out.print("ID do médico: ");
-			         int idMedico = scanner.nextInt();
-			         scanner.nextLine();
-			         MedicoController medicoController = new MedicoController();
-			         Medico medico = medicoController.buscarMedico(idMedico);
+                        System.out.print("Estado da consulta (AGENDADA, REALIZADA, CANCELADA): ");
 
-			         System.out.print("Nome do paciente: ");
-			         int idPaciente = scanner.nextInt();
-			         scanner.nextLine();
-			         PessoaController pessoaController = new PessoaController();
-			         Pessoa paciente = pessoaController.buscarPessoaPorId(idPaciente);
+                        System.out.print("ID do médico: ");
+                        int idMedico = scanner.nextInt();
+                        scanner.nextLine();
+                        MedicoController medicoController = new MedicoController();
+                        Medico medico = medicoController.buscarMedico(idMedico);
 
-			         System.out.print("Valor: ");
-			         double valor = scanner.nextDouble();
-			         scanner.nextLine();
+                        System.out.print("Nome do paciente: ");
+                        int idPaciente = scanner.nextInt();
+                        scanner.nextLine();
+                        PessoaController pessoaController = new PessoaController();
+                        Pessoa paciente = pessoaController.buscarPessoaPorId(idPaciente);
 
-			         System.out.print("Nome da unidade: ");
-			         int idUnidade = scanner.nextInt();
-			         scanner.nextLine();
-			         UnidadeController unidadeController = new UnidadeController(null);		         
-			         Unidade unidade = unidadeController.buscarUnidade(idUnidade);
+                        System.out.print("Valor: ");
+                        double valor = scanner.nextDouble();
+                        scanner.nextLine();
 
-			         System.out.print("Descrição: ");
-			         String descricao = scanner.nextLine();
-			         EstadoConsulta estado = EstadoConsulta.AGENDADA;
-			         InfoConsultaDAO.cadastrarInfoConsulta(dataConsulta, hora, estado, medico, paciente, valor, unidade, descricao);
-			         
-			         System.out.println("InfoConsulta cadastrada com sucesso!");
-			    	break;
-			    case 2:
-			    	System.out.print("ID da InfoConsulta a ser atualizada: \n\n");
-			        int id = scanner.nextInt();
-			        scanner.nextLine();
+                        System.out.print("Nome da unidade: ");
+                        int idUnidade = scanner.nextInt();
+                        scanner.nextLine();
+                        UnidadeController unidadeController = new UnidadeController(null);
+                        Unidade unidade = unidadeController.buscarUnidade(idUnidade);
 
-			        InfoConsulta infoConsulta = InfoConsultaDAO.buscarInfoConsulta(id);
-			        if (infoConsulta == null) {
-			            System.out.println("InfoConsulta não encontrada.");
-			            return;
-			        }
-			        System.out.println("Atualização da InfoConsulta " + infoConsulta.getId() + ":");
-			        System.out.print("Nova descrição: ");
-			        String descricaoedit = scanner.nextLine();
-			        InfoConsultaDAO.atualizarInfoConsulta(id, descricaoedit);
-			        System.out.println("InfoConsulta atualizada com sucesso!");
-			    	break;
-			    case 3:
-			    	 System.out.print("ID da InfoConsulta a ser removida: ");
-			         int idremover = scanner.nextInt();
-			         scanner.nextLine();
+                        System.out.print("Descrição: ");
+                        String descricao = scanner.nextLine();
+                        EstadoConsulta estado = EstadoConsulta.AGENDADA;
+                        InfoConsultaDAO.cadastrarInfoConsulta(dataConsulta, hora, estado, medico, paciente, valor, unidade, descricao);
 
-			         InfoConsulta infoConsultaremove = InfoConsultaDAO.buscarInfoConsulta(idremover);
-			         if (infoConsultaremove == null) {
-			             System.out.println("InfoConsulta não encontrada.");
-			             return;
-			         }
+                        System.out.println("InfoConsulta cadastrada com sucesso!");
+                        break;
+                    case 2:
+                        System.out.print("ID da InfoConsulta a ser atualizada: \n\n");
+                        int id = scanner.nextInt();
+                        scanner.nextLine();
 
-			         InfoConsultaDAO.removerInfoConsulta(idremover);
-			         System.out.println("InfoConsulta removida com sucesso!");
-			    	break;
-			    case 4:
-			        System.out.print("ID da InfoConsulta a ser buscada: ");
-			        int idbusca = scanner.nextInt();
-			        scanner.nextLine();
+                        InfoConsulta infoConsulta = InfoConsultaDAO.buscarInfoConsulta(id);
+                        if (infoConsulta == null) {
+                            System.out.println("InfoConsulta não encontrada.");
+                            return;
+                        }
+                        System.out.println("Atualização da InfoConsulta " + infoConsulta.getId() + ":");
+                        System.out.print("Nova descrição: ");
+                        String descricaoedit = scanner.nextLine();
+                        InfoConsultaDAO.atualizarInfoConsulta(id, descricaoedit);
+                        System.out.println("InfoConsulta atualizada com sucesso!");
+                        break;
+                    case 3:
+                        System.out.print("ID da InfoConsulta a ser removida: ");
+                        int idremover = scanner.nextInt();
+                        scanner.nextLine();
 
-			        InfoConsulta infoConsultabusca = InfoConsultaDAO.buscarInfoConsulta(idbusca);
-			        if (infoConsultabusca == null) {
-			            System.out.println("InfoConsulta não encontrada.");
-			            return;
-			        }
+                        InfoConsulta infoConsultaremove = InfoConsultaDAO.buscarInfoConsulta(idremover);
+                        if (infoConsultaremove == null) {
+                            System.out.println("InfoConsulta não encontrada.");
+                            return;
+                        }
 
-			        System.out.println(infoConsultabusca);
-			    	break;
-			    case 5:
-			    	InfoConsulta[] infoConsultas = InfoConsultaDAO.listarInfoConsultas();
-			        if (infoConsultas.length == 0) {
-			            System.out.println("Não há infoConsultas cadastradas.");
-			            return;
-			        }
+                        InfoConsultaDAO.removerInfoConsulta(idremover);
+                        System.out.println("InfoConsulta removida com sucesso!");
+                        break;
+                    case 4:
+                        System.out.print("ID da InfoConsulta a ser buscada: ");
+                        int idbusca = scanner.nextInt();
+                        scanner.nextLine();
 
-			        for (InfoConsulta infoConsulta1 : infoConsultas) {
-			            System.out.println("ID: " + infoConsulta1.getId() + " | Data: " + infoConsulta1.getData() + " | Hora: " + infoConsulta1.getHora()
-		                + " | Estado: " + infoConsulta1.getEstado() + " | Médico: " + infoConsulta1.getMedico().getNome()
-		                + " | Paciente: " + infoConsulta1.getPaciente().getNome() + " | Valor: " + infoConsulta1.getValor()
-		                + " | Unidade: " + infoConsulta1.getUnidade().getNome() + " | Descrição: "
-		                + infoConsulta1.getDescricao());}
-			    	break;
-	            case 0:
-	                System.out.println("Saindo do sistema...");
-	                break;
-	            default:
-	                System.out.println("Opção inválida.");
-			    }
-			}while(opcao !=0);
-		}
+                        InfoConsulta infoConsultabusca = InfoConsultaDAO.buscarInfoConsulta(idbusca);
+                        if (infoConsultabusca == null) {
+                            System.out.println("InfoConsulta não encontrada.");
+                            return;
+                        }
+
+                        System.out.println(infoConsultabusca);
+                        break;
+                    case 5:
+                        InfoConsulta[] infoConsultas = InfoConsultaDAO.listarInfoConsultas();
+                        if (infoConsultas.length == 0) {
+                            System.out.println("Não há infoConsultas cadastradas.");
+                            return;
+                        }
+
+                        for (InfoConsulta infoConsulta1 : infoConsultas) {
+                            System.out.println("ID: " + infoConsulta1.getId() + " | Data: " + infoConsulta1.getData() + " | Hora: " + infoConsulta1.getHora()
+                                    + " | Estado: " + infoConsulta1.getEstado() + " | Médico: " + infoConsulta1.getMedico().getNome()
+                                    + " | Paciente: " + infoConsulta1.getPaciente().getNome() + " | Valor: " + infoConsulta1.getValor()
+                                    + " | Unidade: " + infoConsulta1.getUnidade().getNome() + " | Descrição: "
+                                    + infoConsulta1.getDescricao());
+                        }
+                        break;
+                    case 0:
+                        System.out.println("Saindo do sistema...");
+                        break;
+                    default:
+                        System.out.println("Opção inválida.");
+                }
+                exibirMenu();
+            } while (opcao != 0);
+        }
     }
 }

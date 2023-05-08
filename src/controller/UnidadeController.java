@@ -90,7 +90,6 @@ public class UnidadeController {
                                 System.out.print("Digite o novo endereço da unidade (atual: " + unidade.getEndereco() + "): ");
                                 String novoEndereco = sc.nextLine();
                                 Pessoa responsavelUnidade = null; // defina a pessoa responsável pela unidade
-                                
 
                                 boolean atualizado = unidadeController.atualizarUnidade(idUnidade, novoNome, novaCidade, novoEndereco);
 //                                        new Unidade(novoNome, unidade.getCnpj(), novaCidade, novoEndereco, 
@@ -115,7 +114,7 @@ public class UnidadeController {
                                 System.out.println("Unidade não encontrada.");
                             } else {
                                 System.out.println(unidade);
-                                
+
                             }
                             break;
                         case 4://EXCLUIR
@@ -138,7 +137,7 @@ public class UnidadeController {
                             } else {
                                 System.out.println("Unidades cadastradas:\n");
                                 for (int i = 0; i < unidades.length; i++) {
-                                    System.out.println(unidades[i]);                             
+                                    System.out.println(unidades[i]);
                                     System.out.println("\n------------------------------\n");
                                 }
                             }

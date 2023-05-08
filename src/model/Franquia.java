@@ -16,18 +16,18 @@ public class Franquia {
     private FinanceiroMedico[] despesasMedico;
 
     public FinanceiroMedico[] getDespesasMedico() {
-		return despesasMedico;
-	}
+        return despesasMedico;
+    }
 
-	public void setDespesasMedico(FinanceiroMedico[] despesasMedico) {
-		this.despesasMedico = despesasMedico;
-	}
+    public void setDespesasMedico(FinanceiroMedico[] despesasMedico) {
+        this.despesasMedico = despesasMedico;
+    }
 
-	public void setDespesas(FinanceiroADM[] despesas) {
-		this.despesas = despesas;
-	}
+    public void setDespesas(FinanceiroADM[] despesas) {
+        this.despesas = despesas;
+    }
 
-	public Franquia( String nome, String cnpj, String cidade, String endereco, Pessoa responsavel,
+    public Franquia(String nome, String cnpj, String cidade, String endereco, Pessoa responsavel,
             Date dataCriacao, Date dataModificacao) {
         super();
         this.id = gerarNovoId();
@@ -108,6 +108,7 @@ public class Franquia {
     public void setDataModificacao(Date dataModificacao) {
         this.dataModificacao = dataModificacao;
     }
+
     public FinanceiroADM[] getDespesas() {
         return this.despesas;
     }
