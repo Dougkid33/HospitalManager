@@ -21,7 +21,7 @@ public class FranquiaDao {
             FranquiaDao.franquias = Arrays.copyOf(FranquiaDao.franquias, FranquiaDao.franquias.length + 100);
         }
         Date dataCriacao = new Date();
-        Franquia novaFranquia = new Franquia(id,nome, cnpj, cidade, endereco, responsavelId, dataCriacao, dataCriacao);
+        Franquia novaFranquia = new Franquia(nome, cnpj, cidade, endereco, responsavelId, dataCriacao, dataCriacao);
         FranquiaDao.franquias[FranquiaDao.count] = novaFranquia;
         FranquiaDao.count++;
         return true;

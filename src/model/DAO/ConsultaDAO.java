@@ -3,11 +3,13 @@ package model.DAO;
 import java.util.Arrays;
 import java.util.Date;
 
+import controller.FinanceiroADMController;
 import model.Consulta;
 import model.Medico;
 import model.Pessoa;
 import model.Unidade;
 import model.enums.EstadoConsulta;
+import model.enums.TipoMovimento;
 
 public class ConsultaDAO {
 
@@ -18,6 +20,9 @@ public class ConsultaDAO {
         Consulta consulta = new Consulta(id++, data, hora, estadoConsulta, medico, paciente, valor, unidade, new Date(), new Date());
         consultas = Arrays.copyOf(consultas, consultas.length + 1);
         consultas[consultas.length - 1] = consulta;
+
+        double entradaFranquia = consulta.calcularEntradaFranquia();
+        FinanceiroADMController.cadastrarFinanceiro(TipoMovimento.ENTRADA, entradaFranquia, unidade.getNome(), "Consulta #" + consulta.getId());
     }
 
     public static void atualizarConsulta(int id, Date data, String hora, EstadoConsulta estado, Medico medico, Pessoa paciente, double valor, Unidade unidade) {
@@ -86,4 +91,5 @@ public class ConsultaDAO {
         }
         return consultasPaciente;
     }
+
 }

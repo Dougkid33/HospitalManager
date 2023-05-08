@@ -11,6 +11,7 @@ import model.Pessoa;
 import model.Unidade;
 import model.DAO.ConsultaDAO;
 import model.enums.EstadoConsulta;
+import model.enums.TipoMovimento;
 
 public class ConsultaController {
 
@@ -80,50 +81,53 @@ public class ConsultaController {
                 input.nextLine(); // consome a quebra de linha após a opção digitada
 
                 switch (opcao) {
-                    case 1://CADASTRAR
-                        EstadoConsulta estadoConsulta = null;
-                        System.out.println("----- CADASTRO DE CONSULTA -----");
-                        System.out.print("Digite a data da consulta (dd/mm/aaaa): ");
-                        String dataConsultaStr = input.nextLine();
-                        Date dataConsulta = null;
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                        try {
-                            dataConsulta = dateFormat.parse(dataConsultaStr);
-                        } catch (ParseException e) {
-                            System.out.println("Data inválida!");
-                            return;
-                        }
-                        System.out.print("Digite a hora da consulta (hh:mm): ");
-                        String horaConsulta = input.nextLine();
-                        System.out.print("Digite o CRM do médico: ");
-                        int crmMedico = input.nextInt();
-                        MedicoController medicoController = new MedicoController();
-                        Medico medico = medicoController.buscarMedicoPorCRM(crmMedico);
-                        if (medico == null) {
-                            System.out.println("Médico não encontrado.");
-                            return;
-                        }
-                        System.out.print("Digite o CPF do paciente: ");
-                        String cpfPaciente = input.nextLine();
-                        Pessoa paciente = PessoaController.buscarPessoaPorCpf(cpfPaciente);
-                        if (paciente == null) {
-                            System.out.println("Paciente não encontrado.");
-                            return;
-                        }
-                        System.out.print("Digite o valor da consulta: ");
-                        double valorConsulta = input.nextDouble();
-                        input.nextLine();
-                        System.out.print("Digite o nome da unidade onde será realizada a consulta: ");
-                        int idUnidade = input.nextInt();
-                        UnidadeController unidadeController = new UnidadeController(null);
-                        Unidade unidade = unidadeController.buscarUnidade(idUnidade);
-                        if (unidade == null) {
-                            System.out.println("Unidade não encontrada.");
-                            return;
-                        }
-                        ConsultaController.cadastrarConsulta(dataConsulta, horaConsulta, estadoConsulta, medico, paciente, valorConsulta, unidade);
-                        System.out.println("Consulta cadastrada com sucesso!");
-                        estadoConsulta = EstadoConsulta.AGENDADA;
+                case 1://CADASTRAR
+                    EstadoConsulta estadoConsulta = null;
+                    System.out.println("----- CADASTRO DE CONSULTA -----");
+                    System.out.print("Digite a data da consulta (dd/mm/aaaa): ");
+                    String dataConsultaStr = input.nextLine();
+                    Date dataConsulta = null;
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    try {
+                        dataConsulta = dateFormat.parse(dataConsultaStr);
+                    } catch (ParseException e) {
+                        System.out.println("Data inválida!");
+                        return;
+                    }
+                    System.out.print("Digite a hora da consulta (hh:mm): ");
+                    String horaConsulta = input.nextLine();
+                    System.out.print("Digite o CRM do médico: ");
+                    int crmMedico = input.nextInt();
+                    MedicoController medicoController = new MedicoController();
+                    Medico medico = medicoController.buscarMedicoPorCRM(crmMedico);
+                    if (medico == null) {
+                        System.out.println("Médico não encontrado.");
+                        return;
+                    }
+                    System.out.print("Digite o CPF do paciente: ");
+                    String cpfPaciente = input.nextLine();
+                    Pessoa paciente = PessoaController.buscarPessoaPorCpf(cpfPaciente);
+                    if (paciente == null) {
+                        System.out.println("Paciente não encontrado.");
+                        return;
+                    }
+                    System.out.print("Digite o valor da consulta: ");
+                    double valorConsulta = input.nextDouble();
+                    input.nextLine();
+                    System.out.print("Digite o o ID da unidade onde será realizada a consulta: ");
+                    int idUnidade = input.nextInt();
+                    UnidadeController unidadeController = new UnidadeController(null);
+                    Unidade unidade = unidadeController.buscarUnidade(idUnidade);
+                    String unidadeNome = unidade.getNome();
+                    if (unidade == null) {
+                        System.out.println("Unidade não encontrada.");
+                        return;
+                    }
+                    ConsultaController.cadastrarConsulta(dataConsulta, horaConsulta, estadoConsulta, medico, paciente, valorConsulta, unidade);
+                    System.out.println("Consulta cadastrada com sucesso!");
+                    estadoConsulta = EstadoConsulta.AGENDADA;
+
+                    FinanceiroADMController.cadastrarFinanceiro(TipoMovimento.ENTRADA, valorConsulta, unidadeNome, "Consulta");
                         break;
                     case 2://EDITAR
                         EstadoConsulta estadoConsultaEdit = null;

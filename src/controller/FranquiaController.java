@@ -4,12 +4,11 @@ import model.Pessoa;
 import model.DAO.FranquiaDao;
 
 import java.sql.Date;
-import java.time.LocalDate;
+
+import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import model.FinanceiroADM;
-import model.FinanceiroMedico;
 import model.Franquia;
 import static view.Main.exibirMenu;
 
@@ -20,8 +19,17 @@ public class FranquiaController {
 	    dao = new FranquiaDao();
 	}
 
-	public boolean cadastrarFranquia(String nome, String cnpj, String cidade, String endereco, Pessoa responsavel) {
-	    return dao.cadastrarFranquia(nome, cnpj, cidade, endereco, responsavel);
+	private static Franquia[] franquias = new Franquia[100];
+	private static int count = 0;
+
+	public boolean cadastrarFranquia( String nome, String cnpj, String cidade, String endereco, Pessoa responsavel) {
+	    if (count >= franquias.length) {
+	        franquias = Arrays.copyOf(franquias, franquias.length + 100);
+	    }
+	    Franquia franquia = new Franquia( nome, cnpj, cidade, endereco, responsavel, null, null);
+	    franquias[count] = franquia;
+	    count++;
+	    return true;
 	}
 
 	public boolean editarFranquia(int id, String novoNome, String novoCnpj, String novaCidade, String novoEndereco, Pessoa novoResponsavel) {
@@ -34,7 +42,7 @@ public class FranquiaController {
 	    franquia.setCidade(novaCidade);
 	    franquia.setEndereco(novoEndereco);
 	    franquia.setResponsavel(novoResponsavel);
-	    franquia.setDataModificacao(new Date());
+	    franquia.setDataModificacao(new Date(System.currentTimeMillis()));
 	    return dao.editarFranquia(id, novoCnpj, novoNome, novaCidade, novoEndereco);
 	}
 
@@ -45,39 +53,7 @@ public class FranquiaController {
 	public Franquia buscarFranquia(int id) {
 	    return dao.buscarFranquia(id);
 	}
-    public static void gerarRelatorioFinanceiro() {
-        FranquiaController franquiaController = new FranquiaController();
-        Franquia franquia = franquiaController.buscarFranquia(); 
-        FinanceiroMedico[] pagamentos = franquia.getPagamentosMedico(); // Obter os pagamentos aos médicos da franquia
-        FinanceiroADM[] administrativos = franquia.getAdministrativos(); // Obter as despesas administrativas da franquia
-        float[] totalDespesas = {0};
-        float[] totalPagamentos = {0};
-        float[] totalAdministrativos = {0};
-
-        // Calcula o total de despesas médicas
-        for (int i = 0; i < pagamentos.length; i++) {
-            if (pagamentos[i].getData().getMonth() == LocalDate.now().getMonth()) { // Verificar se o pagamento foi registrado no mês atual
-                totalPagamentos[0] += pagamentos[i].getValor();
-            }
-        }
-
-        // Calcula o total de despesas administrativas
-        for (int i = 0; i < administrativos.length; i++) {
-            if (administrativos[i].getData().getMonth() == LocalDate.now().getMonth()) { // Verificar se a despesa administrativa foi registrada no mês atual
-                totalAdministrativos[0] += administrativos[i].getValor();
-            }
-        }
-
-        float totalReceitas = totalPagamentos[0];
-        float totalDespesasMensais = totalDespesas[0] + totalAdministrativos[0];
-        float lucroOuPrejuizo = totalReceitas - totalDespesasMensais;
-
-        System.out.println("Relatório Financeiro Mensal");
-        System.out.println("----------------------------");
-        System.out.println("Receitas: R$" + totalReceitas);
-        System.out.println("Despesas: R$" + totalDespesasMensais);
-        System.out.println("Lucro/Prejuízo: R$" + lucroOuPrejuizo);
-    }
+   
 
 
 
@@ -132,7 +108,7 @@ public class FranquiaController {
                                     if (responsavel == null) {
                                         System.out.println("Pessoa não encontrada.");
                                     } else {
-                                        boolean cadastrado = franquiaController.cadastrarFranquia(nome, cnpj, cidade,
+                                        boolean cadastrado = franquiaController.cadastrarFranquia( nome, cnpj, cidade,
                                                 endereco, responsavel);
 
                                         if (cadastrado) {

@@ -13,8 +13,21 @@ public class Franquia {
     private Date dataCriacao;
     private Date dataModificacao;
     private FinanceiroADM[] despesas;
+    private FinanceiroMedico[] despesasMedico;
 
-    public Franquia(int id, String nome, String cnpj, String cidade, String endereco, Pessoa responsavel,
+    public FinanceiroMedico[] getDespesasMedico() {
+		return despesasMedico;
+	}
+
+	public void setDespesasMedico(FinanceiroMedico[] despesasMedico) {
+		this.despesasMedico = despesasMedico;
+	}
+
+	public void setDespesas(FinanceiroADM[] despesas) {
+		this.despesas = despesas;
+	}
+
+	public Franquia( String nome, String cnpj, String cidade, String endereco, Pessoa responsavel,
             Date dataCriacao, Date dataModificacao) {
         super();
         this.id = gerarNovoId();

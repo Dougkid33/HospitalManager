@@ -1,17 +1,20 @@
 package controller;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
 
+import model.Consulta;
 import model.FinanceiroADM;
+import model.Procedimento;
 import model.DAO.FinanceiroADMDAO;
 import model.enums.TipoMovimento;
 
 public class FinanceiroADMController {
 
-    public static void cadastrarFinanceiro(TipoMovimento tipoMovimento, double valor, String unidade, String descritivoMovimento) {
-        FinanceiroADMDAO.cadastrarFinanceiro(tipoMovimento, valor, unidade, descritivoMovimento);
-    }
+	public static void cadastrarFinanceiro(TipoMovimento tipoMovimento, double valor, String unidade, String descritivoMovimento) {
+	    FinanceiroADMDAO.cadastrarFinanceiro(tipoMovimento, valor, unidade, descritivoMovimento);
+	}
 
     public static void atualizarFinanceiro(int id, TipoMovimento tipoMovimento, double valor, String unidade, String descritivoMovimento) {
         FinanceiroADMDAO.atualizarFinanceiro(id, tipoMovimento, valor, unidade, descritivoMovimento);
@@ -41,12 +44,47 @@ public class FinanceiroADMController {
         }
         return null;
     }
+    public static void realizarPagamentoAdministradora() {
+        // Obter a data atual
+        Date dataAtual = new Date();
+        
+        // Verificar se é dia 01 do mês
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(dataAtual);
+        if (calendar.get(Calendar.DAY_OF_MONTH) != 1) {
+            return;
+        }
+        
+        // Calcular o valor a ser pago
+        double valorBase = 1000.0;
+        double faturamentoTotal = 0.0;
+        for (Consulta consulta : ConsultaController.listarConsultas()) {
+            faturamentoTotal += consulta.getValor();
+        }
+        for (Procedimento procedimento : ProcedimentoController.listarProcedimentos()) {
+            faturamentoTotal += procedimento.getValor();
+        }
+        double valorPagamento = valorBase + (faturamentoTotal * 0.05);
+        
+        // Registrar a movimentação financeira
+        String unidade = "Administração";
+        String descritivoMovimento = "Pagamento à administradora";
+        FinanceiroADMController.cadastrarFinanceiro(TipoMovimento.SAIDA, valorPagamento, unidade, descritivoMovimento);
+        
+        // Exibir mensagem de confirmação
+        System.out.println("Pagamento à administradora realizado com sucesso!");
+    }
 
 	public static void menuFinanceiroADM() {
 		
 		try (Scanner scanner = new Scanner(System.in)) {
 			int opcao = 0;
-			do {
+			do {// verifica toda vez se eh o primeiro dia do mes para realizar o pagamento
+				Calendar calendar = Calendar.getInstance();
+		        if (calendar.get(Calendar.DAY_OF_MONTH) != 1) {
+		        	realizarPagamentoAdministradora();
+		        }
+				
 			    System.out.println("Selecione uma opção:");
 			    System.out.println("1 - Cadastrar financeiro");
 			    System.out.println("2 - Atualizar financeiro");

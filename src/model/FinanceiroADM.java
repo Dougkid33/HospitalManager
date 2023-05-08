@@ -1,7 +1,7 @@
 package model;
 
-import java.util.Date;
 
+import java.util.Date;
 import model.enums.TipoMovimento;
 
 public class FinanceiroADM {
@@ -79,5 +79,6 @@ public class FinanceiroADM {
     public void setDataModificacao(Date dataModificacao) {
         this.dataModificacao = dataModificacao;
     }
+    
 
 }
