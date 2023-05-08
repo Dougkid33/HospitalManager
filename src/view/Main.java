@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import controller.ConsultaController;
 import controller.FinanceiroADMController;
+import controller.FinanceiroMedicoController;
 import controller.FranquiaController;
 import controller.InfoConsultaController;
 import controller.MedicoController;
@@ -140,7 +141,7 @@ public class Main {
                         break;
                     case 9:
                         System.out.println("Selecionou Financeiro Médico.");
-                        // faça algo relacionado a Financeiro Médico
+                        FinanceiroMedicoController.menuFinanceiroMedico();
                         break;
                     case 10:
                         System.out.println("Selecionou Relatórios Financeiros.");

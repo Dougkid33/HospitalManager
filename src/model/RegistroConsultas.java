@@ -2,7 +2,7 @@ package model;
 
 
 import java.time.LocalDate;
-import java.time.Month;
+
 import java.util.Scanner;
 
 public class RegistroConsultas {
