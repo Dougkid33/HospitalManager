@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Date;
+import java.util.Random;
 
 public class Pessoa {
 
@@ -31,7 +32,29 @@ public class Pessoa {
         this.dataCriacao = dataCriacao;
         this.dataModificacao = dataModificacao;
     }
+    public static Pessoa gerarPessoaAleatoria() {
+        String[] tiposUsuario = {"DonoFranquia", "DonoUnidadeFranquia", "Administrativo", "Médico", "Paciente"};
+        String[] nomes = {"Ana", "Maria", "João", "Pedro", "Luiza", "Gabriel", "Lucas", "Juliana", "Renata", "Thiago"};
+        String[] sobrenomes = {"Silva", "Souza", "Fernandes", "Almeida", "Costa", "Pereira", "Santos", "Lima", "Mendes", "Nascimento"};
+        String[] logins = {"ana.silva", "joao.pereira", "lucia.costa", "renata.mendes", "thiago.nascimento"};
+        String[] senhas = {"123456", "senha123", "senha1234", "senha12345", "senha123456"};
 
+        Random random = new Random();
+
+        String nome = nomes[random.nextInt(nomes.length)] + " " + sobrenomes[random.nextInt(sobrenomes.length)];
+        String endereco = "Rua " + (random.nextInt(9999) + 1) + ", Bairro " + (random.nextInt(99) + 1);
+        String cpf = String.format("%03d.%03d.%03d-%02d", random.nextInt(1000), random.nextInt(1000), random.nextInt(1000), random.nextInt(100));
+        String telefone = "(" + (random.nextInt(99) + 1) + ") " + (random.nextInt(99999) + 1) + "-" + (random.nextInt(9999) + 1);
+        String login = logins[random.nextInt(logins.length)] + (random.nextInt(99) + 1);
+        String senha = senhas[random.nextInt(senhas.length)];
+        String tipoUsuario = tiposUsuario[random.nextInt(tiposUsuario.length)];
+        Date dataCriacao = new Date();
+        Date dataModificacao = new Date();
+
+        Pessoa pessoa = new Pessoa(nome, endereco, cpf, telefone, login, senha, tipoUsuario, dataCriacao, dataModificacao);
+
+        return pessoa;
+    }
     public int getId() {
         return id;
     }

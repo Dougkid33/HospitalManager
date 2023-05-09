@@ -65,6 +65,15 @@ public class PessoaController {
     public static Pessoa buscarPessoaPorCpf(String cpf) {
         return PessoaDAO.buscarPessoaPorCpf(cpf);
     }
+    
+    public static void cadastrarPessoasAleatorias() {
+        PessoaController controller = new PessoaController(); // criando uma instância do controlador
+        for (int i = 0; i < 10; i++) {
+            Pessoa pessoa = Pessoa.gerarPessoaAleatoria();
+            pessoa.setTipoUsuario("Paciente");
+            controller.cadastrarPessoa(pessoa); // usando a instância do controlador para chamar o método cadastrarPessoa
+        }
+    }
 
     public static void MenuPessoas() {
         try (Scanner sc = new Scanner(System.in)) {

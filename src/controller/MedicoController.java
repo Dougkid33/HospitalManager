@@ -10,7 +10,6 @@ import static view.Main.exibirMenu;
 
 public class MedicoController {
 
-    private Medico[] medicos;
     private MedicoDao medicoDao;
 
     public MedicoController() {
@@ -42,6 +41,14 @@ public class MedicoController {
     public Medico[] listarMedicos() {
         return medicoDao.listarMedicos();
     }
+    public static void cadastrarMedicoAleatorias() {
+        MedicoController controller = new MedicoController();
+        for (int i = 0; i < 10; i++) {
+            Medico medico = Medico.gerarMedicoAleatorio();
+            controller.cadastrarMedico(medico.getNome(), medico.getEndereco(), medico.getCpf(), medico.getLogin(), medico.getSenha(), medico.getTelefone(), medico.getTipoUsuario(), medico.getCrm(), medico.getSenha());
+        }
+    }
+
 
     public static void menuMedico() {
         try (Scanner sc = new Scanner(System.in)) {
@@ -96,12 +103,14 @@ public class MedicoController {
                                 System.out.print("Digite o telefone do médico: ");
                                 String telefone = sc.nextLine();
                                 System.out.print("Digite O tipo de usuário: ");
+                                int crm = sc.nextInt();
+                                System.out.print("Digite O tipo de usuário: ");
                                 String tipoUsuario = sc.nextLine();
 
                                 System.out.print("Digite a especialidade do médico: ");
                                 String especialidade = sc.nextLine();
                                 boolean cadastrado = medicoController.cadastrarMedico(nome, endereco, cpf, login, senha,
-                                        telefone, tipoUsuario, id, especialidade);
+                                        telefone, tipoUsuario, crm, especialidade);
                                 if (cadastrado) {
                                     System.out.println("Médico  cadastrado com sucesso.");
                                 } else {

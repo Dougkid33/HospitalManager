@@ -23,7 +23,6 @@ public class Main {
 
 	Pessoa pessoa = new Pessoa( "Administrador", "Xablau", "validador", "33334380", "admin", "12345", "DonoFranquia", null, null);
 	
-
 	public void menuPrincipal(long id) {
 
 	}
@@ -117,9 +116,12 @@ public class Main {
                         sair = true;
                         System.exit(0);
                     case 1:
+                    	
                         System.out.println("Selecionou Pessoa.");
+                        
                         PessoaController.MenuPessoas();
-                        break;
+                        
+                      break;
                     case 2:
                         System.out.println("Selecionou Médico.");
                         MedicoController.menuMedico();
@@ -165,7 +167,8 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-
+		PessoaController.cadastrarPessoasAleatorias();
+		MedicoController.cadastrarMedicoAleatorias();
 		// verificacao do login para entrar no menuPrincipal
 		Main main = new Main();
 		boolean loginValido = main.login();

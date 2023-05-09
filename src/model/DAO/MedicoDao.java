@@ -10,10 +10,6 @@ public class MedicoDao {
     private static Medico[] medicos = new Medico[100];
     private static int qtdMedicos = 0;
 
-//    public MedicoDao(int tamanho) {
-//        medicos = new Medico[tamanho];
-//        qtdMedicos = 0;
-//    }
 
     public boolean cadastrarMedico(String nome, String endereco, String cpf, String telefone, String login,
             String senha, String tipoUsuario, int crm, String especialidade) {

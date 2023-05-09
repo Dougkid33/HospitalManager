@@ -58,37 +58,7 @@ public class FranquiaController {
 	}
    
 
-	public void gerarRelatorioFinanceiro(int mes, int ano) {
-	    // Inicializa as variáveis que serão usadas no relatório
-		double entradasAdministrativas = 0;
-		double saidasAdministrativas = 0;
-		double saidasMedicas = 0;
 
-		// Percorre todas as franquias cadastradas para obter os dados financeiros do mês/ano informado
-		for (Franquia franquia : this.franquias) {
-		    for (FinanceiroADM registro : franquia.getRegistrosFinanceiros()) {
-		        if (registro.getDataCriacao().getMonth() == mes && registro.getDataCriacao().getYear() == ano) {
-		            if (registro.getTipoMovimento() == TipoMovimento.ENTRADA) {
-		                entradasAdministrativas += registro.getValor();
-		            } else if (registro.getTipoMovimento() == TipoMovimento.SAIDA) {
-		                saidasAdministrativas += registro.getValor();
-		            }
-		            if (registro instanceof FinanceiroMedico) {
-		                FinanceiroMedico registroMedico = (FinanceiroMedico) registro;
-		                for (FinanceiroMedico saidaMedica : registroMedico.getId()) {
-		                    saidasMedicas += saidaMedica.getValor();
-		                }
-		            }
-		        }
-		    }
-		}
-
-	    // Imprime o relatório financeiro
-	    System.out.println("Relatório financeiro para o mês " + mes + "/" + ano + ":");
-	    System.out.println("Entradas administrativas: R$ " + entradasAdministrativas);
-	    System.out.println("Saídas administrativas: R$ " + saidasAdministrativas);
-	    System.out.println("Saídas médicas: R$ " + saidasMedicas);
-	}
 
     public static void menuFranquia() {
         try (Scanner scanner = new Scanner(System.in)) {
