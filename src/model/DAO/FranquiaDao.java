@@ -37,7 +37,7 @@ public class FranquiaDao {
         franquia.setCidade(novaCidade);
         franquia.setEndereco(novoEndereco);
         franquia.setDataModificacao(new Date());
-            
+
         for (int i = 0; i < FranquiaDao.count; i++) {
             if (FranquiaDao.franquias[i].getId() == id) {
                 FranquiaDao.franquias[i] = franquia;

@@ -73,17 +73,15 @@ public class Unidade extends Franquia {
 
     @Override
     public String toString() {
-        return "Unidade{" 
-                + "idUnidade=" + idUnidade 
-                + ", cidadeUnidade=" + cidadeUnidade 
-                + ", enderecoUnidade=" + enderecoUnidade 
-                + ", responsavelUnidade=" + responsavelUnidade 
-                + ", dataCriacaoUnidade=" + dataCriacaoUnidade 
+        return "Unidade{"
+                + "idUnidade=" + idUnidade
+                + ", cidadeUnidade=" + cidadeUnidade
+                + ", enderecoUnidade=" + enderecoUnidade
+                + ", responsavelUnidade=" + responsavelUnidade
+                + ", dataCriacaoUnidade=" + dataCriacaoUnidade
                 + ", dataModificacaoUnidade=" + dataModificacaoUnidade + '}';
     }
-    
-    
-    
+
     private static int proximoId = 1;
 
     private static int gerarNovoId() {

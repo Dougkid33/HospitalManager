@@ -16,49 +16,83 @@ import model.Franquia;
 import static view.Main.exibirMenu;
 
 public class FranquiaController {
-	private static FranquiaDao dao;
 
-	public FranquiaController() {
-	    dao = new FranquiaDao();
-	}
+    private static FranquiaDao dao;
 
-	private static Franquia[] franquias = new Franquia[100];
-	private static int count = 0;
+    public FranquiaController() {
+        dao = new FranquiaDao();
+    }
 
-	public boolean cadastrarFranquia( String nome, String cnpj, String cidade, String endereco, Pessoa responsavel) {
-	    if (count >= franquias.length) {
-	        franquias = Arrays.copyOf(franquias, franquias.length + 100);
-	    }
-	    Franquia franquia = new Franquia( nome, cnpj, cidade, endereco, responsavel, null, null);
-	    franquias[count] = franquia;
-	    count++;
-	    return true;
-	}
+    private static Franquia[] franquias = new Franquia[100];
+    private static int count = 0;
 
-	public boolean editarFranquia(int id, String novoNome, String novoCnpj, String novaCidade, String novoEndereco, Pessoa novoResponsavel) {
-	    Franquia franquia = dao.buscarFranquia(id);
-	    if (franquia == null) {
-	        return false; // Franquia não encontrada
-	    }
-	    franquia.setNome(novoNome);
-	    franquia.setCnpj(novoCnpj);
-	    franquia.setCidade(novaCidade);
-	    franquia.setEndereco(novoEndereco);
-	    franquia.setResponsavel(novoResponsavel);
-	    franquia.setDataModificacao(new Date(System.currentTimeMillis()));
-	    return dao.editarFranquia(id, novoCnpj, novoNome, novaCidade, novoEndereco);
-	}
+    public boolean cadastrarFranquia(String nome, String cnpj, String cidade, String endereco, Pessoa responsavel) {
+        if (count >= franquias.length) {
+            franquias = Arrays.copyOf(franquias, franquias.length + 100);
+        }
+        Franquia franquia = new Franquia(nome, cnpj, cidade, endereco, responsavel, null, null);
+        franquias[count] = franquia;
+        count++;
+        return true;
+    }
 
-	public boolean excluirFranquia(int idRemove) {
-	    return dao.excluirFranquia(idRemove);
-	}
+    public boolean editarFranquia(int id, String novoNome, String novoCnpj, String novaCidade, String novoEndereco, Pessoa novoResponsavel) {
+        Franquia franquia = dao.buscarFranquia(id);
+        if (franquia == null) {
+            return false; // Franquia não encontrada
+        }
+        franquia.setNome(novoNome);
+        franquia.setCnpj(novoCnpj);
+        franquia.setCidade(novaCidade);
+        franquia.setEndereco(novoEndereco);
+        franquia.setResponsavel(novoResponsavel);
+        franquia.setDataModificacao(new Date(System.currentTimeMillis()));
+        return dao.editarFranquia(id, novoCnpj, novoNome, novaCidade, novoEndereco);
+    }
 
-	public Franquia buscarFranquia(int id) {
-	    return dao.buscarFranquia(id);
-	}
-   
+    public boolean excluirFranquia(int idRemove) {
+        return dao.excluirFranquia(idRemove);
+    }
 
+<<<<<<< HEAD
 
+=======
+    public Franquia buscarFranquia(int id) {
+        return dao.buscarFranquia(id);
+    }
+
+    public void gerarRelatorioFinanceiro(int mes, int ano) {
+        // Inicializa as variáveis que serão usadas no relatório
+        double entradasAdministrativas = 0;
+        double saidasAdministrativas = 0;
+        double saidasMedicas = 0;
+
+        // Percorre todas as franquias cadastradas para obter os dados financeiros do mês/ano informado
+        for (Franquia franquia : this.franquias) {
+            for (FinanceiroADM registro : franquia.getRegistrosFinanceiros()) {
+                if (registro.getDataCriacao().getMonth() == mes && registro.getDataCriacao().getYear() == ano) {
+                    if (registro.getTipoMovimento() == TipoMovimento.ENTRADA) {
+                        entradasAdministrativas += registro.getValor();
+                    } else if (registro.getTipoMovimento() == TipoMovimento.SAIDA) {
+                        saidasAdministrativas += registro.getValor();
+                    }
+                    if (registro instanceof FinanceiroMedico) {
+                        FinanceiroMedico registroMedico = (FinanceiroMedico) registro;
+                        for (FinanceiroMedico saidaMedica : registroMedico.getId()) {
+                            saidasMedicas += saidaMedica.getValor();
+                        }
+                    }
+                }
+            }
+        }
+
+        // Imprime o relatório financeiro
+        System.out.println("Relatório financeiro para o mês " + mes + "/" + ano + ":");
+        System.out.println("Entradas administrativas: R$ " + entradasAdministrativas);
+        System.out.println("Saídas administrativas: R$ " + saidasAdministrativas);
+        System.out.println("Saídas médicas: R$ " + saidasMedicas);
+    }
+>>>>>>> b2fd3b822c2f68bca33324bb879c12edcaaeb6ca
 
     public static void menuFranquia() {
         try (Scanner scanner = new Scanner(System.in)) {
@@ -111,7 +145,7 @@ public class FranquiaController {
                                     if (responsavel == null) {
                                         System.out.println("Pessoa não encontrada.");
                                     } else {
-                                        boolean cadastrado = franquiaController.cadastrarFranquia( nome, cnpj, cidade,
+                                        boolean cadastrado = franquiaController.cadastrarFranquia(nome, cnpj, cidade,
                                                 endereco, responsavel);
 
                                         if (cadastrado) {
@@ -151,8 +185,8 @@ public class FranquiaController {
                                         if (responsavel == null) {
                                             System.out.println("Pessoa não encontrada.");
                                         } else {
-                                            boolean atualizado = franquiaController.editarFranquia(franquia.getId(),franquia.getCnpj(), novoNome, novoCnpj,
-                                                    novaCidade,  responsavel);
+                                            boolean atualizado = franquiaController.editarFranquia(franquia.getId(), franquia.getCnpj(), novoNome, novoCnpj,
+                                                    novaCidade, responsavel);
 
                                             if (atualizado) {
                                                 System.out.println("Franquia atualizada com sucesso.");
@@ -165,7 +199,7 @@ public class FranquiaController {
                                     break;
                                 case 3://BUSCAR
                                     System.out.print("Digite o ID da franquia que deseja buscar: ");
-                                   int idBusca = sc.nextInt();
+                                    int idBusca = sc.nextInt();
                                     Franquia franquiaBusca = franquiaController.buscarFranquia(idBusca);
 
                                     if (franquiaBusca == null) {

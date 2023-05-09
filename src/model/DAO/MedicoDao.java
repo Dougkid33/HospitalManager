@@ -10,7 +10,14 @@ public class MedicoDao {
     private static Medico[] medicos = new Medico[100];
     private static int qtdMedicos = 0;
 
+<<<<<<< HEAD
 
+=======
+//    public MedicoDao(int tamanho) {
+//        medicos = new Medico[tamanho];
+//        qtdMedicos = 0;
+//    }
+>>>>>>> b2fd3b822c2f68bca33324bb879c12edcaaeb6ca
     public boolean cadastrarMedico(String nome, String endereco, String cpf, String telefone, String login,
             String senha, String tipoUsuario, int crm, String especialidade) {
         int id = 0; // definindo um valor padrão para o id
@@ -28,11 +35,11 @@ public class MedicoDao {
         return true;
     }
 
-    public boolean editarMedico(int id, String login, String novoNome, String novoEndereco, String novoCpf, String novoTelefone, int novoCrm, String novaEspecialidade) {    
+    public boolean editarMedico(int id, String login, String novoNome, String novoEndereco, String novoCpf, String novoTelefone, int novoCrm, String novaEspecialidade) {
         Medico medico = buscarMedico(id);
         if (medico == null) {
             return false; // Médico não encontrado
-        }        
+        }
         medico.setNome(novoNome);
         medico.setEndereco(novoEndereco);
         medico.setCpf(novoCpf);

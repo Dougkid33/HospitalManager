@@ -66,7 +66,7 @@ public class UnidadeController {
                             System.out.print("Digite o endereço da unidade: ");
                             String endereco = sc.nextLine();
 
-                            boolean cadastrado = unidadeController.cadastrarUnidade(new Unidade(nome, cidade, endereco, nome, null, null, null, opcao, nome, nome, null, null, null));
+                            boolean cadastrado = unidadeController.cadastrarUnidade(new Unidade(nome, "", "", "", null, null, null, opcao, cidade, endereco, null, null, null));
 
                             if (cadastrado) {
                                 System.out.println("Unidade cadastrada com sucesso.");
@@ -85,12 +85,11 @@ public class UnidadeController {
                             } else {
                                 System.out.print("Digite o novo nome da unidade (atual: " + unidade.getNome() + "): ");
                                 String novoNome = sc.nextLine();
-                                System.out.print("Digite a nova cidade da unidade (atual: " + unidade.getCidade() + "): ");
+                                System.out.print("Digite a nova cidade da unidade (atual: " + unidade.getCidadeUnidade() + "): ");
                                 String novaCidade = sc.nextLine();
-                                System.out.print("Digite o novo endereço da unidade (atual: " + unidade.getEndereco() + "): ");
+                                System.out.print("Digite o novo endereço da unidade (atual: " + unidade.getEnderecoUnidade() + "): ");
                                 String novoEndereco = sc.nextLine();
                                 Pessoa responsavelUnidade = null; // defina a pessoa responsável pela unidade
-                                
 
                                 boolean atualizado = unidadeController.atualizarUnidade(idUnidade, novoNome, novaCidade, novoEndereco);
 //                                        new Unidade(novoNome, unidade.getCnpj(), novaCidade, novoEndereco, 
@@ -115,7 +114,7 @@ public class UnidadeController {
                                 System.out.println("Unidade não encontrada.");
                             } else {
                                 System.out.println(unidade);
-                                
+
                             }
                             break;
                         case 4://EXCLUIR
@@ -138,7 +137,7 @@ public class UnidadeController {
                             } else {
                                 System.out.println("Unidades cadastradas:\n");
                                 for (int i = 0; i < unidades.length; i++) {
-                                    System.out.println(unidades[i]);                             
+                                    System.out.println(unidades[i]);
                                     System.out.println("\n------------------------------\n");
                                 }
                             }
