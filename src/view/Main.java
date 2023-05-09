@@ -16,15 +16,11 @@ import model.Pessoa;
 
 public class Main {
 
-<<<<<<< HEAD
+
 	Pessoa pessoa = new Pessoa( "Administrador", "Xablau", "validador", "33334380", "admin", "12345", "DonoFranquia", null, null);
 	
 	public void menuPrincipal(long id) {
-=======
-    Pessoa pessoa = new Pessoa("Administrador", "Xablau", "validador", "33334380", "admin", "12345", "DonoFranquia", null, null);
 
-    public void menuPrincipal(long id) {
->>>>>>> b2fd3b822c2f68bca33324bb879c12edcaaeb6ca
 
     }
 
@@ -167,7 +163,7 @@ public class Main {
         }
     }
 
-<<<<<<< HEAD
+
 	public static void main(String[] args) {
 		PessoaController.cadastrarPessoasAleatorias();
 		MedicoController.cadastrarMedicoAleatorias();
@@ -177,17 +173,5 @@ public class Main {
 		if (loginValido) {
 			exibirMenu();
 		}
-=======
-    public static void main(String[] args) {
 
-        // verificacao do login para entrar no menuPrincipal
-        Main main = new Main();
-        boolean loginValido = main.login();
-        if (loginValido) {
-            exibirMenu();
-        }
->>>>>>> b2fd3b822c2f68bca33324bb879c12edcaaeb6ca
-
-    }
-
-}
+}}
