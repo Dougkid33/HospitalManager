@@ -195,6 +195,7 @@ public class Main {
 		InfoConsultaController.cadastrarInfoConsultasAleatorias();
 		ProcedimentoController.cadastrarProcedimentosAleatorios();
 		FinanceiroADMController.cadastrarFinanceirosADMAleatorios();
+		FinanceiroMedicoController.cadastrarFinanceirosMedicosAleatorios();
 
 		Main main = new Main();
 		while (true) {

@@ -3,6 +3,8 @@ package model;
 import java.util.Date;
 import java.util.Random;
 
+import model.enums.EstadoProcedimento;
+
 
 public class Procedimento {
 
@@ -10,18 +12,18 @@ public class Procedimento {
     private String nome;
     private Consulta consulta;
     private Date diaHorario;
-    private String estado;
+    private EstadoProcedimento estado;
     private double valor;
     private String laudo;
     private Date dataCriacao;
     private Date dataModificacao;
 
-    public Procedimento(int id, String nome, Consulta consulta, Date diaHorario, String estado, double valor, String laudo, Date dataCriacao, Date dataModificacao) {
+    public Procedimento(int id, String nome, Consulta consulta, Date diaHorario, EstadoProcedimento estadoProcedimento, double valor, String laudo, Date dataCriacao, Date dataModificacao) {
         this.id = gerarNovoId();
         this.nome = nome;
         this.consulta = consulta;
         this.diaHorario = diaHorario;
-        this.estado = estado;
+        this.estado = estadoProcedimento;
         this.valor = valor;
         this.laudo = laudo;
         this.dataCriacao = dataCriacao;
@@ -60,11 +62,11 @@ public class Procedimento {
         this.diaHorario = diaHorario;
     }
 
-    public String getEstado() {
+    public EstadoProcedimento getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(EstadoProcedimento estado) {
         this.estado = estado;
     }
 
@@ -118,18 +120,23 @@ public class Procedimento {
                 ", Data de Modificação: " + dataModificacao +
                 '}';
     }
+    private static EstadoProcedimento gerarEstadoProcedimentoAleatorio() {
+        EstadoProcedimento[] estados = EstadoProcedimento.values();
+        Random random = new Random();
+        int index = random.nextInt(estados.length);
+        return estados[index];
+    }
     
     
     
     public static Procedimento gerarProcedimentoAleatorio() {
-        String[] estados = {"Pendente", "Concluído", "Cancelado"};
 
         Random random = new Random();
 
         String nomeProcedimento = "Procedimento " + random.nextInt(1000); // Gera um nome aleatório para o procedimento
         Consulta consulta = Consulta.gerarConsultaAleatoria();
         Date diaHorario = new Date(); // Defina a data e o horário desejados para o procedimento
-        String estadoProcedimento = estados[random.nextInt(estados.length)]; // Gera um estado aleatório a partir dos valores possíveis na array 'estados'
+       EstadoProcedimento estadoProcedimento = gerarEstadoProcedimentoAleatorio(); // Gera um estado aleatório a partir dos valores possíveis na array 'estados'
         double valorProcedimento = random.nextDouble() * 500; // Gera um valor aleatório entre 0 e 500
         String laudo = "Laudo do procedimento"; // Defina o laudo desejado para o procedimento
 

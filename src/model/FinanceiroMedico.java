@@ -1,21 +1,24 @@
 package model;
 
 import java.util.Date;
+import java.util.Random;
+
+import model.enums.PgtoMedico;
 
 public class FinanceiroMedico {
 
     private int id;
     private double valorMedico;
-    private String estado;
+    private PgtoMedico estado;
     private double franquia;
     private String descricao;
     private Date dataCriacao;
     private Date dataModificacao;
 
-    public FinanceiroMedico(int id, double valorMedico, String estado, double franquia, String descricao, Date dataCriacao, Date dataModificacao) {
+    public FinanceiroMedico(int id, double valorMedico, PgtoMedico estado2, double franquia, String descricao, Date dataCriacao, Date dataModificacao) {
         this.id = id;
         this.valorMedico = valorMedico;
-        this.estado = estado;
+        this.estado = estado2;
         this.franquia = franquia;
         this.descricao = descricao;
         this.dataCriacao = dataCriacao;
@@ -46,11 +49,11 @@ public class FinanceiroMedico {
         this.valorMedico = valorMedico;
     }
 
-    public String getEstado() {
+    public PgtoMedico getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(PgtoMedico estado) {
         this.estado = estado;
     }
 
@@ -76,5 +79,40 @@ public class FinanceiroMedico {
 
     public void setDataModificacao(Date dataModificacao) {
         this.dataModificacao = dataModificacao;
+    }
+    
+    private static PgtoMedico gerarEstadoProcedimentoAleatorio() {
+    	PgtoMedico[] estados = PgtoMedico.values();
+        Random random = new Random();
+        int index = random.nextInt(estados.length);
+        return estados[index];
+    }
+    
+    private static String gerarDescricaoAleatoria() {
+        String[] descricoes = {"Consulta", "Exame", "Procedimento", "Cirurgia"};
+        Random random = new Random();
+        int index = random.nextInt(descricoes.length);
+        return descricoes[index];
+    }
+    
+    private static int proximoId = 1;
+
+    private static int gerarNovoId() {
+        return proximoId++;
+    }
+    public static FinanceiroMedico gerarFinanceiroMedicoAleatorio() {
+    	
+    	
+    	Random random = new Random();
+        int id = gerarNovoId();
+        double valorMedico = random.nextDouble() * 1000; // Gera um valor aleatório entre 0 e 1000
+        PgtoMedico estado = gerarEstadoProcedimentoAleatorio();
+        double franquia = random.nextDouble() * 500; // Gera um valor aleatório entre 0 e 500
+        String descricao = gerarDescricaoAleatoria();
+        Date dataCriacao = new Date();
+        Date dataModificacao = new Date();
+
+        FinanceiroMedico financeiroMedico = new FinanceiroMedico(id, valorMedico, estado, franquia, descricao, dataCriacao, dataModificacao);
+        return financeiroMedico;
     }
 }

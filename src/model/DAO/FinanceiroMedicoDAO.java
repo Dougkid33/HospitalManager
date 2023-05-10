@@ -5,18 +5,20 @@ import java.util.Date;
 
 import model.FinanceiroMedico;
 
+import model.enums.PgtoMedico;
+
 public class FinanceiroMedicoDAO {
 
     private static FinanceiroMedico[] financeirosMedicos = new FinanceiroMedico[0];
     private static int id = 1;
 
-    public static void cadastrarFinanceiroMedico(double valorMedico, String estado, double franquia) {
-        FinanceiroMedico financeiroMedico = new FinanceiroMedico(id++, valorMedico, estado, franquia, estado, new Date(), new Date());
+    public static void cadastrarFinanceiroMedico(double valorMedico, PgtoMedico estado, double franquia) {
+        FinanceiroMedico financeiroMedico = new FinanceiroMedico(id++, valorMedico, estado, franquia, "Descrição", new Date(), new Date());
         financeirosMedicos = Arrays.copyOf(financeirosMedicos, financeirosMedicos.length + 1);
         financeirosMedicos[financeirosMedicos.length - 1] = financeiroMedico;
     }
 
-    public static void atualizarFinanceiroMedico(int id, double valorMedico, String estado, double franquia) {
+    public static void atualizarFinanceiroMedico(int id, double valorMedico, PgtoMedico estado, double franquia) {
         for (FinanceiroMedico financeiroMedico : financeirosMedicos) {
             if (financeiroMedico.getId() == id) {
                 financeiroMedico.setValorMedico(valorMedico);

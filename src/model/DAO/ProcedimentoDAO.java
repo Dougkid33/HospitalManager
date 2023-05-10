@@ -5,13 +5,14 @@ import java.util.Date;
 
 import model.Consulta;
 import model.Procedimento;
+import model.enums.EstadoProcedimento;
 
 public class ProcedimentoDAO {
 
     private static Procedimento[] procedimentos = new Procedimento[0];
     private static int id = 1;
 
-    public static void cadastrarProcedimento(String nome, Consulta consulta, Date diaHorario, String estado,
+    public static void cadastrarProcedimento(String nome, Consulta consulta, Date diaHorario, EstadoProcedimento estado,
             double valor, String laudo) {
         Procedimento procedimento = new Procedimento(id++, nome, consulta, diaHorario, estado, valor, laudo, new Date(),
                 new Date());
@@ -19,7 +20,7 @@ public class ProcedimentoDAO {
         procedimentos[procedimentos.length - 1] = procedimento;
     }
 
-    public static void atualizarProcedimento(int id, String nome, Consulta consulta, Date diaHorario, String estado,
+    public static void atualizarProcedimento(int id, String nome, Consulta consulta, Date diaHorario, EstadoProcedimento estado,
             double valor, String laudo) {
         for (Procedimento procedimento : procedimentos) {
             if (procedimento.getId() == id) {

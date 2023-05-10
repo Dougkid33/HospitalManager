@@ -8,16 +8,18 @@ import java.util.Scanner;
 import model.Consulta;
 import model.Procedimento;
 import model.DAO.ProcedimentoDAO;
+import model.enums.EstadoProcedimento;
+
 import static view.Main.exibirMenu;
 
 public class ProcedimentoController {
 
-    public static void cadastrarProcedimento(String nome, Consulta consulta, Date diaHorario, String estado,
+    public static void cadastrarProcedimento(String nome, Consulta consulta, Date diaHorario, EstadoProcedimento estado,
             double valor, String laudo) {
         ProcedimentoDAO.cadastrarProcedimento(nome, consulta, diaHorario, estado, valor, laudo);
     }
 
-    public static void atualizarProcedimento(int id, String nome, Consulta consulta, Date diaHorario, String estado,
+    public static void atualizarProcedimento(int id, String nome, Consulta consulta, Date diaHorario, EstadoProcedimento estado,
             double valor, String laudo) {
         ProcedimentoDAO.atualizarProcedimento(id, nome, consulta, diaHorario, estado, valor, laudo);
     }
@@ -82,8 +84,18 @@ public class ProcedimentoController {
                             System.out.println("Data/hora inválida!");
                             return;
                         }
-                        System.out.print("Estado: ");
-                        String estado = scanner.nextLine();
+                        System.out.println("Digite o estado do Procedimento:     1 - AGENDADO,\r\n"
+                        		+ "    2 - CANCELADO,\r\n"
+                        		+ "    3 - REALIZADO;");
+                        String estadoStr = scanner.next();
+
+                        EstadoProcedimento estado;
+                        try {
+                            estado = EstadoProcedimento.valueOf(estadoStr);
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Estado inválido");
+                            return;
+                        }
                         System.out.print("Valor: ");
                         double valor = scanner.nextDouble();
                         System.out.print("Laudo: ");
@@ -113,15 +125,25 @@ public class ProcedimentoController {
                             System.out.println("Data/hora inválida!");
                             return;
                         }
-                        System.out.print("Novo Estado: ");
-                        String novoEstado = scanner.nextLine();
+                        System.out.println("Digite o estado do Procedimento:     1 - AGENDADO,\r\n"
+                        		+ "    2 - CANCELADO,\r\n"
+                        		+ "    3 - REALIZADO;");
+                        String estadoStrEdit = scanner.next();
+
+                        EstadoProcedimento estadoEdit;
+                        try {
+                            estadoEdit = EstadoProcedimento.valueOf(estadoStrEdit);
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("Estado inválido");
+                            return;
+                        }
                         System.out.print("Novo Valor: ");
                         double novoValor = scanner.nextDouble();
                         System.out.print("Novo Laudo: ");
                         String novoLaudo = scanner.nextLine();
 
                         // Chamar o método atualizarProcedimento do controller
-                        ProcedimentoController.atualizarProcedimento(id, novoNome, novoConsulta, novoDiaHorario, novoEstado, novoValor, novoLaudo);
+                        ProcedimentoController.atualizarProcedimento(id, novoNome, novoConsulta, novoDiaHorario, estadoEdit, novoValor, novoLaudo);
 
                         break;
                     case 3:

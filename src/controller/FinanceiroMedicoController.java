@@ -1,6 +1,7 @@
 package controller;
 
 import model.DAO.FinanceiroMedicoDAO;
+import model.enums.PgtoMedico;
 
 import java.util.Calendar;
 import java.util.Scanner;
@@ -9,11 +10,11 @@ import model.FinanceiroMedico;
 
 public class FinanceiroMedicoController {
 
-    public static void cadastrarFinanceiroMedico(double valorMedico, String estado, double franquia) {
+    public static void cadastrarFinanceiroMedico(double valorMedico, PgtoMedico estado, double franquia) {
         FinanceiroMedicoDAO.cadastrarFinanceiroMedico(valorMedico, estado, franquia);
     }
 
-    public static void atualizarFinanceiroMedico(int id, double valorMedico, String estado, double franquia) {
+    public static void atualizarFinanceiroMedico(int id, double valorMedico, PgtoMedico estado, double franquia) {
         FinanceiroMedicoDAO.atualizarFinanceiroMedico(id, valorMedico, estado, franquia);
     }
 
@@ -49,6 +50,16 @@ public class FinanceiroMedicoController {
 
     private static Scanner scanner = new Scanner(System.in);
     private static Calendar calendar = Calendar.getInstance();
+    
+    public static void cadastrarFinanceirosMedicosAleatorios() {
+        int quantidade = 10; // Número fixo de objetos a serem cadastrados
+
+        for (int i = 0; i < quantidade; i++) {
+            FinanceiroMedico financeiroMedico = FinanceiroMedico.gerarFinanceiroMedicoAleatorio();
+            FinanceiroMedicoDAO.cadastrarFinanceiroMedico(financeiroMedico.getValorMedico(), financeiroMedico.getEstado(),
+                    financeiroMedico.getFranquia());
+        }
+    }
 
     public static void menuFinanceiroMedico() {
         boolean sair = false;
@@ -67,7 +78,14 @@ public class FinanceiroMedicoController {
                     System.out.println("Digite o valor médico:");
                     double valorMedico = scanner.nextDouble();
                     System.out.println("Digite o estado:");
-                    String estado = scanner.next();
+                    String estadoStr = scanner.next();
+                    PgtoMedico estado;
+                    try {
+                        estado = PgtoMedico.valueOf(estadoStr);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Estado inválido");
+                        return;
+                    }
                     System.out.println("Digite a franquia:");
                     double franquia = scanner.nextDouble();
                     FinanceiroMedicoDAO.cadastrarFinanceiroMedico(valorMedico, estado, franquia);
@@ -77,11 +95,21 @@ public class FinanceiroMedicoController {
                     int id = scanner.nextInt();
                     System.out.println("Digite o valor médico:");
                     double valorMedicoedit = scanner.nextDouble();
+                    
                     System.out.println("Digite o estado:");
-                    String estadoedit = scanner.next();
+                    String estadoStrEdit = scanner.next();
+                    PgtoMedico estadoEdit;
+                    try {
+                        estadoEdit = PgtoMedico.valueOf(estadoStrEdit);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Estado inválido");
+                        return;
+                    }
+                    
+                    
                     System.out.println("Digite a franquia:");
                     double franquiaedit = scanner.nextDouble();
-                    FinanceiroMedicoDAO.atualizarFinanceiroMedico(id, valorMedicoedit, estadoedit, franquiaedit);
+                    FinanceiroMedicoDAO.atualizarFinanceiroMedico(id, valorMedicoedit, estadoEdit, franquiaedit);
                     break;
                 case 3:
                     System.out.println("Digite o id:");
