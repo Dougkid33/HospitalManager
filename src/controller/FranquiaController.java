@@ -2,38 +2,31 @@ package controller;
 
 import model.Pessoa;
 import model.DAO.FranquiaDao;
-import model.enums.TipoMovimento;
+
 
 import java.sql.Date;
 
-import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import model.FinanceiroADM;
-import model.FinanceiroMedico;
+
 import model.Franquia;
 import static view.Main.exibirMenu;
 
 public class FranquiaController {
+	private FranquiaDao dao;
 
-    private static FranquiaDao dao;
+    private int id;
 
     public FranquiaController() {
         dao = new FranquiaDao();
+
+        id = 0;
     }
 
-    private static Franquia[] franquias = new Franquia[100];
-    private static int count = 0;
-
-    public boolean cadastrarFranquia(String nome, String cnpj, String cidade, String endereco, Pessoa responsavel) {
-        if (count >= franquias.length) {
-            franquias = Arrays.copyOf(franquias, franquias.length + 100);
-        }
-        Franquia franquia = new Franquia(nome, cnpj, cidade, endereco, responsavel, null, null);
-        franquias[count] = franquia;
-        count++;
-        return true;
+    public boolean cadastrarFranquia(Franquia franquia) {
+    	franquia.setDataCriacao(new Date(System.currentTimeMillis()));
+        return dao.cadastrarFranquia(id, franquia.getNome(), franquia.getCnpj(), franquia.getCidade(), franquia.getEndereco(), franquia.getResponsavel());
     }
 
     public boolean editarFranquia(int id, String novoNome, String novoCnpj, String novaCidade, String novoEndereco, Pessoa novoResponsavel) {
@@ -58,6 +51,17 @@ public class FranquiaController {
     public Franquia buscarFranquia(int id) {
         return dao.buscarFranquia(id);
     }
+    public static void cadastrarFranquiasAleatorias() {
+        FranquiaController controller = new FranquiaController(); // criando uma instância do controlador
+        for (int i = 0; i < 10; i++) {
+            Franquia franquia = Franquia.gerarFranquiaAleatoria();
+            controller.cadastrarFranquia(franquia);
+        }
+    }
+    public static Franquia[] listarFranquias() {
+        FranquiaDao dao = new FranquiaDao();
+        return dao.listarFranquias();
+    }
 
  
 
@@ -72,7 +76,7 @@ public class FranquiaController {
             Pessoa pessoa = pessoaController.buscarPessoaPorId(id);
             boolean permissao = false;
 
-            if (pessoa.getTipoUsuario().equals("DonoFranquia")) {
+            if (pessoa.getTipoUsuario().equals("DonoFranquia") || pessoa.getId() == 1) {
                 permissao = true;
             }
             if (permissao) {
@@ -87,6 +91,7 @@ public class FranquiaController {
                         System.out.println("2. Editar Franquia");
                         System.out.println("3. Buscar Franquia");
                         System.out.println("4. Excluir Franquia");
+                        System.out.println("5. Listar Franquias");
                         System.out.println("0. Sair");
 
                         try {
@@ -95,65 +100,59 @@ public class FranquiaController {
 
                             switch (opcao) {
                                 case 1://CADASTRAR
-                                    System.out.print("Digite o nome da franquia: ");
+                                    System.out.print("Digite o nome da franquia: \n");
                                     String nome = sc.nextLine();
-                                    System.out.print("Digite o CNPJ da franquia: ");
+                                    System.out.print("Digite o CNPJ da franquia: \n");
                                     String cnpj = sc.nextLine();
-                                    System.out.print("Digite a cidade da franquia: ");
+                                    System.out.print("Digite a cidade da franquia: \n");
                                     String cidade = sc.nextLine();
-                                    System.out.print("Digite o endereço da franquia: ");
+                                    System.out.print("Digite o endereço da franquia: \n");
                                     String endereco = sc.nextLine();
 
-                                    System.out.println("Digite o ID do responsável pela franquia: ");
+                                    System.out.println("Digite o ID do responsável pela franquia: \\n");
                                     int idResponsavel = sc.nextInt();
                                     sc.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
                                     responsavel = pessoaController.buscarPessoaPorId(idResponsavel);
 
                                     if (responsavel == null) {
-                                        System.out.println("Pessoa não encontrada.");
+                                        System.out.println("\n Pessoa não encontrada.\n");
                                     } else {
-                                        boolean cadastrado = franquiaController.cadastrarFranquia(nome, cnpj, cidade,
-                                                endereco, responsavel);
+                                        boolean cadastrado = franquiaController.cadastrarFranquia(new Franquia(nome, cnpj, cidade, endereco, responsavel, null, null));
 
                                         if (cadastrado) {
-                                            System.out.println("Franquia cadastrada com sucesso.");
+                                            System.out.println("Franquia cadastrada com sucesso.\n");
                                         } else {
-                                            System.out.println("Não foi possível cadastrar a franquia.");
+                                            System.out.println("Não foi possível cadastrar a franquia.\n");
                                         }
                                     }
 
                                     break;
                                 case 2://EDITAR
-                                    System.out.print("Digite o CNPJ da franquia que deseja editar: ");
+                                    System.out.print("Digite o ID da franquia que deseja editar: \n");
                                     int idEditar = sc.nextInt();
                                     Franquia franquia = franquiaController.buscarFranquia(idEditar);
 
                                     if (franquia == null) {
-                                        System.out.println("Franquia não encontrada.");
+                                        System.out.println("Franquia não encontrada.\n");
                                     } else {
-                                        System.out.print(
-                                                "Digite o novo nome da franquia (atual: " + franquia.getNome() + "): ");
-                                        String novoNome = sc.nextLine();
-                                        System.out.print(
-                                                "Digite o novo CNPJ da franquia (atual: " + franquia.getCnpj() + "): ");
-                                        String novoCnpj = sc.nextLine();
-                                        System.out.print(
-                                                "Digite a nova cidade da franquia (atual: " + franquia.getCidade() + "): ");
-                                        String novaCidade = sc.nextLine();
-                                        System.out.print("Digite o novo endereço da franquia (atual: "
-                                                + franquia.getEndereco() + "): ");
-                                        String novoEndereco = sc.nextLine();
-                                        System.out.println("Digite o ID do novo responsável pela franquia (atual: "
-                                                + franquia.getResponsavel().getId() + "): ");
-                                        idResponsavel = sc.nextInt();
-                                        sc.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
-                                        responsavel = pessoaController.buscarPessoaPorId(idResponsavel);
+                                    	System.out.print("Digite o novo nome da franquia (atual: " + franquia.getNome() + "): ");
+                                    	String novoNome = sc.nextLine();
+                                    	System.out.print("Digite o novo CNPJ da franquia (atual: " + franquia.getCnpj() + "): ");
+                                    	String novoCnpj = sc.nextLine();
+                                    	System.out.print("Digite a nova cidade da franquia (atual: " + franquia.getCidade() + "): ");
+                                    	String novaCidade = sc.nextLine();
+                                    	System.out.print("Digite o novo endereço da franquia (atual: " + franquia.getEndereco() + "): ");
+                                    	String novoEndereco = sc.nextLine();
+                                    	System.out.print("Digite o ID do novo responsável pela franquia (atual: " + franquia.getResponsavel().getId() + "): ");
+                                    	int idResponsavel1 = sc.nextInt();
+                                    	sc.nextLine(); // consumir a nova linha pendente
+                                        responsavel = pessoaController.buscarPessoaPorId(idResponsavel1);
 
                                         if (responsavel == null) {
                                             System.out.println("Pessoa não encontrada.");
                                         } else {
-                                            boolean atualizado = franquiaController.editarFranquia(franquia.getId(), franquia.getCnpj(), novoNome, novoCnpj,
-                                                    novaCidade, responsavel);
+                                            boolean atualizado = franquiaController.editarFranquia(franquia.getId(), novoNome, novoCnpj,  novaCidade,
+                                                    novoEndereco, responsavel);
 
                                             if (atualizado) {
                                                 System.out.println("Franquia atualizada com sucesso.");
@@ -181,7 +180,7 @@ public class FranquiaController {
 
                                     break;
                                 case 4://EXCLUIR
-                                    System.out.print("Digite o CNPJ da franquia que deseja excluir: ");
+                                    System.out.print("Digite o ID da franquia que deseja excluir: ");
                                     int idRemove = sc.nextInt();
                                     Franquia franquiaExclusao = franquiaController.buscarFranquia(idRemove);
 
@@ -198,6 +197,19 @@ public class FranquiaController {
                                     }
 
                                     break;
+                                case 5:
+                                    Franquia[] franquias = FranquiaController.listarFranquias();
+                                    if (franquias.length == 0) {
+                                        System.out.println("Não existem franquias cadastradas.");
+                                    } else {
+                                        System.out.println("Lista de Franquias:");
+                                        for (Franquia f : franquias) {
+                                            System.out.println("ID: " + f.getId() + ", Nome: " + f.getNome() + ", CNPJ: " + f.getCnpj() +
+                                                    ", Cidade: " + f.getCidade() + ", Endereço: " + f.getEndereco() +
+                                                    ", Responsável: " + f.getResponsavel().getNome());
+                                        }
+                                    }
+                                	break;
                                 case 0:
                                     sair = true;
 

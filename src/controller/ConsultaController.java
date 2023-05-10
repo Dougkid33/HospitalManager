@@ -16,7 +16,7 @@ import static view.Main.exibirMenu;
 
 public class ConsultaController {
 
-    public static void cadastrarConsulta(Date data, String hora, EstadoConsulta estadoConsulta, Medico medico, Pessoa paciente, double valor, Unidade unidade) {
+    public  void cadastrarConsulta(Date data, String hora, EstadoConsulta estadoConsulta, Medico medico, Pessoa paciente, double valor, Unidade unidade) {
         ConsultaDAO.cadastrarConsulta(data, hora, estadoConsulta, medico, paciente, valor, unidade);
         System.out.println("Consulta cadastrada com sucesso!");
     }
@@ -62,8 +62,15 @@ public class ConsultaController {
         }
         return consultas;
     }
+    public static void cadastrarConsultasAleatorias() {
+        ConsultaController consultacontroller = new ConsultaController(); // criando uma instância do controlador
+        for (int i = 0; i < 10; i++) {
+            Consulta consulta = Consulta.gerarConsultaAleatoria();
+            consultacontroller.cadastrarConsulta(consulta.getData(), consulta.getHora(), consulta.getEstado(), consulta.getMedico(), consulta.getPaciente(), consulta.getValor(), consulta.getUnidade());
+        }
+    }
 
-    @SuppressWarnings({"unused", "null"})
+ 
     public static void menuConsulta() {
         int opcao;
         try (Scanner input = new Scanner(System.in)) {
@@ -117,15 +124,15 @@ public class ConsultaController {
                         input.nextLine();
                         System.out.print("Digite o o ID da unidade onde será realizada a consulta: ");
                         int idUnidade = input.nextInt();
-                        UnidadeController unidadeController = new UnidadeController(null);
+                        UnidadeController unidadeController = new UnidadeController();
                         Unidade unidade = unidadeController.buscarUnidade(idUnidade);
                         String unidadeNome = unidade.getNome();
                         if (unidade == null) {
                             System.out.println("Unidade não encontrada.");
                             return;
                         }
-                        ConsultaController.cadastrarConsulta(dataConsulta, horaConsulta, estadoConsulta, medico, paciente, valorConsulta, unidade);
-                        System.out.println("Consulta cadastrada com sucesso!");
+                        ConsultaController controller = new ConsultaController();
+                        controller.cadastrarConsulta(dataConsulta, horaConsulta, estadoConsulta, medico, paciente, valorConsulta, unidade);System.out.println("Consulta cadastrada com sucesso!");
                         estadoConsulta = EstadoConsulta.AGENDADA;
 
                         FinanceiroADMController.cadastrarFinanceiro(TipoMovimento.ENTRADA, valorConsulta, unidadeNome, "Consulta");
@@ -145,7 +152,7 @@ public class ConsultaController {
                         SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd/MM/yyyy");
                         System.out.print("Digite a nova data da consulta (dd/mm/aaaa) ou deixe em branco para manter o valor atual): ");
                         String newDataConsultaStr = input.nextLine();
-                        if (!newDataConsultaStr.isBlank()) {
+                        if (!newDataConsultaStr.trim().isEmpty()) {
                             SimpleDateFormat dateFormat1 = new SimpleDateFormat("dd/MM/yyyy");
                             Date newDataConsulta = dateFormat1.parse(newDataConsultaStr);
                             consulta.setDataCriacao(newDataConsulta);
@@ -153,12 +160,12 @@ public class ConsultaController {
                         System.out.print("Digite a nova hora da consulta (hh:mm) ou deixe em branco para manter o valor atual (" + consulta.getHora() + "): ");
                         String horaConsulta1 = "";
                         String horaConsultaedit = input.nextLine();
-                        if (!horaConsulta1.isBlank()) {
+                        if (!horaConsulta1.trim().isEmpty()) {
                             consulta.setHora(horaConsultaedit);
                         }
                         System.out.print("Digite o novo estado da consulta (1 - Agendada, 2 - Realizada, 3 - Cancelada) ou deixe em branco para manter o valor atual (" + consulta.getEstado() + "): ");
                         String opcaoEstadoConsultaStr = input.nextLine();
-                        if (opcaoEstadoConsultaStr.isBlank()) {
+                        if (opcaoEstadoConsultaStr.trim().isEmpty()) {
                             estadoConsultaEdit = consulta.getEstado();
                         } else {
                             int opcaoEstadoConsulta = Integer.parseInt(opcaoEstadoConsultaStr);
@@ -192,7 +199,7 @@ public class ConsultaController {
                         System.out.print("Digite o novo CPF do paciente ou deixe em branco para manter o valor atual (" + consulta.getPaciente().getCpf() + "): ");
                         String cpfPaciente1 = "";
                         String cpfPacienteedit = input.nextLine();
-                        if (!cpfPaciente1.isBlank()) {
+                        if (!cpfPaciente1.trim().isEmpty()) {
                             Pessoa paciente1 = null;
                             Pessoa pacienteedit = PessoaController.buscarPessoaPorCpf(cpfPacienteedit);
                             if (paciente1 == null) {
@@ -203,7 +210,7 @@ public class ConsultaController {
                         }
                         System.out.print("Digite o novo valor da consulta ou deixe em branco para manter o valor atual (" + consulta.getValor() + "): ");
                         String valorConsultaStr = input.nextLine();
-                        if (!valorConsultaStr.isBlank()) {
+                        if (!valorConsultaStr.trim().isEmpty()) {
                             double valorConsultaedit = Double.parseDouble(valorConsultaStr);
                             consulta.setValor(valorConsultaedit);
                         }
@@ -211,7 +218,7 @@ public class ConsultaController {
                         int idvaUnidade = input.nextInt();
                         if (idvaUnidade != 0) {
                             Unidade unidade1 = null;
-                            UnidadeController unidadeControlleredit = new UnidadeController(null);
+                            UnidadeController unidadeControlleredit = new UnidadeController();
                             Unidade unidadeedit = unidadeControlleredit.buscarUnidade(idvaUnidade);
                             if (unidade1 == null) {
                                 System.out.println("Unidade não encontrada.");

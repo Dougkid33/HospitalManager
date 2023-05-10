@@ -143,6 +143,7 @@ public class Pessoa {
                 + ", cpf = " + cpf
                 + ", telefone = " + telefone
                 + ", login = " + login
+                + ", senha = " + senha
                 + ", tipoUsuario = " + tipoUsuario
                 + ", dataCriacao = " + dataCriacao
                 + ", dataModificacao = " + dataModificacao

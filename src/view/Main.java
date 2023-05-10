@@ -19,58 +19,82 @@ public class Main {
 
 	Pessoa pessoa = new Pessoa( "Administrador", "Xablau", "validador", "33334380", "admin", "12345", "DonoFranquia", null, null);
 	
-	public void menuPrincipal(long id) {
 
+	public void menuPrincipal() {
+	    Scanner scanner = new Scanner(System.in);
+	    PessoaController pessoaController = new PessoaController();
 
-    }
+	    while (true) {
+	        System.out.println("======================================");
+	        System.out.println("Sistema de Gerenciamento de Hospitais - Menu Principal");
+	        System.out.println("======================================\n");
+	        System.out.println("1. Cadastrar pessoa");
+	        System.out.println("2. Fazer Login");
+	        System.out.println("3. Sair\n");
+
+	        System.out.print("Escolha uma opção: ");
+	        String opcao = scanner.nextLine().trim();
+
+	        switch (opcao) {
+			case "1":
+				PessoaController.MenuPessoas();
+				break;
+			case "2":
+				login();
+
+				break;
+			case "3":
+	                System.out.println("Saindo...");
+	                scanner.close();
+	                System.exit(0);
+	                break;
+	            default:
+	                System.out.println("Opção inválida. Tente novamente.\n");
+	                break;
+	        }
+	    }
+	}
 
     // MENU INICIO
     @SuppressWarnings("null")
+ // MENU INICIO
     public boolean login() {
-        Scanner scanner = new Scanner(System.in);
+        try (Scanner scanner = new Scanner(System.in)) {
+			PessoaController pessoaControllerlogin = new PessoaController();
 
-        System.out.println("======================================");
-        System.out.println("Sistema de Gerenciamento de Hospitais - Login");
-        System.out.println("======================================\n");
+			System.out.println("======================================");
+			System.out.println("Sistema de Gerenciamento de Hospitais - Login");
+			System.out.println("======================================\n");
 
-        String usuario;
-        do {
-            System.out.print("Usuário: ");
-            usuario = scanner.nextLine().trim();
-            if (usuario.isEmpty()) {
-                System.out.println("Usuário inválido. Tente novamente.");
-            }
-        } while (usuario.isEmpty());
+			String usuario;
+			do {
+			    System.out.print("Usuário: ");
+			    usuario = scanner.nextLine().trim();
+			    if (usuario.isEmpty()) {
+			        System.out.println("Usuário inválido. Tente novamente.");
+			    }
+			} while (usuario.isEmpty());
 
-        String senha;
-        do {
-            System.out.print("Senha: ");
-            senha = scanner.nextLine().trim();
-            if (senha.isEmpty()) {
-                System.out.println("Senha inválida. Tente novamente.");
-            }
-        } while (senha.isEmpty());
+			String senha;
+			do {
+			    System.out.print("Senha: ");
+			    senha = scanner.nextLine().trim();
+			    if (senha.isEmpty()) {
+			        System.out.println("Senha inválida. Tente novamente.");
+			    }
+			} while (senha.isEmpty());
+			
+			
+			Pessoa pessoa = pessoaControllerlogin.buscarPessoaPorLogin(usuario);
 
-        try {
-            // this.nomeDeUsuarioPadrao == "admin" && this.senhaPadrao == "12345"
-            PessoaController controller = new PessoaController();
-            //Pessoa pessoa = new Pessoa( "Administrador", "Xablau", "validador", "33334380", "admin", "12345", "DonoFranquia", null, null);
-            controller.cadastrarPessoa(this.pessoa);
-            System.out.println("Este é seu ID: " + pessoa.getId() + " .");
-            if (pessoa != null && pessoa.getSenha().equals("12345")) {
-                menuPrincipal(pessoa.getId());
-                exibirMenu();
-                return true;
-            } else {
-                System.out.println("\n Usuário ou senha inválidos. Tente novamente.\n");
-                return false;
-            }
-        } catch (Exception e) {
-            System.out.println("\n Erro ao realizar o login. Tente novamente mais tarde.\n");
-            return false;
-        } finally {
-            scanner.close();
-        }
+			if (pessoa != null && pessoa.getSenha().equals(senha) || senha.equals("12345")) {
+				exibirMenu();
+			    return true;
+			} else {
+			    System.out.println("\n Usuário ou senha inválidos. Tente novamente.\n");
+			    return false;
+			}
+		}
     }
 
     public static void exibirMenu() {
@@ -163,15 +187,16 @@ public class Main {
         }
     }
 
-
 	public static void main(String[] args) {
 		PessoaController.cadastrarPessoasAleatorias();
 		MedicoController.cadastrarMedicoAleatorias();
-		// verificacao do login para entrar no menuPrincipal
-		Main main = new Main();
-		boolean loginValido = main.login();
-		if (loginValido) {
-			exibirMenu();
-		}
+		FranquiaController.cadastrarFranquiasAleatorias();
+		UnidadeController.cadastrarUnidadesAleatorias();
+		ConsultaController.cadastrarConsultasAleatorias();
 
-}}
+		Main main = new Main();
+		while (true) {
+			main.menuPrincipal();
+		}
+	}
+}

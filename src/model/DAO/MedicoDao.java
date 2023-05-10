@@ -19,7 +19,7 @@ public class MedicoDao {
         }
         id = gerarNovoId();
         Date dataCriacao = new Date();
-        Medico novoMedico = new Medico(id, nome, endereco, cpf, telefone, login, senha, crm, especialidade, dataCriacao, dataCriacao);
+        Medico novoMedico = new Medico(id, nome, endereco, cpf, telefone, login, senha, crm, dataCriacao,  dataCriacao, especialidade);
         if (MedicoDao.qtdMedicos >= MedicoDao.medicos.length) {
             MedicoDao.medicos = Arrays.copyOf(MedicoDao.medicos, MedicoDao.medicos.length + 100);
         }

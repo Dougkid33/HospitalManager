@@ -11,13 +11,13 @@ public class Medico extends Pessoa {
     private Date dataModificacao;
 
     public Medico(int id, String nome, String endereco, String cpf, String telefone, String login, String senha,
-            int crm, String especialidade, Date dataCriacao, Date dataModificacao) {
-        super(nome, endereco, cpf, telefone, login, senha, especialidade, dataModificacao, dataModificacao);
+            int crm, Date dataCriacao, Date dataModificacao, String especialidade) {
+        super(nome, endereco, cpf, telefone, login, senha, especialidade, dataCriacao, dataModificacao);
         this.crm = crm;
         this.especialidade = especialidade;
         this.dataCriacao = dataCriacao;
         this.dataModificacao = dataModificacao;
-    }
+}
 
     public int getCrm() {
         return crm;
@@ -60,22 +60,23 @@ public class Medico extends Pessoa {
 
         Random random = new Random();
 
-        String nome = nomes[random.nextInt(nomes.length)] + " " + sobrenomes[random.nextInt(sobrenomes.length)];
-        String endereco = "Rua " + (random.nextInt(9999) + 1) + ", Bairro " + (random.nextInt(99) + 1);
+        String nome = String.format("%s %s", nomes[random.nextInt(nomes.length)], sobrenomes[random.nextInt(sobrenomes.length)]);
+        String endereco = String.format("Rua %d, Bairro %d", random.nextInt(9999) + 1, random.nextInt(99) + 1);
         String cpf = String.format("%03d.%03d.%03d-%02d", random.nextInt(1000), random.nextInt(1000), random.nextInt(1000), random.nextInt(100));
-        String telefone = "(" + (random.nextInt(99) + 1) + ") " + (random.nextInt(99999) + 1) + "-" + (random.nextInt(9999) + 1);
-        String login = logins[random.nextInt(logins.length)] + (random.nextInt(99) + 1);
+        String telefone = String.format("(%02d) %05d-%04d", random.nextInt(99) + 1, random.nextInt(99999) + 1, random.nextInt(9999) + 1);
+        String login = String.format("%s%d", logins[random.nextInt(logins.length)], random.nextInt(99) + 1);
         String senha = senhas[random.nextInt(senhas.length)];
-        String especialidade = especialidades[random.nextInt(especialidades.length)];
+        String especialidade = String.format("%s",especialidades[random.nextInt(especialidades.length)]);
         int crm = random.nextInt(999999);
 
         Date dataCriacao = new Date();
         Date dataModificacao = new Date();
 
-        Medico medico = new Medico(0, nome, endereco, cpf, telefone, login, senha, crm, especialidade, dataCriacao, dataModificacao);
+        Medico medico = new Medico(0, nome, endereco, cpf, telefone, login, senha, crm, dataModificacao, dataCriacao, especialidade);
 
         return medico;
     }
+
     @Override
     public String toString() {
         return getNome() + ": {"
@@ -84,11 +85,11 @@ public class Medico extends Pessoa {
                 + ", CPF: " + getCpf()
                 + ", Telefone : " + getTelefone()
                 + ", Login: " + getLogin()
-                + ", TipoUsuario: " + getTipoUsuario()
-                +", CRM: "+crm
-                +", Especialidade: "+especialidade
-                + ", dataCriacao: " + dataCriacao
-                + ", dataModificacao: " + dataModificacao
+                + ", Tipo de usuário: " + "Médico"
+                + ", CRM: "+ getCrm()
+                + ", Especialidade: "+ getEspecialidade()
+                + ", Data de Criação: " + dataCriacao
+                + ", Data de modificação: " + dataModificacao
                 + "}";
     }
 }

@@ -45,7 +45,7 @@ public class MedicoController {
         MedicoController controller = new MedicoController();
         for (int i = 0; i < 10; i++) {
             Medico medico = Medico.gerarMedicoAleatorio();
-            controller.cadastrarMedico(medico.getNome(), medico.getEndereco(), medico.getCpf(), medico.getLogin(), medico.getSenha(), medico.getTelefone(), medico.getTipoUsuario(), medico.getCrm(), medico.getSenha());
+            controller.cadastrarMedico(medico.getNome(), medico.getEndereco(), medico.getCpf(), medico.getTelefone(), medico.getLogin(), medico.getTipoUsuario(),medico.getSenha(), medico.getCrm(), medico.getEspecialidade());
         }
     }
 
@@ -96,19 +96,25 @@ public class MedicoController {
                                 String endereco = sc.nextLine();
                                 System.out.print("Digite o CPF do médico: ");
                                 String cpf = sc.nextLine();
-                                System.out.print("Digite o login do médico: ");
-                                String login = sc.nextLine();
-                                System.out.print("Digite a senha do médico: ");
-                                String senha = sc.nextLine();
+                                
                                 System.out.print("Digite o telefone do médico: ");
                                 String telefone = sc.nextLine();
-                                System.out.print("Digite O tipo de usuário: ");
+                                
+                                System.out.print("Digite o login do médico: ");
+                                String login = sc.nextLine();
+                                
+                                System.out.print("Digite a senha do médico: ");
+                                String senha = sc.nextLine();
+
+                                System.out.print("Digite O CRM do médico: ");
                                 int crm = sc.nextInt();
+                                
                                 System.out.print("Digite O tipo de usuário: ");
-                                String tipoUsuario = sc.nextLine();
+                                String tipoUsuario = "Médico";
 
                                 System.out.print("Digite a especialidade do médico: ");
                                 String especialidade = sc.nextLine();
+                                
                                 boolean cadastrado = medicoController.cadastrarMedico(nome, endereco, cpf, login, senha,
                                         telefone, tipoUsuario, crm, especialidade);
                                 if (cadastrado) {

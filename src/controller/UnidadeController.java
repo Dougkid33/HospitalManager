@@ -1,10 +1,9 @@
 package controller;
 
-import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import model.Pessoa;
+
 import model.Unidade;
 import model.DAO.UnidadeDAO;
 import static view.Main.exibirMenu;
@@ -13,12 +12,12 @@ public class UnidadeController {
 
     private UnidadeDAO unidadeDAO;
 
-    public UnidadeController(UnidadeDAO unidadeDAO) {
-        this.unidadeDAO = unidadeDAO;
+    public UnidadeController() {
+        unidadeDAO = new UnidadeDAO();
     }
 
     public boolean cadastrarUnidade(Unidade unidade) {
-        return UnidadeDAO.cadastrarUnidade(unidade);
+        return unidadeDAO.cadastrarUnidade(unidade);
     }
 
     public Unidade buscarUnidade(int idUnidade) {
@@ -36,10 +35,16 @@ public class UnidadeController {
     public Unidade[] listarUnidades() {
         return unidadeDAO.listarUnidades();
     }
-
+    public static void cadastrarUnidadesAleatorias() {
+        UnidadeController controller = new UnidadeController(); // criando uma instância do controlador
+        for (int i = 0; i < 10; i++) {
+            Unidade unidade = Unidade.gerarUnidadeAleatoria();
+            controller.cadastrarUnidade(unidade);
+        }
+    }
     public static void menuUnidade() {
         try (Scanner sc = new Scanner(System.in)) {
-            UnidadeController unidadeController = new UnidadeController(new UnidadeDAO());
+            UnidadeController unidadeController = new UnidadeController();
             System.out.println("\n==============================");
             System.out.println("       MENU DE UNIDADES");
             System.out.println("==============================");
@@ -89,8 +94,7 @@ public class UnidadeController {
                                 String novaCidade = sc.nextLine();
                                 System.out.print("Digite o novo endereço da unidade (atual: " + unidade.getEnderecoUnidade() + "): ");
                                 String novoEndereco = sc.nextLine();
-                                Pessoa responsavelUnidade = null; // defina a pessoa responsável pela unidade
-
+                                
                                 boolean atualizado = unidadeController.atualizarUnidade(idUnidade, novoNome, novaCidade, novoEndereco);
 //                                        new Unidade(novoNome, unidade.getCnpj(), novaCidade, novoEndereco, 
 //                                                null, null, null, idUnidade, 

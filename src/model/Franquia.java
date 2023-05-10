@@ -1,6 +1,9 @@
 package model;
 
 import java.util.Date;
+import java.util.Random;
+
+
 
 public class Franquia {
 
@@ -111,6 +114,26 @@ public class Franquia {
 
     public FinanceiroADM[] getDespesas() {
         return this.despesas;
+    }
+    public static Franquia gerarFranquiaAleatoria() {
+        String[] nomes = {"Franquia A", "Franquia B", "Franquia C", "Franquia D", "Franquia E"};
+        String[] cnpjs = {"12.345.678/0001-01", "23.456.789/0001-02", "34.567.890/0001-03", "45.678.901/0001-04", "56.789.012/0001-05"};
+        String[] cidades = {"São Paulo", "Rio de Janeiro", "Belo Horizonte", "Curitiba", "Fortaleza"};
+        String[] enderecos = {"Rua 1", "Rua 2", "Rua 3", "Rua 4", "Rua 5"};
+        Pessoa responsavel = Pessoa.gerarPessoaAleatoria();
+
+        Random random = new Random();
+
+        String nome = nomes[random.nextInt(nomes.length)];
+        String cnpj = cnpjs[random.nextInt(cnpjs.length)];
+        String cidade = cidades[random.nextInt(cidades.length)];
+        String endereco = enderecos[random.nextInt(enderecos.length)];
+        Date dataCriacao = new Date();
+        Date dataModificacao = new Date();
+
+        Franquia franquia = new Franquia(nome, cnpj, cidade, endereco, responsavel, dataCriacao, dataModificacao);
+
+        return franquia;
     }
 
 }

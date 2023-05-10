@@ -8,24 +8,20 @@ import model.Pessoa;
 
 public class FranquiaDao {
 
-    private static Franquia[] franquias = new Franquia[100];
-    private static int count = 0;
+	private static Franquia[] franquias = new Franquia[100];
+	private static int count = 0;
 
-//    public FranquiaDao(int tamanho) {
-//        franquias = new Franquia[tamanho];
-//        qtdFranquias = 0;
-//    }
-    public boolean cadastrarFranquia(int id, String nome, String cnpj, String cidade, String endereco, Pessoa responsavelId) {
+	public boolean cadastrarFranquia(int id, String nome, String cnpj, String cidade, String endereco, Pessoa responsavelId) {
 
-        if (FranquiaDao.count >= FranquiaDao.franquias.length) {
-            FranquiaDao.franquias = Arrays.copyOf(FranquiaDao.franquias, FranquiaDao.franquias.length + 100);
-        }
-        Date dataCriacao = new Date();
-        Franquia novaFranquia = new Franquia(nome, cnpj, cidade, endereco, responsavelId, dataCriacao, dataCriacao);
-        FranquiaDao.franquias[FranquiaDao.count] = novaFranquia;
-        FranquiaDao.count++;
-        return true;
-    }
+	    if (count >= franquias.length) {
+	        franquias = Arrays.copyOf(franquias, franquias.length + 100);
+	    }
+	    Date dataCriacao = new Date();
+	    Franquia novaFranquia = new Franquia(nome, cnpj, cidade, endereco, responsavelId, dataCriacao, dataCriacao);
+	    franquias[count] = novaFranquia;
+	    count++;
+	    return true;
+	}
 
     public boolean editarFranquia(int id, String cnpj, String novoNome, String novaCidade, String novoEndereco) {
         Franquia franquia = buscarFranquia(id);
@@ -49,7 +45,7 @@ public class FranquiaDao {
 
     public boolean excluirFranquia(int idRemove) {
         for (int i = 0; i < FranquiaDao.count; i++) {
-            if (FranquiaDao.franquias[i].getCnpj().equals(idRemove)) {
+            if (FranquiaDao.franquias[i].getId() == idRemove) {
                 FranquiaDao.franquias[i] = null;
                 for (int j = i; j < FranquiaDao.count - 1; j++) {
                     FranquiaDao.franquias[j] = FranquiaDao.franquias[j + 1];
@@ -63,11 +59,23 @@ public class FranquiaDao {
 
     public Franquia buscarFranquia(int id) {
         for (int i = 0; i < FranquiaDao.count; i++) {
-            if (FranquiaDao.franquias[i].getCnpj().equals(id)) {
+            if (FranquiaDao.franquias[i].getId() == id) {
                 return FranquiaDao.franquias[i];
             }
         }
         return null;
+    }
+    
+    public Franquia[] listarFranquias() {
+        Franquia[] listaFranquias = new Franquia[FranquiaDao.count];
+        int i = 0;
+        for (Franquia franquia : FranquiaDao.franquias) {
+            if (franquia != null) {
+                listaFranquias[i] = franquia;
+                i++;
+            }
+        }
+        return listaFranquias;
     }
 
 }

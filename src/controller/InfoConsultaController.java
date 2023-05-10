@@ -124,7 +124,7 @@ public class InfoConsultaController {
                         System.out.print("Nome da unidade: ");
                         int idUnidade = scanner.nextInt();
                         scanner.nextLine();
-                        UnidadeController unidadeController = new UnidadeController(null);
+                        UnidadeController unidadeController = new UnidadeController();
                         Unidade unidade = unidadeController.buscarUnidade(idUnidade);
 
                         System.out.print("Descrição: ");

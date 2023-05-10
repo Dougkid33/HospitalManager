@@ -3,24 +3,23 @@ package model.DAO;
 import java.util.Arrays;
 import java.util.Date;
 
-import model.Pessoa;
+
 import model.Unidade;
 
 public class UnidadeDAO {
+	private static Unidade[] unidades = new Unidade[100]; // vetor para armazenar as unidades
+	private static int count = 0; // contador para controlar o número de unidades cadastradas
 
-    private static Unidade[] unidades = new Unidade[100]; // vetor para armazenar as unidades
-    private static int count = 0; // contador para controlar o número de unidades cadastradas
-
-    // método para cadastrar uma nova unidade
-    public static boolean cadastrarUnidade(Unidade unidade) {
-        if (UnidadeDAO.count >= UnidadeDAO.unidades.length) {
-            UnidadeDAO.unidades = Arrays.copyOf(UnidadeDAO.unidades, UnidadeDAO.unidades.length + 100);
-        }
-        unidade.setDataCriacaoUnidade(new Date());
-        UnidadeDAO.unidades[UnidadeDAO.count] = unidade;
-        UnidadeDAO.count++;
-        return true;
-    }
+	// método para cadastrar uma nova unidade
+	public  boolean cadastrarUnidade(Unidade unidade) {
+	    if (count >= unidades.length) {
+	        unidades = Arrays.copyOf(unidades, unidades.length + 100);
+	    }
+	    unidade.setDataCriacaoUnidade(new Date());
+	    unidades[count] = unidade;
+	    count++;
+	    return true;
+	}
 
     // método para atualizar uma unidade existente
     public boolean atualizarUnidade(int idUnidade, String nome, String cidade, String endereco) {
