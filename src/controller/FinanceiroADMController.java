@@ -76,6 +76,14 @@ public class FinanceiroADMController {
         // Exibir mensagem de confirmação
         System.out.println("Pagamento à administradora realizado com sucesso!");
     }
+    public static void cadastrarFinanceirosADMAleatorios() {
+
+        for (int i = 0; i < 10; i++) {
+            FinanceiroADM financeiroADM = FinanceiroADM.gerarFinanceiroADMAleatorio();
+            FinanceiroADMDAO.cadastrarFinanceiro(financeiroADM.getTipoMovimento(), financeiroADM.getValor(),
+                    financeiroADM.getUnidade(), financeiroADM.getDescritivoMovimento());
+        }
+    }
 
     public static void menuFinanceiroADM() {
 
@@ -100,12 +108,12 @@ public class FinanceiroADMController {
                 switch (opcao) {
                     case 1:
                         TipoMovimento tipoMovimento = null;
-                        System.out.print("Tipo do movimento// Digite Entrada ou Saida:\n ");
-                        String tipoMov = scanner.nextLine();
+                        System.out.print("Tipo do movimento// Digite [1] - Entrada ou  [2] - Saida:\n ");
+                        int tipoMov = scanner.nextInt();
 
-                        if (tipoMov == "Entrada") {
+                        if (tipoMov == 1) {
                             tipoMovimento = TipoMovimento.ENTRADA;
-                        } else if (tipoMov == "Saida") {
+                        } else if (tipoMov == 2) {
                             tipoMovimento = TipoMovimento.SAIDA;
                         }
 
@@ -135,12 +143,12 @@ public class FinanceiroADMController {
                         }
 
                         TipoMovimento tipoMovimentoedit = null;
-                        System.out.print("Digite o tipo do movimento// Digite Entrada ou Saida:\n ");
-                        String tipoMovedit = scanner.nextLine();
+                        System.out.print("Digite o tipo do movimento// Digite 1 - Entrada ou  2 -Saida:\n ");
+                        int tipoMovedit = scanner.nextInt();
 
-                        if (tipoMovedit == "Entrada") {
+                        if (tipoMovedit == 1) {
                             tipoMovimentoedit = TipoMovimento.ENTRADA;
-                        } else if (tipoMovedit == "Saida") {
+                        } else if (tipoMovedit == 2) {
                             tipoMovimentoedit = TipoMovimento.SAIDA;
                         }
 

@@ -77,8 +77,7 @@ public class MedicoController {
                         id = sc.nextInt();
                         sc.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
 
-                        PessoaController pessoaController = new PessoaController();
-                        Pessoa pessoa = pessoaController.buscarPessoaPorId(id);
+                        Pessoa pessoa = PessoaController.buscarPessoaPorId(id);
 
                         if (pessoa.getTipoUsuario().equals("DonoFranquia") || pessoa.getTipoUsuario().equals("DonoUnidade")) {
                             permissao = true;

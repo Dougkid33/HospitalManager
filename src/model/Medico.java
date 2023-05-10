@@ -79,17 +79,17 @@ public class Medico extends Pessoa {
 
     @Override
     public String toString() {
-        return getNome() + ": {"
-                + "ID: " + getId()
-                + ", Endereco: " + getEndereco()
-                + ", CPF: " + getCpf()
-                + ", Telefone : " + getTelefone()
-                + ", Login: " + getLogin()
-                + ", Tipo de usuário: " + "Médico"
-                + ", CRM: "+ getCrm()
-                + ", Especialidade: "+ getEspecialidade()
-                + ", Data de Criação: " + dataCriacao
-                + ", Data de modificação: " + dataModificacao
-                + "}";
+        return  "\n Nome: " + getNome()
+                + "\n ID: " + getId()
+                + "\n Endereco: " + getEndereco()
+                + "\n CPF: " + getCpf()
+                + "\n Telefone : " + getTelefone()
+                + "\n Login: " + getLogin()
+                + "\n Tipo de usuário: " + "Médico"
+                + "\n CRM: "+ getCrm()
+                + "\n Especialidade: "+ getEspecialidade()
+                + "\n Data de Criação: " + dataCriacao
+                + "\n Data de modificação: " + dataModificacao
+                + "\n ------------------------------------------------";
     }
 }

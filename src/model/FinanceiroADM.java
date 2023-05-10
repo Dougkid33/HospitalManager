@@ -1,6 +1,8 @@
 package model;
 
 import java.util.Date;
+import java.util.Random;
+
 import model.enums.TipoMovimento;
 
 public class FinanceiroADM {
@@ -14,7 +16,7 @@ public class FinanceiroADM {
     private Date dataModificacao;
 
     public FinanceiroADM(int id, TipoMovimento tipoMovimento, double valor, String unidade, String descritivoMovimento, Date dataCriacao, Date dataModificacao) {
-        this.id = id;
+        this.id = gerarNovoId();
         this.tipoMovimento = tipoMovimento;
         this.valor = valor;
         this.unidade = unidade;
@@ -78,5 +80,28 @@ public class FinanceiroADM {
     public void setDataModificacao(Date dataModificacao) {
         this.dataModificacao = dataModificacao;
     }
+    private static int proximoId = 1;
+
+    private static int gerarNovoId() {
+        return proximoId++;
+    }
+    public static FinanceiroADM gerarFinanceiroADMAleatorio() {
+        TipoMovimento[] tiposMovimento = TipoMovimento.values();
+        String[] unidades = {"Unidade A", "Unidade B", "Unidade C", "Unidade D"};
+
+        Random random = new Random();
+
+        TipoMovimento tipoMovimento = tiposMovimento[random.nextInt(tiposMovimento.length)];
+        double valor = random.nextDouble() * 1000;
+        String unidade = unidades[random.nextInt(unidades.length)];
+        String descritivoMovimento = "Movimento " + random.nextInt(1000);
+        Date dataCriacao = new Date();
+        Date dataModificacao = new Date();
+
+        FinanceiroADM financeiroADM = new FinanceiroADM(gerarNovoId(), tipoMovimento, valor, unidade, descritivoMovimento, dataCriacao, dataModificacao);
+
+        return financeiroADM;
+    }
+
 
 }

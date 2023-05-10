@@ -90,54 +90,71 @@ public class ConsultaController {
                 input.nextLine(); // consome a quebra de linha após a opção digitada
 
                 switch (opcao) {
-                    case 1://CADASTRAR
-                        EstadoConsulta estadoConsulta = null;
-                        System.out.println("----- CADASTRO DE CONSULTA -----");
-                        System.out.print("Digite a data da consulta (dd/mm/aaaa): ");
-                        String dataConsultaStr = input.nextLine();
-                        Date dataConsulta = null;
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                        try {
-                            dataConsulta = dateFormat.parse(dataConsultaStr);
-                        } catch (ParseException e) {
-                            System.out.println("Data inválida!");
-                            return;
+                case 1://CADASTRAR
+                    EstadoConsulta estadoConsulta = null;
+                    System.out.println("----- CADASTRO DE CONSULTA -----");
+                    System.out.print("Digite a data da consulta (dd/mm/aaaa): ");
+                    String dataConsultaStr = input.nextLine();
+                    Date dataConsulta = null;
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    try {
+                        dataConsulta = dateFormat.parse(dataConsultaStr);
+                    } catch (ParseException e) {
+                        System.out.println("Data inválida!");
+                        return;
+                    }
+                    System.out.print("Digite a hora da consulta (hh:mm): ");
+                    String horaConsulta = input.nextLine();
+                    
+                    System.out.print("Digite o ID do médico: \n");
+                    System.out.println("Listando todos os médicos: \n");
+                    MedicoController medicoController = new MedicoController();
+                    Medico[] listaMedicos = medicoController.listarMedicos();
+                    if (listaMedicos.length == 0) {
+                        System.out.println("Não há médicos cadastrados.");
+                    } else {
+                        for (int i = 0; i < listaMedicos.length; i++) {
+                            System.out.println(listaMedicos[i]);
                         }
-                        System.out.print("Digite a hora da consulta (hh:mm): ");
-                        String horaConsulta = input.nextLine();
-                        System.out.print("Digite o CRM do médico: ");
-                        int crmMedico = input.nextInt();
-                        MedicoController medicoController = new MedicoController();
-                        Medico medico = medicoController.buscarMedicoPorCRM(crmMedico);
-                        if (medico == null) {
-                            System.out.println("Médico não encontrado.");
-                            return;
-                        }
-                        System.out.print("Digite o CPF do paciente: ");
-                        String cpfPaciente = input.nextLine();
-                        Pessoa paciente = PessoaController.buscarPessoaPorCpf(cpfPaciente);
-                        if (paciente == null) {
-                            System.out.println("Paciente não encontrado.");
-                            return;
-                        }
-                        System.out.print("Digite o valor da consulta: ");
-                        double valorConsulta = input.nextDouble();
-                        input.nextLine();
-                        System.out.print("Digite o o ID da unidade onde será realizada a consulta: ");
-                        int idUnidade = input.nextInt();
-                        UnidadeController unidadeController = new UnidadeController();
-                        Unidade unidade = unidadeController.buscarUnidade(idUnidade);
-                        String unidadeNome = unidade.getNome();
-                        if (unidade == null) {
-                            System.out.println("Unidade não encontrada.");
-                            return;
-                        }
-                        ConsultaController controller = new ConsultaController();
-                        controller.cadastrarConsulta(dataConsulta, horaConsulta, estadoConsulta, medico, paciente, valorConsulta, unidade);System.out.println("Consulta cadastrada com sucesso!");
-                        estadoConsulta = EstadoConsulta.AGENDADA;
+                    }
+                    int idMedico = input.nextInt();
+                    
+                    Medico medico = medicoController.buscarMedico(idMedico);
+                    if (medico == null) {
+                        System.out.println("Médico não encontrado.");
+                        return;
+                    }
+                    input.nextLine(); // Limpar o buffer
+                    
+                    
+                    
+                    System.out.print("Digite o ID do paciente: ");
+                    int idPaciente = input.nextInt();
+                    PessoaController pessoaController = new PessoaController();
+                    Pessoa paciente = PessoaController.buscarPessoaPorId(idPaciente);
+                    if (paciente == null) {
+                        System.out.println("Paciente não encontrado.");
+                        return;
+                    }
+                    System.out.print("Digite o valor da consulta: ");
+                    double valorConsulta = input.nextDouble();
+                    input.nextLine(); // Limpar o buffer
+                    System.out.print("Digite o ID da unidade onde será realizada a consulta: ");
+                    int idUnidade = input.nextInt();
+                    UnidadeController unidadeController = new UnidadeController();
+                    Unidade unidade = unidadeController.buscarUnidade(idUnidade);
+                    String unidadeNome = unidade.getNome();
+                    if (unidade == null) {
+                        System.out.println("Unidade não encontrada.");
+                        return;
+                    }
+                    ConsultaController controller = new ConsultaController();
+                    controller.cadastrarConsulta(dataConsulta, horaConsulta, estadoConsulta, medico, paciente, valorConsulta, unidade);
+                    System.out.println("Consulta cadastrada com sucesso!");
+                    estadoConsulta = EstadoConsulta.AGENDADA;
 
-                        FinanceiroADMController.cadastrarFinanceiro(TipoMovimento.ENTRADA, valorConsulta, unidadeNome, "Consulta");
-                        break;
+                    FinanceiroADMController.cadastrarFinanceiro(TipoMovimento.ENTRADA, valorConsulta, unidadeNome, "Consulta");
+                    break;
                     case 2://EDITAR
                         EstadoConsulta estadoConsultaEdit = null;
                         System.out.println("----- ATUALIZAÇÃO DE CONSULTA -----");
@@ -185,24 +202,24 @@ public class ConsultaController {
                                     return;
                             }
                         }
-                        System.out.print("Digite o novo CRM do médico ou deixe em branco para manter o valor atual (" + consulta.getMedico().getCrm() + "): ");
-                        int crmMedicoedit = input.nextInt();
+                        System.out.print("Digite o novo ID do médico ou deixe em branco para manter o valor atual (" + consulta.getMedico().getId() + "): ");
+                        int idMedicoedit = input.nextInt();
                         input.nextLine();
-                        if (crmMedicoedit != 0) {
+                        if (idMedicoedit != 0) {
                             MedicoController medicoControlleredit = new MedicoController();
-                            Medico medicoedit = medicoControlleredit.buscarMedicoPorCRM(crmMedicoedit);
+                            Medico medicoedit = medicoControlleredit.buscarMedico(idMedicoedit);
                             if (medicoedit == null) {
                                 System.out.println("Médico não encontrado.");
                                 return;
                             }
                             consulta.setMedico(medicoedit);
                         }
-                        System.out.print("Digite o novo CPF do paciente ou deixe em branco para manter o valor atual (" + consulta.getPaciente().getCpf() + "): ");
-                        String cpfPaciente1 = "";
-                        String cpfPacienteedit = input.nextLine();
-                        if (!cpfPaciente1.trim().isEmpty()) {
+                        System.out.print("Digite o novo ID do paciente ou deixe em branco para manter o valor atual (" + consulta.getPaciente().getId() + "): ");
+                        int idPacienteedit = input.nextInt();
+                        input.nextLine();
+                        if (idPacienteedit != 0) {
                             Pessoa paciente1 = null;
-                            Pessoa pacienteedit = PessoaController.buscarPessoaPorCpf(cpfPacienteedit);
+                            Pessoa pacienteedit = PessoaController.buscarPessoaPorId(idPacienteedit);
                             if (paciente1 == null) {
                                 System.out.println("Paciente não encontrado.");
                                 return;

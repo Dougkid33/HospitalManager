@@ -22,7 +22,6 @@ public class Main {
 
 	public void menuPrincipal() {
 	    Scanner scanner = new Scanner(System.in);
-	    PessoaController pessoaController = new PessoaController();
 
 	    while (true) {
 	        System.out.println("======================================");
@@ -169,11 +168,11 @@ public class Main {
                         break;
                     case 8:
                         System.out.println("Selecionou Financeiro ADM.");
-                        // FinanceiroADMController.menuFinanceiroADM();
+                        FinanceiroADMController.menuFinanceiroADM();
                         break;
                     case 9:
                         System.out.println("Selecionou Financeiro Médico.");
-                        //FinanceiroMedicoController.menuFinanceiroMedico();
+                        FinanceiroMedicoController.menuFinanceiroMedico();
                         break;
                     case 10:
                         System.out.println("Selecionou Relatórios Financeiros.");
@@ -195,6 +194,7 @@ public class Main {
 		ConsultaController.cadastrarConsultasAleatorias();
 		InfoConsultaController.cadastrarInfoConsultasAleatorias();
 		ProcedimentoController.cadastrarProcedimentosAleatorios();
+		FinanceiroADMController.cadastrarFinanceirosADMAleatorios();
 
 		Main main = new Main();
 		while (true) {

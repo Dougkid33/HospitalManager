@@ -10,7 +10,7 @@ import static view.Main.exibirMenu;
 
 public class PessoaController {
 
-    private PessoaDAO dao;
+    private static PessoaDAO dao;
 
     public PessoaController() {
         dao = new PessoaDAO();
@@ -25,7 +25,7 @@ public class PessoaController {
         return dao.removePessoa(id);
     }
 
-    public Pessoa buscarPessoaPorId(int id) {
+    public static Pessoa buscarPessoaPorId(int id) {
         return dao.buscarPorId(id);
     }
 
@@ -125,7 +125,7 @@ public class PessoaController {
                             System.out.print("Digite o ID da pessoa a ser editada: ");
                             id = sc.nextInt();
                             sc.nextLine();
-                            Pessoa editarPessoa = pessoaController.buscarPessoaPorId(id);
+                            Pessoa editarPessoa = PessoaController.buscarPessoaPorId(id);
                             if (editarPessoa == null) {
                                 System.out.println("Pessoa não encontrada.");
                                 break;
@@ -155,7 +155,7 @@ public class PessoaController {
                             System.out.print("Digite o ID da pessoa a ter o tipo de usuário alterado: ");
                             id = sc.nextInt();
                             sc.nextLine();
-                            Pessoa alterarTipo = pessoaController.buscarPessoaPorId(id);
+                            Pessoa alterarTipo = PessoaController.buscarPessoaPorId(id);
                             if (alterarTipo == null) {
                                 System.out.println("Pessoa não encontrada.");
                                 break;
@@ -173,7 +173,7 @@ public class PessoaController {
                             System.out.print("Digite o ID da pessoa a ser buscada: ");
                             id = sc.nextInt();
                             sc.nextLine();
-                            Pessoa buscarPessoa = pessoaController.buscarPessoaPorId(id);
+                            Pessoa buscarPessoa = PessoaController.buscarPessoaPorId(id);
                             if (buscarPessoa == null) {
                                 System.out.println("Pessoa não encontrada.");
                             } else {
