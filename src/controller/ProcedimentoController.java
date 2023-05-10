@@ -37,6 +37,14 @@ public class ProcedimentoController {
     public static Procedimento[] listarProcedimentosPorConsulta(Consulta consulta) {
         return ProcedimentoDAO.listarProcedimentosPorConsulta(consulta);
     }
+    public static void cadastrarProcedimentosAleatorios() {
+
+        for (int i = 0; i < 10; i++) {
+            Procedimento procedimento = Procedimento.gerarProcedimentoAleatorio();
+            ProcedimentoDAO.cadastrarProcedimento(procedimento.getNome(), procedimento.getConsulta(), procedimento.getDiaHorario(),
+                    procedimento.getEstado(), procedimento.getValor(), procedimento.getLaudo());
+        }
+    }
 
     public static void menuProcedimento() {
         try (Scanner scanner = new Scanner(System.in)) {

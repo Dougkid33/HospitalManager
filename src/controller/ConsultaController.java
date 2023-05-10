@@ -71,7 +71,8 @@ public class ConsultaController {
     }
 
  
-    public static void menuConsulta() {
+    @SuppressWarnings({ "unused", "null" })
+	public static void menuConsulta() {
         int opcao;
         try (Scanner input = new Scanner(System.in)) {
             do {

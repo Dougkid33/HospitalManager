@@ -193,6 +193,8 @@ public class Main {
 		FranquiaController.cadastrarFranquiasAleatorias();
 		UnidadeController.cadastrarUnidadesAleatorias();
 		ConsultaController.cadastrarConsultasAleatorias();
+		InfoConsultaController.cadastrarInfoConsultasAleatorias();
+		ProcedimentoController.cadastrarProcedimentosAleatorios();
 
 		Main main = new Main();
 		while (true) {

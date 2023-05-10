@@ -68,8 +68,19 @@ public class InfoConsultaController {
         }
         return infoConsultas;
     }
+    
+    public static void cadastrarInfoConsultasAleatorias() {
+        for (int i = 0; i < 10; i++) {
+            InfoConsulta infoConsulta = InfoConsulta.gerarInfoConsultaAleatoria();
+            InfoConsultaDAO.cadastrarInfoConsulta(infoConsulta.getData(), infoConsulta.getHora(), infoConsulta.getEstado(),
+                    infoConsulta.getMedico(), infoConsulta.getPaciente(), infoConsulta.getValor(), infoConsulta.getUnidade(),
+                    infoConsulta.getDescricao());
+        }
+    }
 
-    public static void menuInfoConsulta() {
+
+    @SuppressWarnings("null")
+	public static void menuInfoConsulta() {
         try (Scanner scanner = new Scanner(System.in)) {
             int opcao;
             do {
@@ -178,19 +189,28 @@ public class InfoConsultaController {
                         System.out.println(infoConsultabusca);
                         break;
                     case 5:
-                        InfoConsulta[] infoConsultas = InfoConsultaDAO.listarInfoConsultas();
-                        if (infoConsultas.length == 0) {
-                            System.out.println("Não há infoConsultas cadastradas.");
+                        InfoConsulta[] infoConsultaslista = InfoConsultaDAO.listarInfoConsultas();
+                        if (infoConsultaslista.length == 0) {
+                            System.out.println("Não há informações de consultas cadastradas.");
                             return;
                         }
 
-                        for (InfoConsulta infoConsulta1 : infoConsultas) {
-                            System.out.println("ID: " + infoConsulta1.getId() + " | Data: " + infoConsulta1.getData() + " | Hora: " + infoConsulta1.getHora()
-                                    + " | Estado: " + infoConsulta1.getEstado() + " | Médico: " + infoConsulta1.getMedico().getNome()
-                                    + " | Paciente: " + infoConsulta1.getPaciente().getNome() + " | Valor: " + infoConsulta1.getValor()
-                                    + " | Unidade: " + infoConsulta1.getUnidade().getNome() + " | Descrição: "
-                                    + infoConsulta1.getDescricao());
+                        System.out.println("----- LISTA DE INFOCONSULTAS -----");
+                        for (InfoConsulta infoConsulta1 : infoConsultaslista) {
+                            System.out.println("ID: " + infoConsulta1.getId());
+                            System.out.println("Data: " + infoConsulta1.getData());
+                            System.out.println("Hora: " + infoConsulta1.getHora());
+                            System.out.println("Estado: " + infoConsulta1.getEstado());
+                            System.out.println("Médico: " + infoConsulta1.getMedico().getNome());
+                            System.out.println("Paciente: " + infoConsulta1.getPaciente().getNome());
+                            System.out.println("Valor: " + infoConsulta1.getValor());
+                            System.out.println("Unidade: " + infoConsulta1.getUnidade().getNome());
+                            System.out.println("Descrição: " + infoConsulta1.getDescricao());
+                            System.out.println("------------------------------------");
                         }
+
+					Scanner input = null;
+					input.nextLine(); // Consumir a quebra de linha
                         break;
                     case 0:
                         System.out.println("Saindo do sistema...");
@@ -200,6 +220,10 @@ public class InfoConsultaController {
                 }
                 exibirMenu();
             } while (opcao != 0);
+        }
+        catch(NumberFormatException  e){
+        	   // TODO Auto-generated catch block
+            e.printStackTrace();
         }
     }
 }

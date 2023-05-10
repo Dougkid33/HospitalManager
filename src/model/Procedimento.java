@@ -1,6 +1,8 @@
 package model;
 
 import java.util.Date;
+import java.util.Random;
+
 
 public class Procedimento {
 
@@ -15,7 +17,7 @@ public class Procedimento {
     private Date dataModificacao;
 
     public Procedimento(int id, String nome, Consulta consulta, Date diaHorario, String estado, double valor, String laudo, Date dataCriacao, Date dataModificacao) {
-        this.id = id;
+        this.id = gerarNovoId();
         this.nome = nome;
         this.consulta = consulta;
         this.diaHorario = diaHorario;
@@ -96,6 +98,44 @@ public class Procedimento {
 
     public void setDataModificacao(Date dataModificacao) {
         this.dataModificacao = dataModificacao;
+    }
+    private static int proximoId = 1;
+
+    private static int gerarNovoId() {
+        return proximoId++;
+    }
+    @Override
+    public String toString() {
+        return "Procedimento{" +
+                "Id: " + id +
+                ", Nome: '" + nome + '\'' +
+                ", Consulta: " + consulta +
+                ", Dia/Horario: " + diaHorario +
+                ", Estado: " + estado + '\'' +
+                ", Valor: " + valor +
+                ", Laudo: " + laudo + '\'' +
+                ", Data de criação: " + dataCriacao +
+                ", Data de Modificação: " + dataModificacao +
+                '}';
+    }
+    
+    
+    
+    public static Procedimento gerarProcedimentoAleatorio() {
+        String[] estados = {"Pendente", "Concluído", "Cancelado"};
+
+        Random random = new Random();
+
+        String nomeProcedimento = "Procedimento " + random.nextInt(1000); // Gera um nome aleatório para o procedimento
+        Consulta consulta = Consulta.gerarConsultaAleatoria();
+        Date diaHorario = new Date(); // Defina a data e o horário desejados para o procedimento
+        String estadoProcedimento = estados[random.nextInt(estados.length)]; // Gera um estado aleatório a partir dos valores possíveis na array 'estados'
+        double valorProcedimento = random.nextDouble() * 500; // Gera um valor aleatório entre 0 e 500
+        String laudo = "Laudo do procedimento"; // Defina o laudo desejado para o procedimento
+
+        Procedimento procedimento = new Procedimento(gerarNovoId(), nomeProcedimento, consulta, diaHorario, estadoProcedimento, valorProcedimento, laudo, new Date(), new Date());
+
+        return procedimento;
     }
 
 }
