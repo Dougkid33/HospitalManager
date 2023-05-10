@@ -187,6 +187,7 @@ public class Main {
     }
 
 	public static void main(String[] args) {
+		//gerar Dados falsos
 		PessoaController.cadastrarPessoasAleatorias();
 		MedicoController.cadastrarMedicoAleatorias();
 		FranquiaController.cadastrarFranquiasAleatorias();
