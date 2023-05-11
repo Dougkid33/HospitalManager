@@ -198,17 +198,18 @@ public class FranquiaController {
 
                                     break;
                                 case 5:
-                                    Franquia[] franquias = FranquiaController.listarFranquias();
-                                    if (franquias.length == 0) {
-                                        System.out.println("Não existem franquias cadastradas.");
-                                    } else {
-                                        System.out.println("Lista de Franquias:");
-                                        for (Franquia f : franquias) {
-                                            System.out.println("ID: " + f.getId() + ", Nome: " + f.getNome() + ", CNPJ: " + f.getCnpj() +
-                                                    ", Cidade: " + f.getCidade() + ", Endereço: " + f.getEndereco() +
-                                                    ", Responsável: " + f.getResponsavel().getNome());
-                                        }
-                                    }
+                                	Franquia[] franquias = FranquiaController.listarFranquias();
+                                	if (franquias.length == 0) {
+                                	    System.out.println("Não existem franquias cadastradas.");
+                                	} else {
+                                	    System.out.println("Lista de Franquias:");
+                                	    for (int i = 0; i < franquias.length; i++) {
+                                	        Franquia f = franquias[i];
+                                	        System.out.println("ID: " + f.getId() + ", Nome: " + f.getNome() + ", CNPJ: " + f.getCnpj() +
+                                	            ", Cidade: " + f.getCidade() + ", Endereço: " + f.getEndereco() +
+                                	            ", Responsável: " + f.getResponsavel().getNome());
+                                	    }
+                                	}
                                 	break;
                                 case 0:
                                     sair = true;

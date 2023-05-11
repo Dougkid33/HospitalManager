@@ -34,7 +34,7 @@ public class PessoaDAO {
 
     public Pessoa buscarPorId(int id) {
         for (int i = 0; i < PessoaDAO.count; i++) {
-            if (PessoaDAO.pessoas[i].getId() == id) {
+            if (PessoaDAO.pessoas[i].getId() == id && PessoaDAO.pessoas[i] != null) {
                 return PessoaDAO.pessoas[i];
             }
         }

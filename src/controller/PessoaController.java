@@ -25,7 +25,7 @@ public class PessoaController {
         return dao.removePessoa(id);
     }
 
-    public static Pessoa buscarPessoaPorId(int id) {
+    public Pessoa buscarPessoaPorId(int id) {
         return dao.buscarPorId(id);
     }
 
@@ -125,7 +125,8 @@ public class PessoaController {
                             System.out.print("Digite o ID da pessoa a ser editada: ");
                             id = sc.nextInt();
                             sc.nextLine();
-                            Pessoa editarPessoa = PessoaController.buscarPessoaPorId(id);
+                            PessoaController pessoaControlleredit = new PessoaController();
+                            Pessoa editarPessoa = pessoaControlleredit.buscarPessoaPorId(id);
                             if (editarPessoa == null) {
                                 System.out.println("Pessoa não encontrada.");
                                 break;
@@ -155,7 +156,8 @@ public class PessoaController {
                             System.out.print("Digite o ID da pessoa a ter o tipo de usuário alterado: ");
                             id = sc.nextInt();
                             sc.nextLine();
-                            Pessoa alterarTipo = PessoaController.buscarPessoaPorId(id);
+                            PessoaController pessoaControlleredit2 = new PessoaController();
+                            Pessoa alterarTipo = pessoaControlleredit2 .buscarPessoaPorId(id);
                             if (alterarTipo == null) {
                                 System.out.println("Pessoa não encontrada.");
                                 break;
@@ -173,7 +175,8 @@ public class PessoaController {
                             System.out.print("Digite o ID da pessoa a ser buscada: ");
                             id = sc.nextInt();
                             sc.nextLine();
-                            Pessoa buscarPessoa = PessoaController.buscarPessoaPorId(id);
+                            PessoaController pessoaControllerbusca = new PessoaController();
+                            Pessoa buscarPessoa = pessoaControllerbusca.buscarPessoaPorId(id);
                             if (buscarPessoa == null) {
                                 System.out.println("Pessoa não encontrada.");
                             } else {

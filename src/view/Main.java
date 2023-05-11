@@ -17,13 +17,14 @@ import model.Pessoa;
 public class Main {
 
 
-	Pessoa pessoa = new Pessoa( "Administrador", "Xablau", "validador", "33334380", "admin", "12345", "DonoFranquia", null, null);
 	
-
+	
+	
 	public void menuPrincipal() {
 	    Scanner scanner = new Scanner(System.in);
 
 	    while (true) {
+
 	        System.out.println("======================================");
 	        System.out.println("Sistema de Gerenciamento de Hospitais - Menu Principal");
 	        System.out.println("======================================\n");
@@ -188,6 +189,9 @@ public class Main {
 
 	public static void main(String[] args) {
 		//gerar Dados falsos
+		Pessoa pessoa = new Pessoa( "Administrador", "Xablau", "validador", "33334380", "admin", "12345", "DonoFranquia", null, null);
+    	System.out.println("ID da pessoa atual: " + pessoa.getId());
+    	System.out.println("Tipo de usuário da pessoa atual: " + pessoa.getTipoUsuario());
 		PessoaController.cadastrarPessoasAleatorias();
 		MedicoController.cadastrarMedicoAleatorias();
 		FranquiaController.cadastrarFranquiasAleatorias();

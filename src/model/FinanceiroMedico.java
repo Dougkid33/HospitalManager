@@ -100,6 +100,16 @@ public class FinanceiroMedico {
     private static int gerarNovoId() {
         return proximoId++;
     }
+    @Override
+    public String toString() {
+        return "ID: " + id +
+               ", Valor Médico: " + valorMedico +
+               ", Estado: " + estado +
+               ", Franquia: " + franquia +
+               ", Descrição: " + descricao +
+               ", Data de Criação: " + dataCriacao +
+               ", Data de Modificação: " + dataModificacao;
+    }
     public static FinanceiroMedico gerarFinanceiroMedicoAleatorio() {
     	
     	

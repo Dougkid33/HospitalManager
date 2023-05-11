@@ -68,14 +68,15 @@ public class FranquiaDao {
     
     public Franquia[] listarFranquias() {
         Franquia[] listaFranquias = new Franquia[FranquiaDao.count];
-        int i = 0;
-        for (Franquia franquia : FranquiaDao.franquias) {
+        int count = 0;
+        for (int i = 0; i < FranquiaDao.franquias.length; i++) {
+            Franquia franquia = FranquiaDao.franquias[i];
             if (franquia != null) {
-                listaFranquias[i] = franquia;
-                i++;
+                listaFranquias[count] = franquia;
+                count++;
             }
         }
-        return listaFranquias;
+        return Arrays.copyOf(listaFranquias, count);
     }
 
 }

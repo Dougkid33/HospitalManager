@@ -209,8 +209,6 @@ public class InfoConsultaController {
                             System.out.println("------------------------------------");
                         }
 
-					Scanner input = null;
-					input.nextLine(); // Consumir a quebra de linha
                         break;
                     case 0:
                         System.out.println("Saindo do sistema...");

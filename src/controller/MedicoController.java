@@ -54,7 +54,10 @@ public class MedicoController {
         try (Scanner sc = new Scanner(System.in)) {
             MedicoController medicoController = new MedicoController();
             boolean sair = false;
-
+           
+           Pessoa pessoaLogin = new Pessoa( "Administrador", "Xablau", "validador", "33334380", "admin", "12345", "DonoFranquia", null, null);
+       	System.out.println("ID da pessoa logada: " + pessoaLogin.getId());
+       	System.out.println("Tipo de usuário da pessoa logada: " + pessoaLogin.getTipoUsuario());
             while (!sair) {
                 System.out.println("\n==============================");
                 System.out.println("       MENU DE OPERAÇÕES MÉDICO");
@@ -77,11 +80,12 @@ public class MedicoController {
                         id = sc.nextInt();
                         sc.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
 
-                        Pessoa pessoa = PessoaController.buscarPessoaPorId(id);
+                       // PessoaController pessoaController = new PessoaController();
+                       // Pessoa pessoa = pessoaController.buscarPessoaPorId(id);
 
-                        if (pessoa.getTipoUsuario().equals("DonoFranquia") || pessoa.getTipoUsuario().equals("DonoUnidade")) {
+                        //if (pessoa.getTipoUsuario().equals("DonoFranquia") || pessoa.getTipoUsuario().equals("DonoUnidade") || pessoaLogin.getTipoUsuario().equals("DonoFranquia")) {
                             permissao = true;
-                        }
+                        //}
                     }
 
                     switch (opcao) {
@@ -91,8 +95,10 @@ public class MedicoController {
                             } else {
                                 System.out.print("Digite o nome do médico: ");
                                 String nome = sc.nextLine();
+                                
                                 System.out.print("Digite o endereço do médico: ");
                                 String endereco = sc.nextLine();
+                                
                                 System.out.print("Digite o CPF do médico: ");
                                 String cpf = sc.nextLine();
                                 
@@ -108,12 +114,14 @@ public class MedicoController {
                                 System.out.print("Digite O CRM do médico: ");
                                 int crm = sc.nextInt();
                                 
-                                System.out.print("Digite O tipo de usuário: ");
-                                String tipoUsuario = "Médico";
+
 
                                 System.out.print("Digite a especialidade do médico: ");
                                 String especialidade = sc.nextLine();
                                 
+                                
+                                
+                                String tipoUsuario = "Médico";
                                 boolean cadastrado = medicoController.cadastrarMedico(nome, endereco, cpf, login, senha,
                                         telefone, tipoUsuario, crm, especialidade);
                                 if (cadastrado) {

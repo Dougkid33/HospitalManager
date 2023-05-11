@@ -131,7 +131,7 @@ public class ConsultaController {
                     System.out.print("Digite o ID do paciente: ");
                     int idPaciente = input.nextInt();
                     PessoaController pessoaController = new PessoaController();
-                    Pessoa paciente = PessoaController.buscarPessoaPorId(idPaciente);
+                    Pessoa paciente = pessoaController.buscarPessoaPorId(idPaciente);
                     if (paciente == null) {
                         System.out.println("Paciente não encontrado.");
                         return;
@@ -218,13 +218,13 @@ public class ConsultaController {
                         int idPacienteedit = input.nextInt();
                         input.nextLine();
                         if (idPacienteedit != 0) {
-                            Pessoa paciente1 = null;
-                            Pessoa pacienteedit = PessoaController.buscarPessoaPorId(idPacienteedit);
-                            if (paciente1 == null) {
+                            PessoaController pessoaControlleredit = new PessoaController();
+                            Pessoa pacienteedit = pessoaControlleredit.buscarPessoaPorId(idPacienteedit );
+                            if (pacienteedit  == null) {
                                 System.out.println("Paciente não encontrado.");
                                 return;
                             }
-                            consulta.setPaciente(paciente1);
+                            consulta.setPaciente(pacienteedit );
                         }
                         System.out.print("Digite o novo valor da consulta ou deixe em branco para manter o valor atual (" + consulta.getValor() + "): ");
                         String valorConsultaStr = input.nextLine();
