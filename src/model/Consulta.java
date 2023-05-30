@@ -1,5 +1,6 @@
 package model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
@@ -118,6 +119,25 @@ public class Consulta {
 
     public void setDataModificacao(Date dataModificacao) {
         this.dataModificacao = dataModificacao;
+    }
+    @Override
+    public String toString() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        //SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("ID: ").append(id).append("\n");
+        sb.append("Data: ").append(dateFormat.format(data)).append("\n");
+        sb.append("Hora: ").append(hora).append("\n");
+        sb.append("Estado: ").append(estado).append("\n");
+        sb.append("Médico: ").append(medico.getNome()).append("\n");
+        sb.append("Paciente: ").append(paciente.getNome()).append("\n");
+        sb.append("Valor: ").append(valor).append("\n");
+        sb.append("Unidade: ").append(unidade.getNome()).append("\n");
+        sb.append("Data de Criação: ").append(dateFormat.format(dataCriacao)).append("\n");
+        sb.append("Data de Modificação: ").append(dateFormat.format(dataModificacao)).append("\n");
+
+        return sb.toString();
     }
     public static Consulta gerarConsultaAleatoria() {
         String[] horas = {"08:00", "09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00"};

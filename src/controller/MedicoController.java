@@ -1,11 +1,17 @@
 package controller;
 
+import java.util.Date;
+import java.util.Calendar;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import model.Consulta;
 import model.Medico;
 import model.Pessoa;
+import model.Procedimento;
+import model.DAO.ConsultaDAO;
 import model.DAO.MedicoDao;
+import model.DAO.ProcedimentoDAO;
 import view.Main;
 
 import static view.Main.exibirMenu;
@@ -52,8 +58,71 @@ public class MedicoController {
         }
     }
     
+    public void pesquisarConsultasEProcedimentosUltimoMes(Medico medico) {
+        // Obter a data atual
+        Calendar dataAtual = Calendar.getInstance();
 
+        // Definir a data de início como o primeiro dia do mês anterior
+        Calendar dataInicio = Calendar.getInstance();
+        dataInicio.set(Calendar.MONTH, dataAtual.get(Calendar.MONTH) - 1);
+        dataInicio.set(Calendar.DAY_OF_MONTH, 1);
+        dataInicio.set(Calendar.HOUR_OF_DAY, 0);
+        dataInicio.set(Calendar.MINUTE, 0);
+        dataInicio.set(Calendar.SECOND, 0);
+        dataInicio.set(Calendar.MILLISECOND, 0);
 
+        // Definir a data de fim como o último dia do mês anterior
+        Calendar dataFim = Calendar.getInstance();
+        dataFim.set(Calendar.MONTH, dataAtual.get(Calendar.MONTH) - 1);
+        dataFim.set(Calendar.DAY_OF_MONTH, dataFim.getActualMaximum(Calendar.DAY_OF_MONTH));
+        dataFim.set(Calendar.HOUR_OF_DAY, 23);
+        dataFim.set(Calendar.MINUTE, 59);
+        dataFim.set(Calendar.SECOND, 59);
+        dataFim.set(Calendar.MILLISECOND, 999);
+
+        // Pesquisar consultas do médico no último mês
+        Consulta[] consultas = ConsultaDAO.pesquisarConsultasPorMedicoNoPeriodo(medico, dataInicio.getTime(), dataFim.getTime());
+        if (consultas.length == 0) {
+            System.out.println("Nenhuma consulta encontrada no último mês para o médico " + medico.getNome());
+        } else {
+            System.out.println("Consultas do médico " + medico.getNome() + " no último mês:");
+            for (Consulta consulta : consultas) {
+                System.out.println(consulta);
+            }
+        }
+    }
+    @SuppressWarnings("null")
+	public double calcularMontantePagoUltimoMes(Medico medico) {
+    	Consulta consultas = null;
+        // Obter a data atual
+        Date dataAtual = new Date(0);
+        consultas.getMedico().equals(medico);
+        
+        // Calcular a data de início e fim do último mês
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(dataAtual);
+        calendar.add(Calendar.MONTH, -1); // Subtrai 1 mês da data atual
+        Date dataInicio = calendar.getTime();
+
+        calendar.add(Calendar.MONTH, 1); // Adiciona 1 mês para obter o último dia do mês anterior
+        calendar.add(Calendar.DAY_OF_MONTH, -1); // Subtrai 1 dia para obter o último dia do mês anterior
+        Date dataFim = calendar.getTime();
+
+        // Pesquisar consultas e procedimentos no último mês
+        Consulta[] consultasUltimoMes = ConsultaDAO.pesquisarConsultasPorMedicoNoPeriodo(medico, dataInicio.getTime(), dataFim.getTime());
+        Procedimento[] procedimentosUltimoMes = ProcedimentoDAO.pesquisarProcedimentosPorMedicoNoPeriodo(consultas, dataInicio, dataFim);
+
+        // Calcular o montante total pago ao médico
+        double montanteTotalPago = 0.0;
+        for (Consulta consulta : consultasUltimoMes) {
+            montanteTotalPago += consulta.getValor() * 0.7; // Médico ganha 70% do valor da consulta
+        }
+        for (Procedimento procedimento : procedimentosUltimoMes) {
+            montanteTotalPago += procedimento.getValor() * 0.5; // Médico ganha 50% do valor do procedimento
+        }
+
+        return montanteTotalPago;
+    }
 
     public static void menuMedico() {
         try (Scanner sc = new Scanner(System.in)) {

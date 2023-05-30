@@ -1,11 +1,16 @@
 package controller;
 
+import java.util.Calendar;
 import java.util.Date;
+
+import static view.Main.exibirMenu;
+
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 import model.Consulta;
 import model.Medico;
+import view.Main;
 
 public class RelatoriosGerais {
 	Scanner input = new Scanner(System.in);
@@ -75,6 +80,48 @@ public class RelatoriosGerais {
 			}
 		}
 	}
+	public static void relatorioADM() {
+		try (Scanner scanner = new Scanner(System.in)) {
+			boolean sair = false;
+			int opcaoMenu = -1;
+
+			do {
+				System.out.println("----- Relatorio Administrativo -----");
+				System.out.println("1. Relatório de pagamento de Medico - SOMENTE DIA 01 Mensal ");
+				System.out.println("2. Relatório Financeiro da Unidade");
+				System.out.println("0. Sair");
+				System.out.print("Digite a opção desejada: ");
+				opcaoMenu = scanner.nextInt();
+				scanner.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
+
+				switch (opcaoMenu) {
+				case 1: {
+					Medico medico = null;
+					 // Obter a data atual
+			        Date dataAtual = new Date();
+
+			        // Verificar se é dia 01 do mês
+			        Calendar calendar = Calendar.getInstance();
+			        calendar.setTime(dataAtual);
+			        if (calendar.get(Calendar.DAY_OF_MONTH) == 1) {
+			            MedicoController medicoController = new MedicoController();
+			            double montanteTotalPago = medicoController.calcularMontantePagoUltimoMes(medico);
+			            System.out.println("Montante total pago ao médico no último mês: R$ " + montanteTotalPago+ " .");
+			        }
+					break;
+				}
+				case 2: {
+					break;
+				}
+				case 0: {
+					sair = true;
+					Main.exibirMenu();
+				}
+				}
+
+			} while (!sair);
+		}
+	}
 
 	public static void menuRelatorio() {
 		try (Scanner scanner = new Scanner(System.in)) {
@@ -96,13 +143,16 @@ public class RelatoriosGerais {
 					break;
 				}
 				case 2: {
+					relatorioADM();
 					break;
 				}
 				case 0: {
 					sair = true;
-					break;
-				}
-				}
+					break;}
+				 default:
+                     System.out.println("Opção inválida.");
+             }
+             exibirMenu();
 
 			} while (!sair);
 		}

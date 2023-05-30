@@ -80,7 +80,30 @@ public class ConsultaDAO {
         }
         return consultasMedico;
     }
-
+    public static Consulta[] pesquisarConsultasPorMedicoNoPeriodo(Medico medico, Date date, Date date2) {
+        Consulta[] consultasMedico = new Consulta[0];
+        for (Consulta consulta : consultas) {
+            if (consulta.getMedico().equals(medico) && consulta.getData().after(date) && consulta.getData().before(date2)) {
+                Consulta[] temp = new Consulta[consultasMedico.length + 1];
+                System.arraycopy(consultasMedico, 0, temp, 0, consultasMedico.length);
+                temp[consultasMedico.length] = consulta;
+                consultasMedico = temp;
+            }
+        }
+        return consultasMedico;
+    }
+    public static Consulta[] pesquisarConsultasPorMedicoNoPeriodo(Medico medico, long dataInicio, long dataFim) {
+        Consulta[] consultasMedico = new Consulta[0];
+        for (Consulta consulta : consultas) {
+            if (consulta.getMedico().equals(medico) && consulta.getData().getTime() >= dataInicio && consulta.getData().getTime() <= dataFim) {
+                Consulta[] temp = new Consulta[consultasMedico.length + 1];
+                System.arraycopy(consultasMedico, 0, temp, 0, consultasMedico.length);
+                temp[consultasMedico.length] = consulta;
+                consultasMedico = temp;
+            }
+        }
+        return consultasMedico;
+    }
     public static Consulta[] listarConsultasPorPaciente(Pessoa paciente) {
         Consulta[] consultasPaciente = new Consulta[0];
         for (Consulta consulta : consultas) {

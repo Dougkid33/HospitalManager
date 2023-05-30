@@ -75,4 +75,17 @@ public class ProcedimentoDAO {
         }
         return procedimentosConsulta;
     }
+
+	public static Procedimento[] pesquisarProcedimentosPorMedicoNoPeriodo(Consulta consulta, Date dateinicio, Date dataFim) {
+        Procedimento[] ProcedimentoConsulta = new Procedimento[0];
+        for (Procedimento procedimento : procedimentos) {
+            if (procedimento.getConsulta().equals(consulta) && consulta.getData().before(dateinicio) && consulta.getData().after(dataFim)) {
+                Procedimento[] temp = new Procedimento[ProcedimentoConsulta.length + 1];
+                System.arraycopy(ProcedimentoConsulta, 0, temp, 0, ProcedimentoConsulta.length);
+                temp[ProcedimentoConsulta.length] = procedimento;
+                ProcedimentoConsulta= temp;
+            }
+        }
+        return ProcedimentoConsulta;
+	}
 }
