@@ -150,7 +150,7 @@ public class Pessoa {
                 + "}";
     }
 
-    private static int proximoId = 2;
+    private static int proximoId = 1;
 
     private static int gerarNovoId() {
         return proximoId++;

@@ -2,7 +2,7 @@ package controller;
 
 import model.Pessoa;
 import model.DAO.FranquiaDao;
-
+import view.Main;
 
 import java.sql.Date;
 
@@ -70,13 +70,17 @@ public class FranquiaController {
             FranquiaController franquiaController = new FranquiaController();
             PessoaController pessoaController = new PessoaController();
             System.out.println("Digite o seu ID:");
-            int id = scanner.nextInt();
+            int idPermissao = scanner.nextInt();
+            boolean permissao = false;
             scanner.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
 
-            Pessoa pessoa = pessoaController.buscarPessoaPorId(id);
-            boolean permissao = false;
+            Pessoa pessoa = pessoaController.buscarPessoaPorId(idPermissao);
+            
+            if (Main.pessoa != null && Main.pessoa.getId() == idPermissao) {
+                pessoa = Main.pessoa;
+            }
 
-            if (pessoa.getTipoUsuario().equals("DonoFranquia") || pessoa.getId() == 1) {
+            if (pessoa.getTipoUsuario().equals("DonoFranquia")) {
                 permissao = true;
             }
             if (permissao) {

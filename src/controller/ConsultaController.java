@@ -12,6 +12,8 @@ import model.Unidade;
 import model.DAO.ConsultaDAO;
 import model.enums.EstadoConsulta;
 import model.enums.TipoMovimento;
+
+
 import static view.Main.exibirMenu;
 
 public class ConsultaController {
@@ -69,13 +71,33 @@ public class ConsultaController {
             consultacontroller.cadastrarConsulta(consulta.getData(), consulta.getHora(), consulta.getEstado(), consulta.getMedico(), consulta.getPaciente(), consulta.getValor(), consulta.getUnidade());
         }
     }
+    
+    public static Consulta[] listarConsultasPorFiltro(Date dataInicio, Date dataFim, Medico medico) {
+        Consulta[] todasConsultas = listarConsultas();
+        Consulta[] consultasFiltradas = new Consulta[todasConsultas.length];
+        int contador = 0;
 
+        for (Consulta consulta : todasConsultas) {
+            if (consulta.getData().compareTo(dataInicio) >= 0 && consulta.getData().compareTo(dataFim) <= 0 &&
+                    consulta.getMedico().equals(medico)) {
+                consultasFiltradas[contador] = consulta;
+                contador++;
+            }
+        }
+
+        Consulta[] consultasFinalizadas = new Consulta[contador];
+        System.arraycopy(consultasFiltradas, 0, consultasFinalizadas, 0, contador);
+
+        return consultasFinalizadas;
+    }
  
     @SuppressWarnings({ "unused", "null" })
 	public static void menuConsulta() {
         int opcao;
+        
         try (Scanner input = new Scanner(System.in)) {
             do {
+            	
                 System.out.println("----- MENU -----");
                 System.out.println("1. Cadastrar consulta");
                 System.out.println("2. Atualizar consulta");
@@ -88,9 +110,36 @@ public class ConsultaController {
                 System.out.print("Digite a opção desejada: ");
                 opcao = input.nextInt();
                 input.nextLine(); // consome a quebra de linha após a opção digitada
+                int idBuscaPessoa = 0;
+                
+                boolean permissao = false;
+                
+                if (opcao != 0) {
+                    System.out.println("Digite o seu ID para conferir permissão: ");
+                    int idBuscaMedico = input.nextInt();
+                    input.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
 
+                    MedicoController medicoController = new MedicoController();
+                    Medico buscarMedico = medicoController.buscarMedico(idBuscaMedico);
+
+                    if (buscarMedico != null) {
+                        if (buscarMedico.getCrm() >0 ) {
+                            permissao = true;
+                            System.out.println("Permissão Medico concedida.");
+                        } else {
+                            System.out.println("Usuário não tem permissão.");
+                        }
+                    } else {
+                        System.out.println("ID de médico não encontrado.");
+                    }
+                }
                 switch (opcao) {
-                case 1://CADASTRAR
+                case 1: if(!permissao) {
+                	System.out.println("Permissão Negada!");
+                }
+                else {
+                	
+                	//CADASTRAR
                     EstadoConsulta estadoConsulta = null;
                     System.out.println("----- CADASTRO DE CONSULTA -----");
                     System.out.print("Digite a data da consulta (dd/mm/aaaa): ");
@@ -154,111 +203,125 @@ public class ConsultaController {
                     estadoConsulta = EstadoConsulta.AGENDADA;
 
                     FinanceiroADMController.cadastrarFinanceiro(TipoMovimento.ENTRADA, valorConsulta, unidadeNome, "Consulta");
+                }
                     break;
                     case 2://EDITAR
-                        EstadoConsulta estadoConsultaEdit = null;
-                        System.out.println("----- ATUALIZAÇÃO DE CONSULTA -----");
-                        System.out.print("Digite o código da consulta a ser atualizada: ");
-                        int idConsulta = input.nextInt();
-                        input.nextLine(); // consome a quebra de linha após o código digitado
-                        Consulta consulta = null;
-                        consulta = ConsultaController.buscarConsulta(idConsulta);
-                        if (consulta == null) {
-                            System.out.println("Consulta não encontrada.");
-                            return;
+                        if(!permissao) {
+                        	System.out.println("Permissão Negada!");
                         }
-                        SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd/MM/yyyy");
-                        System.out.print("Digite a nova data da consulta (dd/mm/aaaa) ou deixe em branco para manter o valor atual): ");
-                        String newDataConsultaStr = input.nextLine();
-                        if (!newDataConsultaStr.trim().isEmpty()) {
-                            SimpleDateFormat dateFormat1 = new SimpleDateFormat("dd/MM/yyyy");
-                            Date newDataConsulta = dateFormat1.parse(newDataConsultaStr);
-                            consulta.setDataCriacao(newDataConsulta);
-                        }
-                        System.out.print("Digite a nova hora da consulta (hh:mm) ou deixe em branco para manter o valor atual (" + consulta.getHora() + "): ");
-                        String horaConsulta1 = "";
-                        String horaConsultaedit = input.nextLine();
-                        if (!horaConsulta1.trim().isEmpty()) {
-                            consulta.setHora(horaConsultaedit);
-                        }
-                        System.out.print("Digite o novo estado da consulta (1 - Agendada, 2 - Realizada, 3 - Cancelada) ou deixe em branco para manter o valor atual (" + consulta.getEstado() + "): ");
-                        String opcaoEstadoConsultaStr = input.nextLine();
-                        if (opcaoEstadoConsultaStr.trim().isEmpty()) {
-                            estadoConsultaEdit = consulta.getEstado();
-                        } else {
-                            int opcaoEstadoConsulta = Integer.parseInt(opcaoEstadoConsultaStr);
-                            switch (opcaoEstadoConsulta) {
-                                case 1:
-                                    estadoConsultaEdit = EstadoConsulta.AGENDADA;
-                                    break;
-                                case 2:
-                                    estadoConsultaEdit = EstadoConsulta.REALIZADA;
-                                    break;
-                                case 3:
-                                    estadoConsultaEdit = EstadoConsulta.CANCELADA;
-                                    break;
-                                default:
-                                    System.out.println("Opção inválida.");
+                        else {
+                        	EstadoConsulta estadoConsultaEdit = null;
+                            System.out.println("----- ATUALIZAÇÃO DE CONSULTA -----");
+                            System.out.print("Digite o código da consulta a ser atualizada: ");
+                            int idConsulta = input.nextInt();
+                            input.nextLine(); // consome a quebra de linha após o código digitado
+                            Consulta consulta = null;
+                            consulta = ConsultaController.buscarConsulta(idConsulta);
+                            if (consulta == null) {
+                                System.out.println("Consulta não encontrada.");
+                                return;
+                            }
+                            SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd/MM/yyyy");
+                            System.out.print("Digite a nova data da consulta (dd/mm/aaaa) ou deixe em branco para manter o valor atual): ");
+                            String newDataConsultaStr = input.nextLine();
+                            if (!newDataConsultaStr.trim().isEmpty()) {
+                                SimpleDateFormat dateFormat1 = new SimpleDateFormat("dd/MM/yyyy");
+                                Date newDataConsulta = dateFormat1.parse(newDataConsultaStr);
+                                consulta.setDataCriacao(newDataConsulta);
+                            }
+                            System.out.print("Digite a nova hora da consulta (hh:mm) ou deixe em branco para manter o valor atual (" + consulta.getHora() + "): ");
+                            String horaConsulta1 = "";
+                            String horaConsultaedit = input.nextLine();
+                            if (!horaConsulta1.trim().isEmpty()) {
+                                consulta.setHora(horaConsultaedit);
+                            }
+                            System.out.print("Digite o novo estado da consulta (1 - Agendada, 2 - Realizada, 3 - Cancelada) ou deixe em branco para manter o valor atual (" + consulta.getEstado() + "): ");
+                            String opcaoEstadoConsultaStr = input.nextLine();
+                            if (opcaoEstadoConsultaStr.trim().isEmpty()) {
+                                estadoConsultaEdit = consulta.getEstado();
+                            } else {
+                                int opcaoEstadoConsulta = Integer.parseInt(opcaoEstadoConsultaStr);
+                                switch (opcaoEstadoConsulta) {
+                                    case 1:
+                                        estadoConsultaEdit = EstadoConsulta.AGENDADA;
+                                        break;
+                                    case 2:
+                                        estadoConsultaEdit = EstadoConsulta.REALIZADA;
+                                        break;
+                                    case 3:
+                                        estadoConsultaEdit = EstadoConsulta.CANCELADA;
+                                        break;
+                                    default:
+                                        System.out.println("Opção inválida.");
+                                        return;
+                                }
+                            }
+                            System.out.print("Digite o novo ID do médico ou deixe em branco para manter o valor atual (" + consulta.getMedico().getId() + "): ");
+                            int idMedicoedit = input.nextInt();
+                            input.nextLine();
+                            if (idMedicoedit != 0) {
+                                MedicoController medicoControlleredit = new MedicoController();
+                                Medico medicoedit = medicoControlleredit.buscarMedico(idMedicoedit);
+                                if (medicoedit == null) {
+                                    System.out.println("Médico não encontrado.");
                                     return;
+                                }
+                                consulta.setMedico(medicoedit);
                             }
-                        }
-                        System.out.print("Digite o novo ID do médico ou deixe em branco para manter o valor atual (" + consulta.getMedico().getId() + "): ");
-                        int idMedicoedit = input.nextInt();
-                        input.nextLine();
-                        if (idMedicoedit != 0) {
-                            MedicoController medicoControlleredit = new MedicoController();
-                            Medico medicoedit = medicoControlleredit.buscarMedico(idMedicoedit);
-                            if (medicoedit == null) {
-                                System.out.println("Médico não encontrado.");
-                                return;
+                            System.out.print("Digite o novo ID do paciente ou deixe em branco para manter o valor atual (" + consulta.getPaciente().getId() + "): ");
+                            int idPacienteedit = input.nextInt();
+                            input.nextLine();
+                            if (idPacienteedit != 0) {
+                                PessoaController pessoaControlleredit = new PessoaController();
+                                Pessoa pacienteedit = pessoaControlleredit.buscarPessoaPorId(idPacienteedit );
+                                if (pacienteedit  == null) {
+                                    System.out.println("Paciente não encontrado.");
+                                    return;
+                                }
+                                consulta.setPaciente(pacienteedit );
                             }
-                            consulta.setMedico(medicoedit);
-                        }
-                        System.out.print("Digite o novo ID do paciente ou deixe em branco para manter o valor atual (" + consulta.getPaciente().getId() + "): ");
-                        int idPacienteedit = input.nextInt();
-                        input.nextLine();
-                        if (idPacienteedit != 0) {
-                            PessoaController pessoaControlleredit = new PessoaController();
-                            Pessoa pacienteedit = pessoaControlleredit.buscarPessoaPorId(idPacienteedit );
-                            if (pacienteedit  == null) {
-                                System.out.println("Paciente não encontrado.");
-                                return;
+                            System.out.print("Digite o novo valor da consulta ou deixe em branco para manter o valor atual (" + consulta.getValor() + "): ");
+                            String valorConsultaStr = input.nextLine();
+                            if (!valorConsultaStr.trim().isEmpty()) {
+                                double valorConsultaedit = Double.parseDouble(valorConsultaStr);
+                                consulta.setValor(valorConsultaedit);
                             }
-                            consulta.setPaciente(pacienteedit );
-                        }
-                        System.out.print("Digite o novo valor da consulta ou deixe em branco para manter o valor atual (" + consulta.getValor() + "): ");
-                        String valorConsultaStr = input.nextLine();
-                        if (!valorConsultaStr.trim().isEmpty()) {
-                            double valorConsultaedit = Double.parseDouble(valorConsultaStr);
-                            consulta.setValor(valorConsultaedit);
-                        }
-                        System.out.print("Digite o ID da nova unidade ou deixe em branco para manter a Unidade atual (" + consulta.getUnidade().getNome() + "): ");
-                        int idvaUnidade = input.nextInt();
-                        if (idvaUnidade != 0) {
-                            Unidade unidade1 = null;
-                            UnidadeController unidadeControlleredit = new UnidadeController();
-                            Unidade unidadeedit = unidadeControlleredit.buscarUnidade(idvaUnidade);
-                            if (unidade1 == null) {
-                                System.out.println("Unidade não encontrada.");
-                                return;
+                            System.out.print("Digite o ID da nova unidade ou deixe em branco para manter a Unidade atual (" + consulta.getUnidade().getNome() + "): ");
+                            int idvaUnidade = input.nextInt();
+                            if (idvaUnidade != 0) {
+                                Unidade unidade1 = null;
+                                UnidadeController unidadeControlleredit = new UnidadeController();
+                                Unidade unidadeedit = unidadeControlleredit.buscarUnidade(idvaUnidade);
+                                if (unidade1 == null) {
+                                    System.out.println("Unidade não encontrada.");
+                                    return;
+                                }
+                                consulta.setUnidade(unidade1);
                             }
-                            consulta.setUnidade(unidade1);
+                            System.out.println("Consulta atualizada com sucesso!");
                         }
-                        System.out.println("Consulta atualizada com sucesso!");
+                        
                         break;
                     case 3://EXCLUIR
-                        System.out.println("----- REMOÇÃO DE CONSULTA-----");
-                        System.out.print("Digite o código da consulta a ser removida: ");
-                        int idremoverConsulta = input.nextInt();
-                        input.nextLine(); // consome a quebra de linha após o código digitado
-                        Consulta consulta1 = null;
-                        Consulta consultaremover = ConsultaController.buscarConsulta(idremoverConsulta);
-                        if (consulta1 == null) {
-                            System.out.println("Consulta não encontrada.");
-                            return;
+                    	if(!permissao) {
+                        	System.out.println("Permissão Negada!");
                         }
-                        ConsultaController.removerConsulta(idremoverConsulta);
-                        System.out.println("Consulta removida com sucesso!");
+                        else {
+                        	System.out.println("----- REMOÇÃO DE CONSULTA-----");
+                            System.out.print("Digite o código da consulta a ser removida: ");
+                            int idremoverConsulta = input.nextInt();
+                            input.nextLine(); // consome a quebra de linha após o código digitado
+                            Consulta consulta1 = null;
+                            Consulta consultaremover = ConsultaController.buscarConsulta(idremoverConsulta);
+                            if (consulta1 == null) {
+                                System.out.println("Consulta não encontrada.");
+                                return;
+                            }
+                            ConsultaController.removerConsulta(idremoverConsulta);
+                            System.out.println("Consulta removida com sucesso!");
+                        	
+                        }
+                        
                         break;
                     case 4:
                         System.out.println("----- BUSCAR CONSULTA -----");

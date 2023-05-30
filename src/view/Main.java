@@ -11,16 +11,18 @@ import controller.InfoConsultaController;
 import controller.MedicoController;
 import controller.PessoaController;
 import controller.ProcedimentoController;
+import controller.RelatoriosGerais;
 import controller.UnidadeController;
+import model.Medico;
 import model.Pessoa;
 
 public class Main {
 
-
+	public static Pessoa pessoa;
 	
 	
 	
-	public void menuPrincipal() {
+	public static void menuPrincipal() {
 	    Scanner scanner = new Scanner(System.in);
 
 	    while (true) {
@@ -58,22 +60,44 @@ public class Main {
     // MENU INICIO
     @SuppressWarnings("null")
  // MENU INICIO
-    public boolean login() {
+    public static boolean login() {
         try (Scanner scanner = new Scanner(System.in)) {
 			PessoaController pessoaControllerlogin = new PessoaController();
+			MedicoController medicoControllerlogin = new MedicoController();
 
 			System.out.println("======================================");
 			System.out.println("Sistema de Gerenciamento de Hospitais - Login");
 			System.out.println("======================================\n");
+			int idMedico =0;
+			String usuario = null;
+			int tipoUser = 0;
+			System.out.println("\n [1] - Medico"
+					+ "\n    [2] - Paciente/Dono de Franquia/Administrador");
+			tipoUser = scanner.nextInt();
+			scanner.nextLine();
+			if(tipoUser == 1) {
+				do {
+				    System.out.print("Digite seu Id: ");
+				    idMedico = scanner.nextInt();
+				    scanner.nextLine();
+				    if (idMedico <= 0) {
+				        System.out.println("Usuário inválido. Tente novamente.");
+				    }
+				    else {
+				    	break;
+				    }
+				}while (true);
+			}
+			else {
+				do {
+				    System.out.print("Usuário: ");
+				    usuario = scanner.nextLine().trim();
+				    if (usuario.isEmpty()) {
+				        System.out.println("Usuário inválido. Tente novamente.");
+				    }
+				} while (usuario.isEmpty());
+			}
 
-			String usuario;
-			do {
-			    System.out.print("Usuário: ");
-			    usuario = scanner.nextLine().trim();
-			    if (usuario.isEmpty()) {
-			        System.out.println("Usuário inválido. Tente novamente.");
-			    }
-			} while (usuario.isEmpty());
 
 			String senha;
 			do {
@@ -86,8 +110,9 @@ public class Main {
 			
 			
 			Pessoa pessoa = pessoaControllerlogin.buscarPessoaPorLogin(usuario);
+			Medico medico = medicoControllerlogin.buscarMedico(idMedico);
 
-			if (pessoa != null && pessoa.getSenha().equals(senha) || senha.equals("12345")) {
+			if (pessoa != null && pessoa.getSenha().equals(senha)|| medico != null && medico.getSenha().equals(senha) || senha.equals("12345")) {
 				exibirMenu();
 			    return true;
 			} else {
@@ -133,9 +158,8 @@ public class Main {
 
                 switch (opcao) {
                     case 0:
-                        System.out.println("Saindo...");
-                        sair = true;
-                        System.exit(0);
+                    	menuPrincipal();
+
                     case 1:
                     	
                         System.out.println("Selecionou Pessoa.");
@@ -176,8 +200,8 @@ public class Main {
                         FinanceiroMedicoController.menuFinanceiroMedico();
                         break;
                     case 10:
-                        System.out.println("Selecionou Relatórios Financeiros.");
-                        // faça algo relacionado a Relatórios Financeiros
+                        System.out.println("Selecionou Relatórios.");
+                        RelatoriosGerais.menuRelatorio();
                         break;
                     default:
                         System.out.println("Opção inválida. Tente novamente.");
@@ -189,8 +213,9 @@ public class Main {
 
 	public static void main(String[] args) {
 		//gerar Dados falsos
-		Pessoa pessoa = new Pessoa( "Administrador", "Xablau", "validador", "33334380", "admin", "12345", "DonoFranquia", null, null);
-    	System.out.println("ID da pessoa atual: " + pessoa.getId());
+		 pessoa = new Pessoa( "Administrador", "Xablau", "validador", "33334380", "admin", "12345", "DonoFranquia", null, null);
+		
+		System.out.println("ID da pessoa atual: " + pessoa.getId());
     	System.out.println("Tipo de usuário da pessoa atual: " + pessoa.getTipoUsuario());
 		PessoaController.cadastrarPessoasAleatorias();
 		MedicoController.cadastrarMedicoAleatorias();
@@ -202,9 +227,8 @@ public class Main {
 		FinanceiroADMController.cadastrarFinanceirosADMAleatorios();
 		FinanceiroMedicoController.cadastrarFinanceirosMedicosAleatorios();
 
-		Main main = new Main();
 		while (true) {
-			main.menuPrincipal();
+			Main.menuPrincipal();
 		}
 	}
 }

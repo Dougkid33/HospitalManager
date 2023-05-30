@@ -91,5 +91,31 @@ public class ConsultaDAO {
         }
         return consultasPaciente;
     }
+    
+    public static Consulta[] listarConsultasPorFiltro(Date dataInicio, Date dataFim, Medico medico) {
+        // Obtenha todas as consultas cadastradas
+        Consulta[] todasConsultas = listarConsultas();
+
+        // Vetor para armazenar as consultas filtradas
+        Consulta[] consultasFiltradas = new Consulta[todasConsultas.length];
+        int contador = 0;
+
+        // Percorra todas as consultas
+        for (Consulta consulta : todasConsultas) {
+            // Verifique se a consulta está dentro do período especificado e se o médico é o desejado
+            if (consulta.getData().compareTo(dataInicio) >= 0 && consulta.getData().compareTo(dataFim) <= 0 &&
+                    consulta.getMedico().equals(medico)) {
+                consultasFiltradas[contador] = consulta;
+                contador++;
+            }
+        }
+
+        // Redimensione o vetor para remover os espaços vazios
+        Consulta[] consultasFinalizadas = new Consulta[contador];
+        System.arraycopy(consultasFiltradas, 0, consultasFinalizadas, 0, contador);
+
+        return consultasFinalizadas;
+    }
+
 
 }

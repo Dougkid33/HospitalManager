@@ -6,11 +6,14 @@ import java.util.Scanner;
 import model.Medico;
 import model.Pessoa;
 import model.DAO.MedicoDao;
+import view.Main;
+
 import static view.Main.exibirMenu;
 
 public class MedicoController {
 
     private MedicoDao medicoDao;
+;
 
     public MedicoController() {
         medicoDao = new MedicoDao();
@@ -48,6 +51,8 @@ public class MedicoController {
             controller.cadastrarMedico(medico.getNome(), medico.getEndereco(), medico.getCpf(), medico.getTelefone(), medico.getLogin(), medico.getTipoUsuario(),medico.getSenha(), medico.getCrm(), medico.getEspecialidade());
         }
     }
+    
+
 
 
     public static void menuMedico() {
@@ -55,9 +60,9 @@ public class MedicoController {
             MedicoController medicoController = new MedicoController();
             boolean sair = false;
            
-           Pessoa pessoaLogin = new Pessoa( "Administrador", "Xablau", "validador", "33334380", "admin", "12345", "DonoFranquia", null, null);
-       	System.out.println("ID da pessoa logada: " + pessoaLogin.getId());
-       	System.out.println("Tipo de usuário da pessoa logada: " + pessoaLogin.getTipoUsuario());
+           //Pessoa pessoaLogin = new Pessoa( "Administrador", "Xablau", "validador", "33334380", "admin", "12345", "DonoFranquia", null, null);
+            //System.out.println("ID da pessoa logada: " + pessoaLogin.getId());
+            //System.out.println("Tipo de usuário da pessoa logada: " + pessoaLogin.getTipoUsuario());
             while (!sair) {
                 System.out.println("\n==============================");
                 System.out.println("       MENU DE OPERAÇÕES MÉDICO");
@@ -71,22 +76,36 @@ public class MedicoController {
 
                 try {
                     int id = 0;
+                    int idBuscaPessoa = 0;
                     boolean permissao = false;
                     int opcao = sc.nextInt();
                     sc.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
 
                     if (opcao != 0) {
-                        System.out.println("Digite o seu ID pra conferir permissão: ");
-                        id = sc.nextInt();
+                        System.out.println("Digite o seu ID para conferir permissão: ");
+                        idBuscaPessoa = sc.nextInt();
                         sc.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
+                        //PessoaController pessoaController = new PessoaController();
+                        Pessoa buscarPessoa = null; // Inicializa o objeto como nulo
 
-                       // PessoaController pessoaController = new PessoaController();
-                       // Pessoa pessoa = pessoaController.buscarPessoaPorId(id);
+                       
+						// Aqui você precisa buscar a pessoa pelo ID informado
+                        if (Main.pessoa != null && Main.pessoa.getId() == idBuscaPessoa) {
+                            buscarPessoa = Main.pessoa;
+                        }
 
-                        //if (pessoa.getTipoUsuario().equals("DonoFranquia") || pessoa.getTipoUsuario().equals("DonoUnidade") || pessoaLogin.getTipoUsuario().equals("DonoFranquia")) {
-                            permissao = true;
-                        //}
+                        if (buscarPessoa != null) {
+                            if (buscarPessoa.getTipoUsuario().equals("DonoFranquia") || buscarPessoa.getTipoUsuario().equals("DonoUnidade")) {
+                                permissao = true;
+                                System.out.println("Permissão Total.");
+                            } else {
+                                System.out.println("Usuário não tem permissão.");
+                            }
+                        } else {
+                            System.out.println("ID de pessoa não encontrado.");
+                        }
                     }
+
 
                     switch (opcao) {
                         case 1: //CADASTRAR

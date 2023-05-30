@@ -85,6 +85,7 @@ public class Medico extends Pessoa {
                 + "\n CPF: " + getCpf()
                 + "\n Telefone : " + getTelefone()
                 + "\n Login: " + getLogin()
+                +"\n Senha: " +getSenha()
                 + "\n Tipo de usuário: " + "Médico"
                 + "\n CRM: "+ getCrm()
                 + "\n Especialidade: "+ getEspecialidade()
