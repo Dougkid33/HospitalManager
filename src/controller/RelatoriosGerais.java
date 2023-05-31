@@ -108,6 +108,9 @@ public class RelatoriosGerais {
 			            double montanteTotalPago = medicoController.calcularMontantePagoUltimoMes(medico);
 			            System.out.println("Montante total pago ao médico no último mês: R$ " + montanteTotalPago+ " .");
 			        }
+			        else {
+			        	System.out.println("Não é data para pagamento.");
+			        }
 					break;
 				}
 				case 2: {

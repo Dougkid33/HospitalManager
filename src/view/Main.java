@@ -72,7 +72,8 @@ public class Main {
 			String usuario = null;
 			int tipoUser = 0;
 			System.out.println("\n [1] - Medico"
-					+ "\n    [2] - Paciente/Dono de Franquia/Administrador");
+					+ "\n [2] - Paciente/Dono de Franquia/Administrador");
+			System.out.println("\n Selecione [1] ou  [2] : ");
 			tipoUser = scanner.nextInt();
 			scanner.nextLine();
 			if(tipoUser == 1) {
