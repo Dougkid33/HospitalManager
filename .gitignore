@@ -15,3 +15,6 @@ nb-configuration.xml
 *.war
 *.ear
 /bin/
+# vscode
+.vscode/
+

@@ -1,5 +1,6 @@
-CREATE TABLE Pessoas (
-    id INT auto_increment PRIMARY KEY NOT NULL,
+-- Active: 1686228775121@@127.0.0.1@3306@manager
+CREATE TABLE `manager`. Pessoas (
+    id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
     nome VARCHAR(100),
     endereco VARCHAR(200),
     cpf VARCHAR(14),
@@ -11,16 +12,17 @@ CREATE TABLE Pessoas (
     dataModificacao DATE
 );
 
-CREATE TABLE Medicos (
+CREATE TABLE `manager`. Medicos (
     id INT PRIMARY KEY,
+    idPessoas INT NOT NULL,
     crm INT,
     especialidade VARCHAR(100),
     dataCriacao DATE,
     dataModificacao DATE,
-    FOREIGN KEY (id) REFERENCES Pessoas(id)
+    FOREIGN KEY (idPessoas) REFERENCES Pessoas(id)
 );
 
-CREATE TABLE Franquias (
+CREATE TABLE `manager`. Franquias (
     id INT auto_increment PRIMARY KEY NOT NULL,
     nome VARCHAR(100),
     cnpj VARCHAR(18),
@@ -32,7 +34,7 @@ CREATE TABLE Franquias (
     FOREIGN KEY (responsavel) REFERENCES Pessoas(id)
 );
 
-CREATE TABLE Unidades (
+CREATE TABLE `manager`. Unidades (
     id INT auto_increment PRIMARY KEY NOT NULL,
     nome VARCHAR(100),
     cnpj VARCHAR(20),
@@ -44,7 +46,7 @@ CREATE TABLE Unidades (
     FOREIGN KEY (responsavel) REFERENCES Pessoas(id)
 );
 
-CREATE TABLE FinanceiroADM (
+CREATE TABLE `manager`. FinanceiroADM (
     id INT auto_increment PRIMARY KEY NOT NULL,
     tipoMovimento VARCHAR(50),
     valor DOUBLE,
@@ -56,7 +58,7 @@ CREATE TABLE FinanceiroADM (
     FOREIGN KEY (unidade) REFERENCES Unidades(id)
 );
 
-CREATE TABLE FinanceiroMedico (
+CREATE TABLE `manager`. FinanceiroMedico (
     id INT auto_increment PRIMARY KEY NOT NULL,
     valorMedico DOUBLE,
     estado VARCHAR(50),
@@ -66,8 +68,7 @@ CREATE TABLE FinanceiroMedico (
     dataModificacao DATE
 );
 
-
-CREATE TABLE Consultas (
+CREATE TABLE `manager`. Consultas (
     id INT auto_increment PRIMARY KEY NOT NULL,
     data DATE,
     hora VARCHAR(10),
@@ -82,7 +83,7 @@ CREATE TABLE Consultas (
     FOREIGN KEY (unidade) REFERENCES Unidades(id)
 );
 
-CREATE TABLE InfoConsultas (
+CREATE TABLE `manager`. InfoConsultas (
     id INT auto_increment PRIMARY KEY NOT NULL,
     consulta INT NOT NULL,
     descricao TEXT,
@@ -91,7 +92,7 @@ CREATE TABLE InfoConsultas (
     FOREIGN KEY (consulta) REFERENCES Consultas(id)
 );
 
-CREATE TABLE Procedimentos (
+CREATE TABLE `manager`. Procedimentos (
     id INT auto_increment PRIMARY KEY NOT NULL,
     nome VARCHAR(100),
     consulta INT NOT NULL,
