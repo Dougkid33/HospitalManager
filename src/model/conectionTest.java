@@ -24,8 +24,8 @@ public class conectionTest {
             while (res.next()) {
                 int id = res.getInt("id");
                 String nome = res.getString("nome");
-                // ... processar os valores retornados da consulta
-                System.out.println("ID: " + id + ", Nome: " + nome);
+                String end = res.getString("endereco");
+                System.out.println("ID: " + id + "\nNome: " + nome + "\nEndereco: " + end);
             }
         } catch (SQLException e) {
             System.out.println("Erro ao executar consulta!");

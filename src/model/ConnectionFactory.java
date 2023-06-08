@@ -26,7 +26,7 @@ public class ConnectionFactory {
         if (connection == null) {
             try {
                 // Registrar o driver JDBC
-                Class.forName("com.mysql.jdbc.Driver");
+                Class.forName("com.mysql.cj.jdbc.Driver");
                 // Estabelecer a conexão com o banco de dados
                 connection = DriverManager.getConnection(url, username, password);
                 System.out.println("Conexão estabelecida!");
