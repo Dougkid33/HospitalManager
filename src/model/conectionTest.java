@@ -16,13 +16,14 @@ public class conectionTest {
         Connection connection = ConnectionFactory.getConnection();
         try (Statement statement = connection.createStatement()) {
             String sqlQuery = "SELECT * FROM pessoas";
-            ResultSet res = statement.executeQuery(sqlQuery);
+            ResultSet rs = statement.executeQuery(sqlQuery);
 
-            while (res.next()) {
-                int id = res.getInt("id");
-                String nome = res.getString("nome");
-                // ... processar os valores retornados da consulta
-                System.out.println("ID: " + id + ", Nome: " + nome);
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String nome = rs.getString("nome");
+                String end = rs.getString("endereco");
+                System.out.println("ID: " + id + "\nNome: " + nome + "\nEndereco: " + end);
+                System.out.println("------------------------------------------------------");
             }
         } catch (SQLException e) {
             System.out.println("Erro ao executar consulta!");

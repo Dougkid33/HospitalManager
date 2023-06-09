@@ -7,6 +7,7 @@ package model;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Connection;
+import java.util.Properties;
 
 /**
  *
@@ -14,21 +15,34 @@ import java.sql.Connection;
  */
 public class ConnectionFactory {
     private static final String url = "jdbc:mysql://localhost:3306/manager";
+<<<<<<< HEAD
     private static final String username = "root";
     private static final String password = "1433";
+=======
+    private static final String username = "manager";
+    private static final String password = "1234";
+>>>>>>> 77ef5c78c47e8e6ba8d37aec6f270382d472f5ce
 
-    private static Connection connection;
+    private static Connection conexao;
 
     private ConnectionFactory() {
     }
 
     public static Connection getConnection() {
-        if (connection == null) {
+        Properties properties = new Properties();
+        properties.setProperty("user", username);
+        properties.setProperty("password", password);
+        properties.setProperty("useSSL", "false");
+        properties.setProperty("useTimezone", "true");
+        properties.setProperty("serverTimezone", "UTC");
+        properties.setProperty("allowPublicKeyRetrieval","true");
+        
+        if (conexao == null) {
             try {
                 // Registrar o driver JDBC
-                Class.forName("com.mysql.jdbc.Driver");
+                Class.forName("com.mysql.cj.jdbc.Driver");
                 // Estabelecer a conexão com o banco de dados
-                connection = DriverManager.getConnection(url, username, password);
+                conexao = DriverManager.getConnection(url, properties);
                 System.out.println("Conexão estabelecida!");
             } catch (ClassNotFoundException e) {
                 System.out.println("Driver JDBC não encontrado!");
@@ -38,38 +52,8 @@ public class ConnectionFactory {
                 e.printStackTrace();
             }
         }
-        return connection;
+        return conexao;
     }
 }
 
-
-
-//public class App {
-//
-//    // Configurações do banco de dados
-//    private static final String URL = "jdbc:mysql://localhost:3306/manager";
-//    private static final String USERNAME = "murilo";
-//    private static final String PASSWORD = "183729";
-//
-//    public static void main(String[] args) {
-//        // Passo 1: Registrar o driver JDBC
-//        try {
-//            Class.forName("com.mysql.jdbc.Driver");
-//        } catch (ClassNotFoundException e) {
-//            System.out.println("Driver JDBC não encontrado!");
-//            e.printStackTrace();
-//            return;
-//        }
-//
-//        // Passo 2: Estabelecer a conexão com o banco de dados
-//        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD)) {
-//            System.out.println("Conexão bem-sucedida!");
-//
-//           
-//        } catch (SQLException e) {
-//            System.out.println("Erro ao conectar ao banco de dados!");
-//            e.printStackTrace();
-//        }
-//    }
-//}
 

@@ -2,6 +2,7 @@ package controller;
 
 import java.util.Date;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 import model.Pessoa;
@@ -58,7 +59,7 @@ public class PessoaController {
         return true;
     }
 
-    public Pessoa[] listarPessoas() {
+    public List<Pessoa> listarPessoas() {
         return dao.listarPessoas();
     }
 
@@ -195,16 +196,16 @@ public class PessoaController {
                             }
                             break;
                         case 6://LISTAR
-                            Pessoa[] pessoas = pessoaController.listarPessoas();
+                            List<Pessoa> pessoas = pessoaController.listarPessoas();
                             boolean existePessoas = false;
-                            for (int i = 0; i < pessoas.length; i++) {
-                                if (pessoas[i] != null) {
+                            for (int i = 0; i < pessoas.size(); i++) {
+                                if (pessoas.get(i) != null) {
                                     if (!existePessoas) {
                                         System.out.println("Lista de pessoas cadastradas:");
                                         existePessoas = true;
 
                                     }
-                                    System.out.println(pessoas[i]);
+                                    System.out.println(pessoas.get(i));
 
                                     System.out.println("\n ------------------------------\n");
                                 }
@@ -213,6 +214,7 @@ public class PessoaController {
                                 System.out.println("Nenhuma pessoa cadastrada.");
                             }
                             break;
+
                         case 0:
                             sair = true;
                             System.out.println("Encerrando o programa...");
