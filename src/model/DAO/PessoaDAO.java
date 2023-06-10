@@ -58,6 +58,16 @@ public class PessoaDAO {
             throw new RuntimeException(e);
         }
     }
+    
+    public void resetarIdAuto() {
+        String sql = "ALTER TABLE pessoas AUTO_INCREMENT = 1";
+
+        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Erro ao resetar o ID AUTO_INCREMENT!");
+        }
+    }
 
     public boolean removePessoa(int id) {
         String sql = "DELETE FROM pessoas WHERE id = ?";
@@ -89,43 +99,34 @@ public class PessoaDAO {
         }
         return null;
     }
-
+    
     public Pessoa buscarPorId(int id) {
-        Pessoa pessoaArray = null;
-        Pessoa pessoaBD = null;
-
-        // Procurar a pessoa no array
-        for (Pessoa pessoa : pessoas) {
-            if (pessoa.getId() == id) {
-                pessoaArray = pessoa;
-                break;
-            }
-        }
-
-        // Procurar a pessoa no banco de dados
         String sql = "SELECT * FROM pessoas WHERE id = ?";
+
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                int idBD = rs.getInt("id");
-                String nomeBD = rs.getString("nome");
-                //pessoaBD = new Pessoa(idBD, nomeBD);
 
-                // Atualizar o array caso os dados estejam desatualizados
-                if (!pessoaBD.equals(pessoaArray)) {
-                    int index = pessoas.indexOf(pessoaArray);
-                    if (index != -1) {
-                        pessoas.set(index, pessoaBD);
-                    }
-                }
+            if (rs.next()) {
+                Pessoa pessoa = new Pessoa();
+                pessoa.setId(rs.getInt("id"));
+                pessoa.setNome(rs.getString("nome"));
+                pessoa.setEndereco(rs.getString("endereco"));
+                pessoa.setCpf(rs.getString("cpf"));
+                pessoa.setTelefone(rs.getString("telefone"));
+                pessoa.setLogin(rs.getString("login"));
+                pessoa.setSenha(rs.getString("senha"));
+                pessoa.setTipoUsuario(rs.getString("tipoUsuario"));
+                pessoa.setDataCriacao(rs.getDate("dataCriacao"));
+                pessoa.setDataModificacao(rs.getDate("dataModificacao"));
+                
+                
+                return pessoa;
             }
         } catch (SQLException e) {
             System.out.println("Erro ao buscar pessoa por ID!");
-            e.printStackTrace();
         }
-
-        return pessoaArray;
+        return null;
     }
 
     public Pessoa buscarPessoaPorLogin(String login) {
@@ -138,12 +139,25 @@ public class PessoaDAO {
     }
     
     public boolean editarPessoa(Pessoa pessoa) {
-        String sql = "UPDATE pessoas SET nome = ? WHERE id = ?";
+        String sql = "UPDATE pessoas SET "
+                + "nome = ?, "
+                + "endereco = ?,"
+                + "cpf = ?,"
+                + "telefone = ?,"
+                + "login = ?,"
+                + "senha = ?,"
+                + "tipoUsuario = ?  WHERE id = ?";
 
-        try (PreparedStatement statement = conexao.prepareStatement(sql)) {
-            statement.setString(1, pessoa.getNome());
-            statement.setInt(2, pessoa.getId());
-            int rowsUpdated = statement.executeUpdate();
+        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+            stmt.setString(1, pessoa.getNome());
+            stmt.setString(2, pessoa.getEndereco());
+            stmt.setString(3, pessoa.getCpf());
+            stmt.setString(4, pessoa.getTelefone());
+            stmt.setString(5, pessoa.getLogin());
+            stmt.setString(6, pessoa.getSenha());
+            stmt.setString(7, pessoa.getTipoUsuario());
+            stmt.setInt(8, pessoa.getId());
+            int rowsUpdated = stmt.executeUpdate();
 
             // Atualizar a pessoa no ArrayList
             for (int i = 0; i < pessoas.size(); i++) {
@@ -192,22 +206,24 @@ public class PessoaDAO {
                 String cpf = rs.getString("cpf");
                 String telefone = rs.getString("telefone");
                 String login = rs.getString("login");
+                String senha = rs.getString("senha");
                 String tipoUsuario = rs.getString("tipoUsuario");
                 Date dataCriacao = rs.getDate("DataCriacao");
                 Date dataModificacao = rs.getDate("DataModificacao");
 
-                Pessoa pessoa = new Pessoa();
+                Pessoa p = new Pessoa();
                 
-                pessoa.setId(id);
-                pessoa.setNome(nome);
-                pessoa.setEndereco(endereco);
-                pessoa.setCpf(cpf);
-                pessoa.setTelefone(telefone);
-                pessoa.setLogin(login);
-                pessoa.setTipoUsuario(tipoUsuario);
-                pessoa.setDataCriacao(dataCriacao);
-                pessoa.setDataModificacao(dataModificacao);
-                pessoas.add(pessoa);
+                p.setId(id);
+                p.setNome(nome);
+                p.setEndereco(endereco);
+                p.setCpf(cpf);
+                p.setTelefone(telefone);
+                p.setLogin(login);
+                p.setSenha(senha);
+                p.setTipoUsuario(tipoUsuario);
+                p.setDataCriacao(dataCriacao);
+                p.setDataModificacao(dataModificacao);
+                pessoas.add(p);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

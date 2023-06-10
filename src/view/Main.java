@@ -213,6 +213,9 @@ public class Main {
     }
 
 	public static void main(String[] args) {
+                PessoaController pessoaControl = new PessoaController();
+                pessoaControl.resetarIdAutoIncrement();
+                
 		//gerar Dados falsos
 		 pessoa = new Pessoa( "Administrador", "Xablau", "validador", "33334380", "admin", "12345", "DonoFranquia", null, null);
 		

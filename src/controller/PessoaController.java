@@ -34,15 +34,16 @@ public class PessoaController {
         return dao.buscarPessoaPorLogin(login);
     }
 
-    public boolean editarPessoa(int id, String login, String novoNome, String novoEndereco, String novoCpf, String novoTelefone) {
-        Pessoa pessoa = dao.buscarPorId(id);
+//    public boolean editarPessoa(int id, String login, String novoNome, String novoEndereco, String novoCpf, String novoTelefone) {
+    public boolean editarPessoa(Pessoa pessoa) {
+       
         if (pessoa == null) {
             return false; // Pessoa não encontrada
         }
-        pessoa.setNome(novoNome);
-        pessoa.setEndereco(novoEndereco);
-        pessoa.setCpf(novoCpf);
-        pessoa.setTelefone(novoTelefone);
+//        pessoa.setNome(novoNome);
+//        pessoa.setEndereco(novoEndereco);
+//        pessoa.setCpf(novoCpf);
+//        pessoa.setTelefone(novoTelefone);
         pessoa.setDataModificacao(new Date());
 
         return dao.editarPessoa(pessoa);
@@ -53,7 +54,6 @@ public class PessoaController {
         if (pessoa == null) {
             return false; // Pessoa não encontrada
         }
-
         pessoa.setTipoUsuario(novoTipoUsuario);
         pessoa.setDataModificacao(new Date());
         return true;
@@ -66,7 +66,11 @@ public class PessoaController {
     public static Pessoa buscarPessoaPorCpf(String cpf) {
         return PessoaDAO.buscarPessoaPorCpf(cpf);
     }
-    
+
+    public static void resetarIdAutoIncrement() {
+        dao.resetarIdAuto();
+    }
+
     public static void cadastrarPessoasAleatorias() {
         PessoaController controller = new PessoaController(); // criando uma instância do controlador
         for (int i = 0; i < 10; i++) {
@@ -127,26 +131,62 @@ public class PessoaController {
                             id = sc.nextInt();
                             sc.nextLine();
                             PessoaController pessoaControlleredit = new PessoaController();
-                            Pessoa editarPessoa = pessoaControlleredit.buscarPessoaPorId(id);
-                            if (editarPessoa == null) {
+                            Pessoa pessoaEditada = pessoaControlleredit.buscarPessoaPorId(id);
+                            if (pessoaEditada == null) {
                                 System.out.println("Pessoa não encontrada.");
                                 break;
                             }
-                            System.out.print("Digite o novo nome da pessoa: ");
+                            System.out.print("Digite o novo nome da pessoa "
+                                    + "(ou pressione Enter para manter o valor atual): \n " 
+                                    + pessoaEditada.getNome() + " ");
                             nome = sc.nextLine();
-                            System.out.print("Digite o novo endereço da pessoa: ");
+                            if (!nome.isEmpty()) {
+                                pessoaEditada.setNome(nome);
+                            }
+                            System.out.print("Digite o novo endereço da pessoa "
+                                    + "(ou pressione Enter para manter o valor atual): \n" 
+                                    + pessoaEditada.getEndereco() + " ");
                             endereco = sc.nextLine();
-                            System.out.print("Digite o novo CPF da pessoa: ");
+                            if (!endereco.isEmpty()) {
+                                pessoaEditada.setEndereco(endereco);
+                            }
+                            System.out.print("Digite o novo CPF da pessoa "
+                                    + "(ou pressione Enter para manter o valor atual): \n" 
+                                    + pessoaEditada.getCpf() + " ");
                             cpf = sc.nextLine();
-                            System.out.print("Digite o novo telefone da pessoa: ");
+                            if (!cpf.isEmpty()) {
+                                pessoaEditada.setCpf(cpf);
+                            }
+                            System.out.print("Digite o novo telefone da pessoa "
+                                    + "(ou pressione Enter para manter o valor atual): \n" 
+                                    + pessoaEditada.getTelefone() + " ");
                             telefone = sc.nextLine();
-                            System.out.print("Digite o novo login da pessoa: ");
+                            if (!telefone.isEmpty()) {
+                                pessoaEditada.setTelefone(telefone);
+                            }
+                            System.out.print("Digite o novo login da pessoa "
+                                    + "(ou pressione Enter para manter o valor atual): \n" 
+                                    + pessoaEditada.getLogin() + " ");
                             login = sc.nextLine();
-                            System.out.print("Digite a nova senha da pessoa: ");
+                            if (!login.isEmpty()) {
+                                pessoaEditada.setLogin(login);
+                            }
+                            System.out.print("Digite a nova senha da pessoa "
+                                    + "(ou pressione Enter para manter o valor atual): \n" 
+                                    + pessoaEditada.getSenha() + " ");
                             senha = sc.nextLine();
-                            System.out.print("Digite o novo tipo de usuário da pessoa: ");
+                            if (!senha.isEmpty()) {
+                                pessoaEditada.setSenha(senha);
+                            }
+                            System.out.print("Digite o novo tipo de usuário da pessoa "
+                                    + "(ou pressione Enter para manter o valor atual): \n" 
+                                    + pessoaEditada.getTipoUsuario() + " ");
                             tipoUsuario = sc.nextLine();
-                            boolean editado = pessoaController.editarPessoa(id, login, nome, endereco, cpf, telefone);
+                            if (!tipoUsuario.isEmpty()) {
+                                pessoaEditada.setTipoUsuario(tipoUsuario);
+                            }
+//                            boolean editado = pessoaController.editarPessoa(id, login, nome, endereco, cpf, telefone);
+                            boolean editado = pessoaController.editarPessoa(pessoaEditada);
                             if (editado) {
                                 System.out.println("Pessoa editada com sucesso.");
                             } else {
@@ -158,7 +198,7 @@ public class PessoaController {
                             id = sc.nextInt();
                             sc.nextLine();
                             PessoaController pessoaControlleredit2 = new PessoaController();
-                            Pessoa alterarTipo = pessoaControlleredit2 .buscarPessoaPorId(id);
+                            Pessoa alterarTipo = pessoaControlleredit2.buscarPessoaPorId(id);
                             if (alterarTipo == null) {
                                 System.out.println("Pessoa não encontrada.");
                                 break;
