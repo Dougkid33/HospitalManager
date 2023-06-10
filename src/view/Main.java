@@ -15,7 +15,6 @@ import controller.RelatoriosGerais;
 import controller.UnidadeController;
 import model.Medico;
 import model.Pessoa;
-import model.conectionTest;
 
 public class Main {
 
@@ -234,7 +233,6 @@ public class Main {
 
 		while (true) {
 			Main.menuPrincipal();
-			conectionTest.main(args);
 		}
 	}
 }

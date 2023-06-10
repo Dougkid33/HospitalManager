@@ -15,13 +15,8 @@ import java.util.Properties;
  */
 public class ConnectionFactory {
     private static final String url = "jdbc:mysql://localhost:3306/manager";
-<<<<<<< HEAD
-    private static final String username = "root";
-    private static final String password = "1433";
-=======
     private static final String username = "manager";
     private static final String password = "1234";
->>>>>>> 77ef5c78c47e8e6ba8d37aec6f270382d472f5ce
 
     private static Connection conexao;
 
