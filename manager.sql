@@ -13,7 +13,7 @@ CREATE TABLE `manager`. Pessoas (
 );
 
 CREATE TABLE `manager`. Medicos (
-    id INT PRIMARY KEY,
+    id INT auto_increment PRIMARY KEY NOT NULL,
     idPessoas INT NOT NULL,
     crm INT,
     especialidade VARCHAR(100),

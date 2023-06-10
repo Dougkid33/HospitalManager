@@ -3,6 +3,7 @@ package controller;
 import java.util.Date;
 import java.util.Calendar;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 import model.Consulta;
@@ -10,7 +11,7 @@ import model.Medico;
 import model.Pessoa;
 import model.Procedimento;
 import model.DAO.ConsultaDAO;
-import model.DAO.MedicoDao;
+import model.DAO.MedicoDAO;
 import model.DAO.ProcedimentoDAO;
 import view.Main;
 
@@ -18,11 +19,11 @@ import static view.Main.exibirMenu;
 
 public class MedicoController {
 
-    private MedicoDao medicoDao;
+    private MedicoDAO medicoDao;
 ;
 
     public MedicoController() {
-        medicoDao = new MedicoDao();
+        medicoDao = new MedicoDAO();
     }
 
     public boolean cadastrarMedico(String nome, String endereco, String cpf, String telefone, String login,
@@ -47,7 +48,7 @@ public class MedicoController {
         return medicoDao.buscarMedicoPorCRM(crm);
     }
 
-    public Medico[] listarMedicos() {
+    public List<Medico> listarMedicos() {
         return medicoDao.listarMedicos();
     }
     public static void cadastrarMedicoAleatorias() {
@@ -314,15 +315,16 @@ public class MedicoController {
                             break;
                         case 5: //LISTAR
                             System.out.println("Listando todos os médicos:");
-                            Medico[] listaMedicos = medicoController.listarMedicos();
-                            if (listaMedicos.length == 0) {
+                            List<Medico> listaMedicos = medicoController.listarMedicos();
+                            if (listaMedicos.size() == 0) {
                                 System.out.println("Não há médicos cadastrados.");
                             } else {
-                                for (int i = 0; i < listaMedicos.length; i++) {
-                                    System.out.println(listaMedicos[i]);
+                                for (int i = 0; i < listaMedicos.size(); i++) {
+                                    System.out.println(listaMedicos);
                                 }
                             }
                             break;
+
                         case 0:
                             sair = true;
                             break;

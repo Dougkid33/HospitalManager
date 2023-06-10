@@ -59,6 +59,45 @@ public class PessoaDAO {
         }
     }
     
+    public int cadastrarPessoaMedico(Pessoa pessoa) {
+        int id = 0;
+                
+        String sql = "insert into pessoas "
+                + "(nome, endereco, cpf, telefone, login,"
+                + "senha, tipoUsuario, dataCriacao, dataModificacao)"
+                + " values (?,?,?,?,?,?,?,?, ?)";
+
+        try {
+            PreparedStatement stmt;
+            stmt = conexao.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            //seta os valores
+            stmt.setString(1, pessoa.getNome());
+            stmt.setString(2, pessoa.getEndereco());
+            stmt.setString(3, pessoa.getCpf());
+            stmt.setString(4, pessoa.getTelefone());
+            stmt.setString(5, pessoa.getLogin());
+            stmt.setString(6, pessoa.getSenha());
+            stmt.setString(7, pessoa.getTipoUsuario());
+            stmt.setDate(8, java.sql.Date.valueOf(LocalDate.now()));
+            stmt.setDate(9, java.sql.Date.valueOf(LocalDate.now()));
+            stmt.execute();
+            // Obtém o valor do id gerado pelo banco de dados
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (rs.next()) {
+                id = rs.getInt(1);
+                pessoa.setId(id);
+            }
+
+            // Adicionar a pessoa ao ArrayList
+            PessoaDAO.pessoas.add(pessoa);
+            System.out.println("Pessoa adicionada com sucesso.");
+            return id;
+        } catch (SQLException e) {
+            System.out.println("Erro ao cadastrar pessoa!");
+            throw new RuntimeException(e);
+        }
+    }
+    
     public void resetarIdAuto() {
         String sql = "ALTER TABLE pessoas AUTO_INCREMENT = 1";
 

@@ -9,6 +9,7 @@ public class Medico extends Pessoa {
     private String especialidade;
     private Date dataCriacao;
     private Date dataModificacao;
+    private Pessoa pessoa;
 
     public Medico(int id, String nome, String endereco, String cpf, String telefone, String login, String senha,
             int crm, Date dataCriacao, Date dataModificacao, String especialidade) {
@@ -18,6 +19,10 @@ public class Medico extends Pessoa {
         this.dataCriacao = dataCriacao;
         this.dataModificacao = dataModificacao;
 }
+
+    public Medico(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
 
     public int getCrm() {
         return crm;
