@@ -42,6 +42,9 @@ public class Franquia {
         this.dataCriacao = dataCriacao;
         this.dataModificacao = dataModificacao;
     }
+    public Franquia() {
+    }
+    
     private static int proximoId = 1;
 
     private static int gerarNovoId() {
@@ -136,4 +139,19 @@ public class Franquia {
         return franquia;
     }
 
+    @Override
+    public String toString() {
+        return "Franquia{" 
+                + "id=" + id 
+                + ", nome=" + nome 
+                + ", cnpj=" + cnpj 
+                + ", cidade=" + cidade 
+                + ", endereco=" + endereco 
+                + ", responsavel=" + responsavel 
+                + ", dataCriacao=" + dataCriacao 
+                + ", dataModificacao=" + dataModificacao 
+                + ", despesas=" + despesas 
+                + ", despesasMedico=" + despesasMedico + '}';
+    }
+   
 }

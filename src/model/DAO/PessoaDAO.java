@@ -14,10 +14,10 @@ import model.Pessoa;
 
 public class PessoaDAO {
 
-    private Connection conexao = null;
+    private Connection connection = ConnectionFactory.getConnection();
 
     public PessoaDAO() {
-        this.conexao = ConnectionFactory.getConnection();
+        this.connection = ConnectionFactory.getConnection();
     }
     private static List<Pessoa> pessoas = new ArrayList<>();
 
@@ -30,7 +30,7 @@ public class PessoaDAO {
 
         try {
             PreparedStatement stmt;
-            stmt = conexao.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            stmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             //seta os valores
             stmt.setString(1, pessoa.getNome());
             stmt.setString(2, pessoa.getEndereco());
@@ -69,7 +69,7 @@ public class PessoaDAO {
 
         try {
             PreparedStatement stmt;
-            stmt = conexao.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            stmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             //seta os valores
             stmt.setString(1, pessoa.getNome());
             stmt.setString(2, pessoa.getEndereco());
@@ -101,7 +101,7 @@ public class PessoaDAO {
     public void resetarIdAuto() {
         String sql = "ALTER TABLE pessoas AUTO_INCREMENT = 1";
 
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Erro ao resetar o ID AUTO_INCREMENT!");
@@ -111,7 +111,7 @@ public class PessoaDAO {
     public boolean removePessoa(int id) {
         String sql = "DELETE FROM pessoas WHERE id = ?";
 
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();
 
@@ -142,7 +142,7 @@ public class PessoaDAO {
     public Pessoa buscarPorId(int id) {
         String sql = "SELECT * FROM pessoas WHERE id = ?";
 
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
 
@@ -187,7 +187,7 @@ public class PessoaDAO {
                 + "senha = ?,"
                 + "tipoUsuario = ?  WHERE id = ?";
 
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, pessoa.getNome());
             stmt.setString(2, pessoa.getEndereco());
             stmt.setString(3, pessoa.getCpf());
@@ -217,7 +217,7 @@ public class PessoaDAO {
 
     public boolean altera(Pessoa pessoa) {
         try {
-            PreparedStatement stmt = conexao.prepareStatement("update pessoas set endereco = ? where id = ?");
+            PreparedStatement stmt = connection.prepareStatement("update pessoas set endereco = ? where id = ?");
             stmt.setString(1, pessoa.getEndereco());
             stmt.setLong(2, pessoa.getId());
 
@@ -234,7 +234,7 @@ public class PessoaDAO {
         List<Pessoa> pessoas = new ArrayList<>();
         try {
             PreparedStatement stmt;
-            stmt = conexao.prepareStatement("select * from pessoas");
+            stmt = connection.prepareStatement("select * from pessoas");
             ResultSet rs;
             rs = stmt.executeQuery();
             // itera no ResultSet
@@ -264,10 +264,9 @@ public class PessoaDAO {
                 p.setDataModificacao(dataModificacao);
                 pessoas.add(p);
             }
+            return pessoas;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return pessoas;
     }
-
 }

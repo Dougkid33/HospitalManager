@@ -40,12 +40,7 @@ public class PessoaController {
         if (pessoa == null) {
             return false; // Pessoa não encontrada
         }
-//        pessoa.setNome(novoNome);
-//        pessoa.setEndereco(novoEndereco);
-//        pessoa.setCpf(novoCpf);
-//        pessoa.setTelefone(novoTelefone);
         pessoa.setDataModificacao(new Date());
-
         return dao.editarPessoa(pessoa);
     }
 
@@ -119,7 +114,7 @@ public class PessoaController {
                             String senha = sc.nextLine();
                             System.out.print("Digite o tipo de usuário da pessoa: ");
                             String tipoUsuario = sc.nextLine();
-                            boolean cadastrado = pessoaController.cadastrarPessoa(new Pessoa(nome, endereco, cpf, telefone, login, senha, tipoUsuario, null, null));
+                            boolean cadastrado = pessoaController.cadastrarPessoa(new Pessoa(nome, endereco, cpf, telefone, login, senha, tipoUsuario, new Date(), new Date()));
                             if (cadastrado) {
                                 System.out.println("Pessoa cadastrada com sucesso.");
                             } else {

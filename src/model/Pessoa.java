@@ -52,7 +52,7 @@ public class Pessoa {
         Date dataModificacao = new Date();
 
         Pessoa pessoa = new Pessoa(nome, endereco, cpf, telefone, login, senha, tipoUsuario, dataCriacao, dataModificacao);
-
+        
         return pessoa;
     }
     public int getId() {

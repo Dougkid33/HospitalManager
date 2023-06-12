@@ -3,6 +3,7 @@ package controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 import model.Consulta;
@@ -158,12 +159,12 @@ public class ConsultaController {
                     System.out.print("Digite o ID do médico: \n");
                     System.out.println("Listando todos os médicos: \n");
                     MedicoController medicoController = new MedicoController();
-                    Medico[] listaMedicos = medicoController.listarMedicos();
-                    if (listaMedicos.length == 0) {
+                    List listaMedicos = medicoController.listarMedicos();
+                    if (listaMedicos.size() == 0) {
                         System.out.println("Não há médicos cadastrados.");
                     } else {
-                        for (int i = 0; i < listaMedicos.length; i++) {
-                            System.out.println(listaMedicos[i]);
+                        for (int i = 0; i < listaMedicos.size(); i++) {
+                            System.out.println(listaMedicos);
                         }
                     }
                     int idMedico = input.nextInt();
