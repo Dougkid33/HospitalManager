@@ -53,7 +53,7 @@ public class MedicoController {
     }
     public static void cadastrarMedicoAleatorias() {
         MedicoController controller = new MedicoController();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 2; i++) {
             Medico medico = Medico.gerarMedicoAleatorio();
             controller.cadastrarMedico(medico.getNome(), medico.getEndereco(), medico.getCpf(), medico.getTelefone(), medico.getLogin(), medico.getTipoUsuario(),medico.getSenha(), medico.getCrm(), medico.getEspecialidade());
         }

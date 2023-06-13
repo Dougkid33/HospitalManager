@@ -43,7 +43,7 @@ public class ProcedimentoController {
 
 	public static void cadastrarProcedimentosAleatorios() {
 
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 2; i++) {
 			Procedimento procedimento = Procedimento.gerarProcedimentoAleatorio();
 			ProcedimentoDAO.cadastrarProcedimento(procedimento.getNome(), procedimento.getConsulta(),
 					procedimento.getDiaHorario(), procedimento.getEstado(), procedimento.getValor(),

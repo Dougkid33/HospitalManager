@@ -68,7 +68,7 @@ public class PessoaController {
 
     public static void cadastrarPessoasAleatorias() {
         PessoaController controller = new PessoaController(); // criando uma instância do controlador
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 2; i++) {
             Pessoa pessoa = Pessoa.gerarPessoaAleatoria();
             pessoa.setTipoUsuario("Paciente");
             controller.cadastrarPessoa(pessoa); // usando a instância do controlador para chamar o método cadastrarPessoa
@@ -238,10 +238,8 @@ public class PessoaController {
                                     if (!existePessoas) {
                                         System.out.println("Lista de pessoas cadastradas:");
                                         existePessoas = true;
-
                                     }
                                     System.out.println(pessoas.get(i));
-
                                     System.out.println("\n ------------------------------\n");
                                 }
                             }
@@ -249,7 +247,6 @@ public class PessoaController {
                                 System.out.println("Nenhuma pessoa cadastrada.");
                             }
                             break;
-
                         case 0:
                             sair = true;
                             System.out.println("Encerrando o programa...");

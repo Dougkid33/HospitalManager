@@ -52,9 +52,7 @@ public class FinanceiroMedicoController {
     private static Calendar calendar = Calendar.getInstance();
     
     public static void cadastrarFinanceirosMedicosAleatorios() {
-        int quantidade = 10; // Número fixo de objetos a serem cadastrados
-
-        for (int i = 0; i < quantidade; i++) {
+        for (int i = 0; i < 2; i++) {
             FinanceiroMedico financeiroMedico = FinanceiroMedico.gerarFinanceiroMedicoAleatorio();
             FinanceiroMedicoDAO.cadastrarFinanceiroMedico(financeiroMedico.getValorMedico(), financeiroMedico.getEstado(),
                     financeiroMedico.getFranquia());

@@ -78,7 +78,7 @@ public class FinanceiroADMController {
     }
     public static void cadastrarFinanceirosADMAleatorios() {
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 2; i++) {
             FinanceiroADM financeiroADM = FinanceiroADM.gerarFinanceiroADMAleatorio();
             FinanceiroADMDAO.cadastrarFinanceiro(financeiroADM.getTipoMovimento(), financeiroADM.getValor(),
                     financeiroADM.getUnidade(), financeiroADM.getDescritivoMovimento());

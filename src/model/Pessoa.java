@@ -21,7 +21,6 @@ public class Pessoa {
 
     public Pessoa(String nome, String endereco, String cpf, String telefone, String login, String senha,
             String tipoUsuario, Date dataCriacao, Date dataModificacao) {
-        this.id = gerarNovoId();
         this.nome = nome;
         this.endereco = endereco;
         this.cpf = cpf;
@@ -148,12 +147,6 @@ public class Pessoa {
                 + ", dataCriacao = " + dataCriacao
                 + ", dataModificacao = " + dataModificacao
                 + "}";
-    }
-
-    private static int proximoId = 1;
-
-    private static int gerarNovoId() {
-        return proximoId++;
     }
 
 }

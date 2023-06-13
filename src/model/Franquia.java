@@ -1,9 +1,8 @@
 package model;
 
+import controller.PessoaController;
 import java.util.Date;
 import java.util.Random;
-
-
 
 public class Franquia {
 
@@ -32,8 +31,6 @@ public class Franquia {
 
     public Franquia(String nome, String cnpj, String cidade, String endereco, Pessoa responsavel,
             Date dataCriacao, Date dataModificacao) {
-        super();
-        this.id = gerarNovoId();
         this.nome = nome;
         this.cnpj = cnpj;
         this.cidade = cidade;
@@ -45,12 +42,6 @@ public class Franquia {
     public Franquia() {
     }
     
-    private static int proximoId = 1;
-
-    private static int gerarNovoId() {
-        return proximoId++;
-    }
-
     public int getId() {
         return id;
     }
@@ -119,12 +110,14 @@ public class Franquia {
         return this.despesas;
     }
     public static Franquia gerarFranquiaAleatoria() {
+        PessoaController controller = new PessoaController();
         String[] nomes = {"Franquia A", "Franquia B", "Franquia C", "Franquia D", "Franquia E"};
         String[] cnpjs = {"12.345.678/0001-01", "23.456.789/0001-02", "34.567.890/0001-03", "45.678.901/0001-04", "56.789.012/0001-05"};
         String[] cidades = {"São Paulo", "Rio de Janeiro", "Belo Horizonte", "Curitiba", "Fortaleza"};
         String[] enderecos = {"Rua 1", "Rua 2", "Rua 3", "Rua 4", "Rua 5"};
         Pessoa responsavel = Pessoa.gerarPessoaAleatoria();
-
+        controller.cadastrarPessoa(responsavel);
+        
         Random random = new Random();
 
         String nome = nomes[random.nextInt(nomes.length)];
@@ -147,7 +140,7 @@ public class Franquia {
                 + ", cnpj=" + cnpj 
                 + ", cidade=" + cidade 
                 + ", endereco=" + endereco 
-                + ", responsavel=" + responsavel 
+                + ", responsavel=" + responsavel.getNome()
                 + ", dataCriacao=" + dataCriacao 
                 + ", dataModificacao=" + dataModificacao 
                 + ", despesas=" + despesas 

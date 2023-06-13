@@ -26,7 +26,7 @@ public class PessoaDAO {
         String sql = "insert into pessoas "
                 + "(nome, endereco, cpf, telefone, login,"
                 + "senha, tipoUsuario, dataCriacao, dataModificacao)"
-                + " values (?,?,?,?,?,?,?,?, ?)";
+                + " values (?,?,?,?,?,?,?,?,?)";
 
         try {
             PreparedStatement stmt;
@@ -48,7 +48,6 @@ public class PessoaDAO {
                 int id = rs.getInt(1);
                 pessoa.setId(id);
             }
-
             // Adicionar a pessoa ao ArrayList
             PessoaDAO.pessoas.add(pessoa);
             System.out.println("Pessoa adicionada com sucesso.");
@@ -99,12 +98,28 @@ public class PessoaDAO {
     }
     
     public void resetarIdAuto() {
-        String sql = "ALTER TABLE pessoas AUTO_INCREMENT = 1";
+        List<String> tabelas = new ArrayList<>();
+        tabelas.add("pessoas");
+        tabelas.add("medicos");
+        tabelas.add("franquias");
+        tabelas.add("unidades");
+        tabelas.add("unidades");
+        tabelas.add("consultas");
+        tabelas.add("procedimentos");
+        tabelas.add("infoconsultas");
+        tabelas.add("financeiromedico");
+        tabelas.add("financeiroadm");
+        
+        for (String tabela : tabelas) {
+            String sql = "ALTER TABLE " + tabela + " AUTO_INCREMENT = 1";
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Erro ao resetar o ID AUTO_INCREMENT!");
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println("Erro ao resetar o ID AUTO_INCREMENT da tabela: " + tabela);
+                e.printStackTrace();
+                
+            }
         }
     }
 
@@ -169,11 +184,30 @@ public class PessoaDAO {
     }
 
     public Pessoa buscarPessoaPorLogin(String login) {
-        for (Pessoa pessoa : pessoas) {
-            if (pessoa.getLogin().equals(login)) {
+        String sql = "SELECT * FROM pessoas WHERE login = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, login);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                Pessoa pessoa = new Pessoa();
+                pessoa = buscarPorId(rs.getInt("id"));
+//                pessoa.setId(rs.getInt("id"));
+//                pessoa.setNome(rs.getString("login"));
+//                pessoa.setNome(rs.getString("senha"));
+                
                 return pessoa;
             }
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar pessoa por ID!");
         }
+
+//        for (Pessoa pessoa : pessoas) {
+//            if (pessoa.getLogin().equals(login)) {
+//                return pessoa;
+//            }
+//        }
         return null;
     }
     
@@ -185,7 +219,9 @@ public class PessoaDAO {
                 + "telefone = ?,"
                 + "login = ?,"
                 + "senha = ?,"
-                + "tipoUsuario = ?  WHERE id = ?";
+                + "tipoUsuario = ?,"
+                + "dataModificacao = ?"
+                + "WHERE id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, pessoa.getNome());
@@ -195,9 +231,9 @@ public class PessoaDAO {
             stmt.setString(5, pessoa.getLogin());
             stmt.setString(6, pessoa.getSenha());
             stmt.setString(7, pessoa.getTipoUsuario());
-            stmt.setInt(8, pessoa.getId());
-            int rowsUpdated = stmt.executeUpdate();
-
+            stmt.setDate(8, (Date) pessoa.getDataModificacao());
+            stmt.setInt(9, pessoa.getId());
+            stmt.executeUpdate();
             // Atualizar a pessoa no ArrayList
             for (int i = 0; i < pessoas.size(); i++) {
                 Pessoa p = pessoas.get(i);
@@ -206,8 +242,7 @@ public class PessoaDAO {
                     break;
                 }
             }
-
-            return rowsUpdated > 0;
+            return true;
         } catch (SQLException e) {
             System.out.println("Erro ao editar pessoa!");
             e.printStackTrace();

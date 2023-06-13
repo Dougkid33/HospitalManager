@@ -40,7 +40,7 @@ public class UnidadeController {
 
 	public static void cadastrarUnidadesAleatorias() {
 		UnidadeController controller = new UnidadeController(); // criando uma instância do controlador
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 2; i++) {
 			Unidade unidade = Unidade.gerarUnidadeAleatoria();
 			controller.cadastrarUnidade(unidade);
 		}

@@ -38,7 +38,7 @@ public class ConnectionFactory {
             Class.forName("com.mysql.cj.jdbc.Driver");
             // Estabelecer a conexão com o banco de dados
             connection = DriverManager.getConnection(url, properties);
-            System.out.println("Conexão estabelecida!");
+            //System.out.println("Conexão estabelecida!");
             return connection;
         } catch (ClassNotFoundException e) {
             System.out.println("Driver JDBC não encontrado!");
