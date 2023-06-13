@@ -1,6 +1,8 @@
 package controller;
 
+import java.util.Date;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 import model.Pessoa;
@@ -12,39 +14,42 @@ import static view.Main.exibirMenu;
 
 public class UnidadeController {
 
-	private UnidadeDAO unidadeDAO;
+    private UnidadeDAO unidadeDAO;
 
-	public UnidadeController() {
-		unidadeDAO = new UnidadeDAO();
-	}
+    public UnidadeController() {
+        unidadeDAO = new UnidadeDAO();
+    }
 
-	public boolean cadastrarUnidade(Unidade unidade) {
-		return unidadeDAO.cadastrarUnidade(unidade);
-	}
+    public boolean cadastrarUnidade(Unidade unidade) {
+        return unidadeDAO.cadastrarUnidade(unidade);
+    }
 
-	public Unidade buscarUnidade(int idUnidade) {
-		return unidadeDAO.buscarUnidade(idUnidade);
-	}
+    public Unidade buscarUnidade(int idUnidade) {
+        return unidadeDAO.buscarUnidade(idUnidade);
+    }
 
-	public boolean atualizarUnidade(int id, String nome, String cidade, String endereco) {
-		return unidadeDAO.atualizarUnidade(id, nome, cidade, endereco);
-	}
+    public boolean atualizarUnidade(int id, String nome, String cidade, String endereco) {
+        Unidade unidade = unidadeDAO.buscarUnidade(id);
+        if (unidade == null) {
+            return false; // Unidade não encontrada
+        }
 
-	public boolean excluirUnidade(int idUnidade) {
-		return unidadeDAO.excluirUnidade(idUnidade);
-	}
+        unidade.setNome(nome);
+        unidade.setCidade(cidade);
+        unidade.setEnderecoUnidade(endereco);
+        unidade.setDataModificacaoUnidade(new Date());
 
-	public Unidade[] listarUnidades() {
-		return unidadeDAO.listarUnidades();
-	}
+        return unidadeDAO.atualizarUnidade(unidade);
+    }
 
-	public static void cadastrarUnidadesAleatorias() {
-		UnidadeController controller = new UnidadeController(); // criando uma instância do controlador
-		for (int i = 0; i < 10; i++) {
-			Unidade unidade = Unidade.gerarUnidadeAleatoria();
-			controller.cadastrarUnidade(unidade);
-		}
-	}
+    public boolean excluirUnidade(int idUnidade) {
+        return unidadeDAO.excluirUnidade(idUnidade);
+    }
+
+    public List<Unidade> listarUnidades() {
+        return unidadeDAO.listarUnidades();
+    }
+
 
 	public static void menuUnidade() {
 		try (Scanner sc = new Scanner(System.in)) {
@@ -167,16 +172,16 @@ public class UnidadeController {
 
 						break;
 					case 5:// LISTAR
-						Unidade[] unidades = unidadeController.listarUnidades();
+						List<Unidade> unidades = unidadeController.listarUnidades();
 
-						if (unidades.length == 0) {
-							System.out.println("Não há unidades cadastradas.");
+						if (unidades.isEmpty()) {
+						    System.out.println("Não há unidades cadastradas.");
 						} else {
-							System.out.println("Unidades cadastradas:\n");
-							for (int i = 0; i < unidades.length; i++) {
-								System.out.println(unidades[i]);
-								System.out.println("\n------------------------------\n");
-							}
+						    System.out.println("Unidades cadastradas:\n");
+						    for (Unidade unidade1 : unidades) {
+						        System.out.println(unidade1);
+						        System.out.println("\n------------------------------\n");
+						    }
 						}
 						break;
 					case 0:

@@ -221,15 +221,15 @@ public class Main {
 		
 		System.out.println("ID da pessoa atual: " + pessoa.getId());
     	System.out.println("Tipo de usuário da pessoa atual: " + pessoa.getTipoUsuario());
-		PessoaController.cadastrarPessoasAleatorias();
-		MedicoController.cadastrarMedicoAleatorias();
-		FranquiaController.cadastrarFranquiasAleatorias();
-		UnidadeController.cadastrarUnidadesAleatorias();
-		ConsultaController.cadastrarConsultasAleatorias();
-		InfoConsultaController.cadastrarInfoConsultasAleatorias();
-		ProcedimentoController.cadastrarProcedimentosAleatorios();
-		FinanceiroADMController.cadastrarFinanceirosADMAleatorios();
-		FinanceiroMedicoController.cadastrarFinanceirosMedicosAleatorios();
+//		//PessoaController.cadastrarPessoasAleatorias();
+//		//MedicoController.cadastrarMedicoAleatorias();
+//		//FranquiaController.cadastrarFranquiasAleatorias();
+//		UnidadeController.cadastrarUnidadesAleatorias();
+//		ConsultaController.cadastrarConsultasAleatorias();
+//		InfoConsultaController.cadastrarInfoConsultasAleatorias();
+//		ProcedimentoController.cadastrarProcedimentosAleatorios();
+//		FinanceiroADMController.cadastrarFinanceirosADMAleatorios();
+//		FinanceiroMedicoController.cadastrarFinanceirosMedicosAleatorios();
 
 		while (true) {
 			Main.menuPrincipal();

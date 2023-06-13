@@ -11,7 +11,7 @@ import model.Medico;
 import model.Pessoa;
 import model.Procedimento;
 import model.DAO.ConsultaDAO;
-import model.DAO.MedicoDAO;
+import model.DAO.MedicoDao;
 import model.DAO.ProcedimentoDAO;
 import view.Main;
 
@@ -19,11 +19,11 @@ import static view.Main.exibirMenu;
 
 public class MedicoController {
 
-    private MedicoDAO medicoDao;
+    private MedicoDao medicoDao;
 ;
 
     public MedicoController() {
-        medicoDao = new MedicoDAO();
+        medicoDao = new MedicoDao();
     }
 
     public boolean cadastrarMedico(String nome, String endereco, String cpf, String telefone, String login,
@@ -202,10 +202,9 @@ public class MedicoController {
 
                                 System.out.print("Digite O CRM do médico: ");
                                 int crm = sc.nextInt();
-                                
+                                sc.nextLine();
 
-
-                                System.out.print("Digite a especialidade do médico: ");
+                                System.out.print("sc.nextLine();Digite a especialidade do médico: ");
                                 String especialidade = sc.nextLine();
                                 
                                 
