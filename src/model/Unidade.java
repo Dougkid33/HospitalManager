@@ -11,6 +11,10 @@ public class Unidade extends Franquia {
     private Pessoa responsavelUnidade;
     private Date dataCriacaoUnidade;
     private Date dataModificacaoUnidade;
+    
+    public Unidade() {
+    	
+    }
 
     public Unidade(String nome, String cnpj, String cidade, String endereco, Pessoa responsavel,
             Date dataCriacao, Date dataModificacao, int idUnidade, String cidadeUnidade, String enderecoUnidade,
@@ -20,9 +24,16 @@ public class Unidade extends Franquia {
         this.cidadeUnidade = cidadeUnidade;
         this.enderecoUnidade = enderecoUnidade;
         this.responsavelUnidade = responsavelUnidade;
-        this.dataCriacaoUnidade = dataCriacaoUnidade;
-        this.dataModificacaoUnidade = dataModificacaoUnidade;
+        this.dataCriacaoUnidade = dataCriacaoUnidade != null ? dataCriacaoUnidade : new Date();
+        this.dataModificacaoUnidade = dataModificacaoUnidade != null ? dataModificacaoUnidade : new Date();
     }
+
+
+
+
+
+
+
 
     public int getIdUnidade() {
         return idUnidade;

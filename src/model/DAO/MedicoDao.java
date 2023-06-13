@@ -13,11 +13,11 @@ import model.Medico;
 import model.ConnectionFactory;
 import model.Pessoa;
 
-public class MedicoDAO {
+public class MedicoDao {
     
     private Connection conexao = null;
 
-    public MedicoDAO() {
+    public MedicoDao() {
         this.conexao = ConnectionFactory.getConnection();
     }
     private static List<Pessoa> medicos = new ArrayList<>();
@@ -59,7 +59,7 @@ public class MedicoDAO {
 
             stmt.executeUpdate();
             // Adicionar a pessoa ao ArrayList
-            MedicoDAO.medicos.add(medico);
+            MedicoDao.medicos.add(medico);
             System.out.println("Pessoa adicionada com sucesso.");
             return true;
         } catch (SQLException e) {
