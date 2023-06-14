@@ -1,5 +1,6 @@
 package model.DAO;
 
+import controller.PessoaController;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,19 +15,19 @@ import model.Franquia;
 import model.Pessoa;
 
 public class FranquiaDao {
+
     private Connection connection = null;
 
     public FranquiaDao() {
         this.connection = ConnectionFactory.getConnection();
     }
     private static List<Franquia> franquias = new ArrayList<>();
-    
-    public boolean cadastrarFranquia(Franquia franquia) {
-        
-        String sql = "insert into franquias"
-                + "(nome, cnpj, cidade, endereco, responsavel, dataCriacao, dataModificacao)"                
-                + " values (?,?,?,?,?,?,?)";
 
+    public boolean cadastrarFranquia(Franquia franquia) {
+
+        String sql = "insert into franquias"
+                + "(nome, cnpj, cidade, endereco, responsavel, dataCriacao, dataModificacao)"
+                + " values (?,?,?,?,?,?,?)";
         try {
             PreparedStatement stmt;
             stmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -46,7 +47,6 @@ public class FranquiaDao {
                 int id = rs.getInt(1);
                 franquia.setId(id);
             }
-
             // Adicionar a pessoa ao ArrayList
             FranquiaDao.franquias.add(franquia);
             System.out.println("Franquia adicionada com sucesso.");
@@ -58,24 +58,25 @@ public class FranquiaDao {
     }
 
     public boolean editarFranquia(Franquia franquia) {
-        String sql = "UPDATE franquias SET "
-                + "nome = ?, "
-                + "endereco = ?,"
-                + "cnpj = ?,"
-                + "cidade = ?,"
-                + "idResponsavel = ?,"
-                + "WHERE id = ?";
+        String sql = "UPDATE `manager`.`franquias` SET "
+                + "`nome` = ?,"
+                + "`cnpj` = ?,"
+                + "`cidade` = ?,"
+                + "`endereco` = ?,"
+                + "`responsavel` = ?,"
+                + "`dataModificacao` = ? WHERE (`id` = ?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, franquia.getNome());
-            stmt.setString(2, franquia.getEndereco());
-            stmt.setString(3, franquia.getCnpj());
-            stmt.setString(4, franquia.getCidade());
-            stmt.setString(5, String.valueOf(franquia.getResponsavel()));
-            stmt.setInt(6, franquia.getId());
+            stmt.setString(2, franquia.getCnpj());
+            stmt.setString(3, franquia.getCidade());
+            stmt.setString(4, franquia.getEndereco());
+            stmt.setInt(5, franquia.getResponsavel().getId());
+            stmt.setDate(6, (java.sql.Date) franquia.getDataModificacao());
+            stmt.setInt(7, franquia.getId());
             stmt.executeUpdate();
 
-            // Atualizar a pessoa no ArrayList
+            // Atualizar a franquia no ArrayList
             for (int i = 0; i < franquias.size(); i++) {
                 Franquia f = franquias.get(i);
                 if (f.getId() == franquia.getId()) {
@@ -83,17 +84,15 @@ public class FranquiaDao {
                     break;
                 }
             }
-
             return true;
         } catch (SQLException e) {
             System.out.println("Erro ao editar franquia!");
-            e.printStackTrace();
-            return false ;
+            return false;
         }
     }
 
     public boolean excluirFranquia(int id) {
-       String sql = "DELETE FROM franquias WHERE id = ?";
+        String sql = "DELETE FROM franquias WHERE id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
@@ -120,17 +119,19 @@ public class FranquiaDao {
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
+            PessoaController pessoaControl = new PessoaController();
 
             if (rs.next()) {
                 Franquia franquia = new Franquia();
                 franquia.setId(rs.getInt("id"));
                 franquia.setNome(rs.getString("nome"));
+                franquia.setCidade(rs.getString("cidade"));
                 franquia.setEndereco(rs.getString("endereco"));
                 franquia.setCnpj(rs.getString("cnpj"));
-                franquia.setCidade(rs.getString("cidade"));
+                franquia.setResponsavel(pessoaControl.buscarPessoaPorId(rs.getInt("responsavel")));
                 franquia.setDataCriacao(rs.getDate("dataCriacao"));
                 franquia.setDataModificacao(rs.getDate("dataModificacao"));
-                
+
                 return franquia;
             }
         } catch (SQLException e) {
@@ -141,6 +142,7 @@ public class FranquiaDao {
 
     public List<Franquia> listarFranquias() {
         List<Franquia> franquias = new ArrayList<>();
+        PessoaController pessoaControl = new PessoaController();
         try {
             PreparedStatement stmt;
             stmt = connection.prepareStatement("select * from franquias");
@@ -151,16 +153,20 @@ public class FranquiaDao {
                 int id = rs.getInt("id");
                 String nome = rs.getString("nome");
                 String endereco = rs.getString("endereco");
+                String cidade = rs.getString("cidade");
                 String cnpj = rs.getString("cnpj");
+                Pessoa responsavel = pessoaControl.buscarPessoaPorId(rs.getInt("responsavel"));
                 Date dataCriacao = rs.getDate("DataCriacao");
                 Date dataModificacao = rs.getDate("DataModificacao");
 
                 Franquia f = new Franquia();
-                
+
                 f.setId(id);
                 f.setNome(nome);
                 f.setEndereco(endereco);
+                f.setCidade(cidade);
                 f.setCnpj(cnpj);
+                f.setResponsavel(responsavel);
                 f.setDataCriacao(dataCriacao);
                 f.setDataModificacao(dataModificacao);
                 franquias.add(f);

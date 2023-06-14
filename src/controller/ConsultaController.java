@@ -67,7 +67,7 @@ public class ConsultaController {
     }
     public static void cadastrarConsultasAleatorias() {
         ConsultaController consultacontroller = new ConsultaController(); // criando uma instância do controlador
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 2; i++) {
             Consulta consulta = Consulta.gerarConsultaAleatoria();
             consultacontroller.cadastrarConsulta(consulta.getData(), consulta.getHora(), consulta.getEstado(), consulta.getMedico(), consulta.getPaciente(), consulta.getValor(), consulta.getUnidade());
         }

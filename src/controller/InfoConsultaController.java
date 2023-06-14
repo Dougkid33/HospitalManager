@@ -70,7 +70,7 @@ public class InfoConsultaController {
     }
     
     public static void cadastrarInfoConsultasAleatorias() {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 2; i++) {
             InfoConsulta infoConsulta = InfoConsulta.gerarInfoConsultaAleatoria();
             InfoConsultaDAO.cadastrarInfoConsulta(infoConsulta.getData(), infoConsulta.getHora(), infoConsulta.getEstado(),
                     infoConsulta.getMedico(), infoConsulta.getPaciente(), infoConsulta.getValor(), infoConsulta.getUnidade(),
