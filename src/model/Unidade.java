@@ -1,7 +1,8 @@
 package model;
 
-import java.util.Date;
-import java.util.Random;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Unidade extends Franquia {
 
@@ -10,123 +11,112 @@ public class Unidade extends Franquia {
     private String enderecoUnidade;
     private Pessoa responsavelUnidade;
     private Franquia franquia;
-    private Date dataCriacaoUnidade;
-    private Date dataModificacaoUnidade;
-    
+    private LocalDateTime dataCriacaoUnidade;
+    private LocalDateTime dataModificacaoUnidade;
+    private List<Procedimento> procedimentos;
+
     public Unidade() {
-    	
+        procedimentos = new ArrayList<>();
     }
 
+    public Unidade(String nome, String cnpj, String cidade, String endereco, Pessoa responsavel,
+                   LocalDateTime dataCriacao, LocalDateTime dataModificacao, int idUnidade,
+                   String cidadeUnidade, String enderecoUnidade, Pessoa responsavelUnidade,
+                   Franquia franquia, LocalDateTime dataCriacaoUnidade,
+                   LocalDateTime dataModificacaoUnidade) {
+        super(nome, cnpj, cidade, endereco, responsavel, dataCriacao, dataModificacao);
+        this.idUnidade = idUnidade;
+        this.cidadeUnidade = cidadeUnidade;
+        this.enderecoUnidade = enderecoUnidade;
+        this.responsavelUnidade = responsavelUnidade;
+        this.franquia = franquia;
+        this.dataCriacaoUnidade = dataCriacaoUnidade;
+        this.dataModificacaoUnidade = dataModificacaoUnidade;
+        this.procedimentos = new ArrayList<>();
+    }
 
+    public int getIdUnidade() {
+        return idUnidade;
+    }
 
-    public Unidade(String nome, String cnpj, String cidade, String endereco, Pessoa responsavel, Date dataCriacao,
-			Date dataModificacao, int idUnidade, String cidadeUnidade, String enderecoUnidade,
-			Pessoa responsavelUnidade, Franquia franquia, Date dataCriacaoUnidade, Date dataModificacaoUnidade) {
-		super(nome, cnpj, cidade, endereco, responsavel, dataCriacao, dataModificacao);
-		this.idUnidade = idUnidade;
-		this.cidadeUnidade = cidadeUnidade;
-		this.enderecoUnidade = enderecoUnidade;
-		this.responsavelUnidade = responsavelUnidade;
-		this.franquia = franquia;
-		this.dataCriacaoUnidade = dataCriacaoUnidade;
-		this.dataModificacaoUnidade = dataModificacaoUnidade;
-	}
+    public void setIdUnidade(int idUnidade) {
+        this.idUnidade = idUnidade;
+    }
 
+    public String getCidadeUnidade() {
+        return cidadeUnidade;
+    }
 
+    public void setCidadeUnidade(String cidadeUnidade) {
+        this.cidadeUnidade = cidadeUnidade;
+    }
 
-	public int getIdUnidade() {
-		return idUnidade;
-	}
+    public String getEnderecoUnidade() {
+        return enderecoUnidade;
+    }
 
+    public void setEnderecoUnidade(String enderecoUnidade) {
+        this.enderecoUnidade = enderecoUnidade;
+    }
 
+    public Pessoa getResponsavelUnidade() {
+        return responsavelUnidade;
+    }
 
-	public void setIdUnidade(int idUnidade) {
-		this.idUnidade = idUnidade;
-	}
+    public void setResponsavelUnidade(Pessoa responsavelUnidade) {
+        this.responsavelUnidade = responsavelUnidade;
+    }
 
+    public Franquia getFranquia() {
+        return franquia;
+    }
 
+    public void setFranquia(Franquia franquia) {
+        this.franquia = franquia;
+    }
 
-	public String getCidadeUnidade() {
-		return cidadeUnidade;
-	}
+    public LocalDateTime getDataCriacaoUnidade() {
+        return dataCriacaoUnidade;
+    }
 
+    public void setDataCriacaoUnidade(LocalDateTime dataCriacaoUnidade) {
+        this.dataCriacaoUnidade = dataCriacaoUnidade;
+    }
 
+    public LocalDateTime getDataModificacaoUnidade() {
+        return dataModificacaoUnidade;
+    }
 
-	public void setCidadeUnidade(String cidadeUnidade) {
-		this.cidadeUnidade = cidadeUnidade;
-	}
+    public void setDataModificacaoUnidade(LocalDateTime dataModificacaoUnidade) {
+        this.dataModificacaoUnidade = dataModificacaoUnidade;
+    }
 
+    public List<Procedimento> getProcedimentos() {
+        return procedimentos;
+    }
 
+    public void setProcedimentos(List<Procedimento> procedimentos) {
+        this.procedimentos = procedimentos;
+    }
 
-	public String getEnderecoUnidade() {
-		return enderecoUnidade;
-	}
+    public void adicionarProcedimento(Procedimento procedimento) {
+        procedimentos.add(procedimento);
+    }
 
+    public void removerProcedimento(Procedimento procedimento) {
+        procedimentos.remove(procedimento);
+    }
 
-
-	public void setEnderecoUnidade(String enderecoUnidade) {
-		this.enderecoUnidade = enderecoUnidade;
-	}
-
-
-
-	public Pessoa getResponsavelUnidade() {
-		return responsavelUnidade;
-	}
-
-
-
-	public void setResponsavelUnidade(Pessoa responsavelUnidade) {
-		this.responsavelUnidade = responsavelUnidade;
-	}
-
-
-
-	public Franquia getFranquia() {
-		return franquia;
-	}
-
-
-
-	public void setFranquia(Franquia franquia) {
-		this.franquia = franquia;
-	}
-
-
-
-	public Date getDataCriacaoUnidade() {
-		return dataCriacaoUnidade;
-	}
-
-
-
-	public void setDataCriacaoUnidade(Date dataCriacaoUnidade) {
-		this.dataCriacaoUnidade = dataCriacaoUnidade;
-	}
-
-
-
-	public Date getDataModificacaoUnidade() {
-		return dataModificacaoUnidade;
-	}
-
-
-
-	public void setDataModificacaoUnidade(Date dataModificacaoUnidade) {
-		this.dataModificacaoUnidade = dataModificacaoUnidade;
-	}
-
-
-
-	@Override
+    @Override
     public String toString() {
-        return "Unidade{"
-                + "ID Unidade: " + idUnidade
-                + ", Cidade: " + cidadeUnidade
-                + ", Endereço: " + enderecoUnidade
-                + ", Responsável pela Unidade: " + responsavelUnidade
-                + ", Data de Criação: " + dataCriacaoUnidade
-                + ", Data de Modificação: " + dataModificacaoUnidade + '}';
+        return "Unidade{" +
+                "ID Unidade: " + idUnidade +
+                ", Cidade: " + cidadeUnidade +
+                ", Endereço: " + enderecoUnidade +
+                ", Responsável pela Unidade: " + responsavelUnidade +
+                ", Data de Criação: " + dataCriacaoUnidade +
+                ", Data de Modificação: " + dataModificacaoUnidade +
+                '}';
     }
 
     private static int proximoId = 1;
@@ -134,22 +124,4 @@ public class Unidade extends Franquia {
     private static int gerarNovoId() {
         return proximoId++;
     }
-//    public static Unidade gerarUnidadeAleatoria() {
-//        String[] cidades = {"São Paulo", "Rio de Janeiro", "Belo Horizonte", "Curitiba", "Fortaleza"};
-//        String[] enderecos = {"Rua 1", "Rua 2", "Rua 3", "Rua 4", "Rua 5"};
-//        Pessoa responsavelUnidade = Pessoa.gerarPessoaAleatoria();
-//
-//        Random random = new Random();
-//
-//        String cidadeUnidade = cidades[random.nextInt(cidades.length)];
-//        String enderecoUnidade = enderecos[random.nextInt(enderecos.length)];
-//        Date dataCriacaoUnidade = new Date();
-//        Date dataModificacaoUnidade = new Date();
-//
-//        Unidade unidade = new Unidade("Unidade " + gerarNovoId(), "12.345.678/0001-01", "São Paulo", "Rua 1", responsavelUnidade,
-//                new Date(), new Date(), gerarNovoId(), cidadeUnidade, enderecoUnidade,
-//                responsavelUnidade, dataCriacaoUnidade, dataModificacaoUnidade);
-//
-//        return unidade;
-//    }
 }

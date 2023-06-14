@@ -4,17 +4,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
 import model.Medico;
 import model.ConnectionFactory;
 import model.Pessoa;
 
 public class MedicoDao {
-    
+
     private Connection conexao = null;
 
     public MedicoDao() {
@@ -34,28 +32,30 @@ public class MedicoDao {
         pessoa.setLogin(login);
         pessoa.setSenha(senha);
         pessoa.setTipoUsuario(tipoUsuario);
-        pessoa.setDataCriacao(new Date());
-        pessoa.setDataModificacao(new Date());
-        
+        pessoa.setDataCriacao(LocalDateTime.now());
+        pessoa.setDataModificacao(LocalDateTime.now());
+
         Medico medico = new Medico(pessoa);
         medico.setCrm(crm);
         medico.setEspecialidade(especialidade);
-        medico.setDataCriacao(new Date());
-        medico.setDataModificacao(new Date());
-        
+        medico.setDataCriacao(LocalDateTime.now());
+        medico.setDataModificacao(LocalDateTime.now());
+
         int id = dao.cadastrarPessoaMedico(pessoa);
-        
+
         String sql = "INSERT INTO medicos "
                 + "(idPessoas, crm, especialidade, dataCriacao, dataModificacao) "
                 + "VALUES (?, ?, ?, ?, ?)";
-        
+
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
-            
+
             stmt.setString(1, String.valueOf(id));
             stmt.setString(2, String.valueOf(crm));
             stmt.setString(3, especialidade);
-            stmt.setDate(4, java.sql.Date.valueOf(LocalDate.now()));
-            stmt.setDate(5, java.sql.Date.valueOf(LocalDate.now()));
+            LocalDateTime now = LocalDateTime.now();
+            java.sql.Timestamp dateNow = java.sql.Timestamp.valueOf(now);
+            stmt.setTimestamp(4, dateNow);
+            stmt.setTimestamp(5, dateNow);
 
             stmt.executeUpdate();
             // Adicionar a pessoa ao ArrayList
@@ -63,7 +63,7 @@ public class MedicoDao {
             System.out.println("Pessoa adicionada com sucesso.");
             return true;
         } catch (SQLException e) {
-            System.out.println("Erro ao cadastrar médico!");     
+            System.out.println("Erro ao cadastrar médico!");
         }
         return false;
     }
@@ -160,8 +160,10 @@ public class MedicoDao {
         String login = result.getString("login");
         String senha = result.getString("senha");
         int crm = result.getInt("crm");
-        Date dataCriacao = result.getDate("dataCriacao");
-        Date dataModificacao = result.getDate("dataModificacao");
+        java.sql.Timestamp timestamp = result.getTimestamp("DataCriacao");
+        java.sql.Timestamp dataMod = result.getTimestamp("DataModificacao");
+        LocalDateTime dataCriacao = timestamp.toLocalDateTime();
+        LocalDateTime dataModificacao = dataMod.toLocalDateTime();
         String especialidade = result.getString("especialidade");
 
         return new Medico(id, nome, endereco, cpf, telefone, login, senha, crm, dataCriacao, dataModificacao, especialidade);

@@ -1,6 +1,7 @@
 package model;
 
 import controller.PessoaController;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Random;
 
@@ -12,8 +13,8 @@ public class Franquia {
     private String cidade;
     private String endereco;
     private Pessoa responsavel;
-    private Date dataCriacao;
-    private Date dataModificacao;
+    private LocalDateTime dataCriacao;
+    private LocalDateTime dataModificacao;
     private FinanceiroADM[] despesas;
     private FinanceiroMedico[] despesasMedico;
 
@@ -30,7 +31,7 @@ public class Franquia {
     }
 
     public Franquia(String nome, String cnpj, String cidade, String endereco, Pessoa responsavel,
-            Date dataCriacao, Date dataModificacao) {
+            LocalDateTime dataCriacao, LocalDateTime dataModificacao) {
         this.nome = nome;
         this.cnpj = cnpj;
         this.cidade = cidade;
@@ -90,19 +91,19 @@ public class Franquia {
         this.responsavel = responsavel;
     }
 
-    public Date getDataCriacao() {
+    public LocalDateTime getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataCriacao(Date dataCriacao) {
+    public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
-    public Date getDataModificacao() {
+    public LocalDateTime getDataModificacao() {
         return dataModificacao;
     }
 
-    public void setDataModificacao(Date dataModificacao) {
+    public void setDataModificacao(LocalDateTime dataModificacao) {
         this.dataModificacao = dataModificacao;
     }
 
@@ -124,8 +125,8 @@ public class Franquia {
         String cnpj = cnpjs[random.nextInt(cnpjs.length)];
         String cidade = cidades[random.nextInt(cidades.length)];
         String endereco = enderecos[random.nextInt(enderecos.length)];
-        Date dataCriacao = new Date();
-        Date dataModificacao = new Date();
+        LocalDateTime dataCriacao = LocalDateTime.now();
+        LocalDateTime dataModificacao = LocalDateTime.now();
 
         Franquia franquia = new Franquia(nome, cnpj, cidade, endereco, responsavel, dataCriacao, dataModificacao);
 

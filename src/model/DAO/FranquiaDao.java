@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,8 +39,10 @@ public class FranquiaDao {
             stmt.setString(3, franquia.getCidade());
             stmt.setString(4, franquia.getEndereco());
             stmt.setInt(5, responsavel.getId());
-            stmt.setDate(6, java.sql.Date.valueOf(LocalDate.now()));
-            stmt.setDate(7, java.sql.Date.valueOf(LocalDate.now()));
+            LocalDateTime now = LocalDateTime.now();
+            java.sql.Timestamp dateNow = java.sql.Timestamp.valueOf(now);
+            stmt.setTimestamp(6, dateNow);
+            stmt.setTimestamp(7, dateNow);
             stmt.execute();
             // Obtém o valor do id gerado pelo banco de dados
             ResultSet rs = stmt.getGeneratedKeys();
@@ -67,12 +70,14 @@ public class FranquiaDao {
                 + "`dataModificacao` = ? WHERE (`id` = ?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            
             stmt.setString(1, franquia.getNome());
             stmt.setString(2, franquia.getCnpj());
             stmt.setString(3, franquia.getCidade());
             stmt.setString(4, franquia.getEndereco());
             stmt.setInt(5, franquia.getResponsavel().getId());
-            stmt.setDate(6, (java.sql.Date) franquia.getDataModificacao());
+            java.sql.Timestamp dateNow = java.sql.Timestamp.valueOf(franquia.getDataModificacao());
+            stmt.setTimestamp(8, dateNow );
             stmt.setInt(7, franquia.getId());
             stmt.executeUpdate();
 
@@ -129,8 +134,12 @@ public class FranquiaDao {
                 franquia.setEndereco(rs.getString("endereco"));
                 franquia.setCnpj(rs.getString("cnpj"));
                 franquia.setResponsavel(pessoaControl.buscarPessoaPorId(rs.getInt("responsavel")));
-                franquia.setDataCriacao(rs.getDate("dataCriacao"));
-                franquia.setDataModificacao(rs.getDate("dataModificacao"));
+                java.sql.Timestamp timestamp = rs.getTimestamp("DataCriacao");
+                java.sql.Timestamp dataMod = rs.getTimestamp("DataModificacao");
+                LocalDateTime dataCriacao = timestamp.toLocalDateTime();
+                LocalDateTime dataModificacao = dataMod.toLocalDateTime();
+                franquia.setDataCriacao(dataCriacao);
+                franquia.setDataModificacao(dataModificacao);
 
                 return franquia;
             }
@@ -156,8 +165,12 @@ public class FranquiaDao {
                 String cidade = rs.getString("cidade");
                 String cnpj = rs.getString("cnpj");
                 Pessoa responsavel = pessoaControl.buscarPessoaPorId(rs.getInt("responsavel"));
-                Date dataCriacao = rs.getDate("DataCriacao");
-                Date dataModificacao = rs.getDate("DataModificacao");
+                java.sql.Timestamp timestamp = rs.getTimestamp("DataCriacao");
+                java.sql.Timestamp dataMod = rs.getTimestamp("DataModificacao");
+                LocalDateTime dataCriacao = timestamp.toLocalDateTime();
+                LocalDateTime dataModificacao = dataMod.toLocalDateTime();
+                
+                
 
                 Franquia f = new Franquia();
 

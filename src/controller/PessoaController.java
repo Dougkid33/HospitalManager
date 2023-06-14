@@ -1,5 +1,6 @@
 package controller;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -18,7 +19,7 @@ public class PessoaController {
     }
 
     public boolean cadastrarPessoa(Pessoa pessoa) {
-        pessoa.setDataCriacao(new Date());
+        pessoa.setDataCriacao(LocalDateTime.now());
         return dao.cadastraPessoa(pessoa);
     }
 
@@ -40,7 +41,7 @@ public class PessoaController {
         if (pessoa == null) {
             return false; // Pessoa não encontrada
         }
-        pessoa.setDataModificacao(new Date());
+        pessoa.setDataModificacao(LocalDateTime.now());
         return dao.editarPessoa(pessoa);
     }
 
@@ -50,7 +51,7 @@ public class PessoaController {
             return false; // Pessoa não encontrada
         }
         pessoa.setTipoUsuario(novoTipoUsuario);
-        pessoa.setDataModificacao(new Date());
+        pessoa.setDataModificacao(LocalDateTime.now());
         return true;
     }
 
@@ -114,7 +115,7 @@ public class PessoaController {
                             String senha = sc.nextLine();
                             System.out.print("Digite o tipo de usuário da pessoa: ");
                             String tipoUsuario = sc.nextLine();
-                            boolean cadastrado = pessoaController.cadastrarPessoa(new Pessoa(nome, endereco, cpf, telefone, login, senha, tipoUsuario, new Date(), new Date()));
+                            boolean cadastrado = pessoaController.cadastrarPessoa(new Pessoa(nome, endereco, cpf, telefone, login, senha, tipoUsuario, LocalDateTime.now(), LocalDateTime.now()));
                             if (cadastrado) {
                                 System.out.println("Pessoa cadastrada com sucesso.");
                             } else {

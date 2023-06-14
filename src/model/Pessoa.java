@@ -1,5 +1,6 @@
 package model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Random;
 
@@ -13,14 +14,14 @@ public class Pessoa {
     private String login;
     private String senha;
     private String tipoUsuario;
-    private Date dataCriacao;
-    private Date dataModificacao;
+    private LocalDateTime dataCriacao;
+    private LocalDateTime dataModificacao;
 
     public Pessoa() {
     }
 
     public Pessoa(String nome, String endereco, String cpf, String telefone, String login, String senha,
-            String tipoUsuario, Date dataCriacao, Date dataModificacao) {
+            String tipoUsuario, LocalDateTime dataCriacao, LocalDateTime dataModificacao) {
         this.nome = nome;
         this.endereco = endereco;
         this.cpf = cpf;
@@ -47,8 +48,8 @@ public class Pessoa {
         String login = logins[random.nextInt(logins.length)] + (random.nextInt(99) + 1);
         String senha = senhas[random.nextInt(senhas.length)];
         String tipoUsuario = tiposUsuario[random.nextInt(tiposUsuario.length)];
-        Date dataCriacao = new Date();
-        Date dataModificacao = new Date();
+        LocalDateTime dataCriacao = LocalDateTime.now();
+        LocalDateTime dataModificacao = LocalDateTime.now();
 
         Pessoa pessoa = new Pessoa(nome, endereco, cpf, telefone, login, senha, tipoUsuario, dataCriacao, dataModificacao);
         
@@ -118,19 +119,19 @@ public class Pessoa {
         this.tipoUsuario = tipoUsuario;
     }
 
-    public Date getDataCriacao() {
+    public LocalDateTime getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataCriacao(Date dataCriacao) {
-        this.dataCriacao = dataCriacao;
-    }
-
-    public Date getDataModificacao() {
+    public LocalDateTime getDataModificacao() {
         return dataModificacao;
     }
 
-    public void setDataModificacao(Date dataModificacao) {
+    public void setDataCriacao(LocalDateTime dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    public void setDataModificacao(LocalDateTime dataModificacao) {
         this.dataModificacao = dataModificacao;
     }
 

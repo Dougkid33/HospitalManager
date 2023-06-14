@@ -1,5 +1,6 @@
 package model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Random;
 
@@ -7,12 +8,12 @@ public class Medico extends Pessoa {
 
     private int crm;
     private String especialidade;
-    private Date dataCriacao;
-    private Date dataModificacao;
+    private LocalDateTime dataCriacao;
+    private LocalDateTime dataModificacao;
     private Pessoa pessoa;
 
     public Medico(int id, String nome, String endereco, String cpf, String telefone, String login, String senha,
-            int crm, Date dataCriacao, Date dataModificacao, String especialidade) {
+            int crm, LocalDateTime dataCriacao, LocalDateTime dataModificacao, String especialidade) {
         super(nome, endereco, cpf, telefone, login, senha, especialidade, dataCriacao, dataModificacao);
         this.crm = crm;
         this.especialidade = especialidade;
@@ -40,19 +41,19 @@ public class Medico extends Pessoa {
         this.especialidade = especialidade;
     }
 
-    public Date getDataCriacao() {
+    public LocalDateTime getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataCriacao(Date dataCriacao) {
+    public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
-    public Date getDataModificacao() {
+    public LocalDateTime getDataModificacao() {
         return dataModificacao;
     }
 
-    public void setDataModificacao(Date dataModificacao) {
+    public void setDataModificacao(LocalDateTime dataModificacao) {
         this.dataModificacao = dataModificacao;
     }
     
@@ -74,8 +75,8 @@ public class Medico extends Pessoa {
         String especialidade = String.format("%s",especialidades[random.nextInt(especialidades.length)]);
         int crm = random.nextInt(999999);
 
-        Date dataCriacao = new Date();
-        Date dataModificacao = new Date();
+        LocalDateTime dataCriacao = LocalDateTime.now();
+        LocalDateTime dataModificacao = LocalDateTime.now();
 
         Medico medico = new Medico(0, nome, endereco, cpf, telefone, login, senha, crm, dataModificacao, dataCriacao, especialidade);
 

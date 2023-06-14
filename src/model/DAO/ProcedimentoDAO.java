@@ -1,7 +1,8 @@
 package model.DAO;
 
-import java.util.Arrays;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import model.Consulta;
 import model.Procedimento;
@@ -9,18 +10,17 @@ import model.enums.EstadoProcedimento;
 
 public class ProcedimentoDAO {
 
-    private static Procedimento[] procedimentos = new Procedimento[0];
+    private static List<Procedimento> procedimentos = new ArrayList<>();
     private static int id = 1;
 
-    public static void cadastrarProcedimento(String nome, Consulta consulta, Date diaHorario, EstadoProcedimento estado,
+    public static void cadastrarProcedimento(String nome, Consulta consulta, LocalDateTime diaHorario, EstadoProcedimento estado,
             double valor, String laudo) {
-        Procedimento procedimento = new Procedimento(id++, nome, consulta, diaHorario, estado, valor, laudo, new Date(),
-                new Date());
-        procedimentos = Arrays.copyOf(procedimentos, procedimentos.length + 1);
-        procedimentos[procedimentos.length - 1] = procedimento;
+        Procedimento procedimento = new Procedimento(id++, nome, consulta, diaHorario, estado, valor, laudo, LocalDateTime.now(),
+                LocalDateTime.now());
+        procedimentos.add(procedimento);
     }
 
-    public static void atualizarProcedimento(int id, String nome, Consulta consulta, Date diaHorario, EstadoProcedimento estado,
+    public static void atualizarProcedimento(int id, String nome, Consulta consulta, LocalDateTime diaHorario, EstadoProcedimento estado,
             double valor, String laudo) {
         for (Procedimento procedimento : procedimentos) {
             if (procedimento.getId() == id) {
@@ -30,25 +30,18 @@ public class ProcedimentoDAO {
                 procedimento.setEstado(estado);
                 procedimento.setValor(valor);
                 procedimento.setLaudo(laudo);
-                procedimento.setDataModificacao(new Date());
+                procedimento.setDataModificacao(LocalDateTime.now());
                 break;
             }
         }
     }
 
     public static void removerProcedimento(int id) {
-        int removeIndex = -1;
-        for (int i = 0; i < procedimentos.length; i++) {
-            if (procedimentos[i].getId() == id) {
-                removeIndex = i;
+        for (int i = 0; i < procedimentos.size(); i++) {
+            if (procedimentos.get(i).getId() == id) {
+                procedimentos.remove(i);
                 break;
             }
-        }
-        if (removeIndex != -1) {
-            for (int i = removeIndex; i < procedimentos.length - 1; i++) {
-                procedimentos[i] = procedimentos[i + 1];
-            }
-            procedimentos = Arrays.copyOf(procedimentos, procedimentos.length - 1);
         }
     }
 
@@ -61,31 +54,28 @@ public class ProcedimentoDAO {
         return null;
     }
 
-    public static Procedimento[] listarProcedimentos() {
+    public static List<Procedimento> listarProcedimentos() {
         return procedimentos;
     }
 
-    public static Procedimento[] listarProcedimentosPorConsulta(Consulta consulta) {
-        Procedimento[] procedimentosConsulta = new Procedimento[0];
+    public static List<Procedimento> listarProcedimentosPorConsulta(Consulta consulta) {
+        List<Procedimento> procedimentosConsulta = new ArrayList<>();
         for (Procedimento procedimento : procedimentos) {
             if (procedimento.getConsulta().equals(consulta)) {
-                procedimentosConsulta = Arrays.copyOf(procedimentosConsulta, procedimentosConsulta.length + 1);
-                procedimentosConsulta[procedimentosConsulta.length - 1] = procedimento;
+                procedimentosConsulta.add(procedimento);
             }
         }
         return procedimentosConsulta;
     }
 
-	public static Procedimento[] pesquisarProcedimentosPorMedicoNoPeriodo(Consulta consulta, Date dateinicio, Date dataFim) {
-        Procedimento[] ProcedimentoConsulta = new Procedimento[0];
+    public static List<Procedimento> pesquisarProcedimentosPorMedicoNoPeriodo(Consulta consulta, LocalDateTime dataInicio, LocalDateTime dataFim) {
+        List<Procedimento> procedimentosConsulta = new ArrayList<>();
         for (Procedimento procedimento : procedimentos) {
-            if (procedimento.getConsulta().equals(consulta) && consulta.getData().before(dateinicio) && consulta.getData().after(dataFim)) {
-                Procedimento[] temp = new Procedimento[ProcedimentoConsulta.length + 1];
-                System.arraycopy(ProcedimentoConsulta, 0, temp, 0, ProcedimentoConsulta.length);
-                temp[ProcedimentoConsulta.length] = procedimento;
-                ProcedimentoConsulta= temp;
+            LocalDateTime diaHorario = procedimento.getDiaHorario();
+            if (procedimento.getConsulta().equals(consulta) && diaHorario.isAfter(dataInicio) && diaHorario.isBefore(dataFim)) {
+                procedimentosConsulta.add(procedimento);
             }
         }
-        return ProcedimentoConsulta;
-	}
+        return procedimentosConsulta;
+    }
 }

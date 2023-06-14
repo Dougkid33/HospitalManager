@@ -1,5 +1,6 @@
 package controller;
 
+import java.time.LocalDateTime;
 import model.Pessoa;
 import model.DAO.FranquiaDao;
 import view.Main;
@@ -30,7 +31,7 @@ public class FranquiaController {
         if (franquia == null) {
             return false; // Franquia não encontrada
         }
-        franquia.setDataModificacao(new Date(System.currentTimeMillis()));
+        franquia.setDataModificacao(LocalDateTime.now());
         return dao.editarFranquia(franquia);
     }
 
@@ -110,7 +111,7 @@ public class FranquiaController {
                                     if (responsavel == null) {
                                         System.out.println("\n Pessoa não encontrada.\n");
                                     } else {//String nome, String cnpj, String cidade, String endereco, Pessoa responsavel, Date dataCriacao, Date dataModificacao
-                                        boolean cadastrado = franquiaController.cadastrarFranquia(new Franquia(nome, cnpj, cidade, endereco, responsavel, new Date(), new Date()));
+                                        boolean cadastrado = franquiaController.cadastrarFranquia(new Franquia(nome, cnpj, cidade, endereco, responsavel, LocalDateTime.now(), LocalDateTime.now()));
 
                                         if (cadastrado) {
                                             System.out.println("Franquia cadastrada com sucesso.\n");

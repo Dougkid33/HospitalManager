@@ -1,5 +1,7 @@
 package controller;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.Calendar;
 import java.util.InputMismatchException;
@@ -20,7 +22,8 @@ import static view.Main.exibirMenu;
 public class MedicoController {
 
     private MedicoDao medicoDao;
-;
+
+    ;
 
     public MedicoController() {
         medicoDao = new MedicoDao();
@@ -51,14 +54,15 @@ public class MedicoController {
     public List<Medico> listarMedicos() {
         return medicoDao.listarMedicos();
     }
+
     public static void cadastrarMedicoAleatorias() {
         MedicoController controller = new MedicoController();
         for (int i = 0; i < 2; i++) {
             Medico medico = Medico.gerarMedicoAleatorio();
-            controller.cadastrarMedico(medico.getNome(), medico.getEndereco(), medico.getCpf(), medico.getTelefone(), medico.getLogin(), medico.getTipoUsuario(),medico.getSenha(), medico.getCrm(), medico.getEspecialidade());
+            controller.cadastrarMedico(medico.getNome(), medico.getEndereco(), medico.getCpf(), medico.getTelefone(), medico.getLogin(), medico.getTipoUsuario(), medico.getSenha(), medico.getCrm(), medico.getEspecialidade());
         }
     }
-    
+
     public void pesquisarConsultasEProcedimentosUltimoMes(Medico medico) {
         // Obter a data atual
         Calendar dataAtual = Calendar.getInstance();
@@ -82,8 +86,13 @@ public class MedicoController {
         dataFim.set(Calendar.MILLISECOND, 999);
 
         // Pesquisar consultas do médico no último mês
-        Consulta[] consultas = ConsultaDAO.pesquisarConsultasPorMedicoNoPeriodo(medico, dataInicio.getTime(), dataFim.getTime());
-        if (consultas.length == 0) {
+        LocalDateTime dataInicioLocalDateTime = dataInicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        LocalDateTime dataFimLocalDateTime = dataFim.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+
+        // Chamar o método com as datas convertidas
+        List<Consulta> consultas = ConsultaDAO.pesquisarConsultasPorMedicoNoPeriodo(medico, dataInicioLocalDateTime, dataFimLocalDateTime);
+        //List<Consulta> consultas = ConsultaDAO.pesquisarConsultasPorMedicoNoPeriodo(medico, dataInicio.getTime(), dataFim.getTime());
+        if (consultas.size() == 0) {
             System.out.println("Nenhuma consulta encontrada no último mês para o médico " + medico.getNome());
         } else {
             System.out.println("Consultas do médico " + medico.getNome() + " no último mês:");
@@ -92,13 +101,14 @@ public class MedicoController {
             }
         }
     }
+
     @SuppressWarnings("null")
-	public double calcularMontantePagoUltimoMes(Medico medico) {
-    	Consulta consultas = null;
+    public double calcularMontantePagoUltimoMes(Medico medico) {
+        Consulta consultas = null;
         // Obter a data atual
         Date dataAtual = new Date(0);
         consultas.getMedico().equals(medico);
-        
+
         // Calcular a data de início e fim do último mês
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(dataAtual);
@@ -110,8 +120,15 @@ public class MedicoController {
         Date dataFim = calendar.getTime();
 
         // Pesquisar consultas e procedimentos no último mês
-        Consulta[] consultasUltimoMes = ConsultaDAO.pesquisarConsultasPorMedicoNoPeriodo(medico, dataInicio.getTime(), dataFim.getTime());
-        Procedimento[] procedimentosUltimoMes = ProcedimentoDAO.pesquisarProcedimentosPorMedicoNoPeriodo(consultas, dataInicio, dataFim);
+        // Converter as datas para LocalDateTime
+        LocalDateTime dataInicioLocalDateTime = dataInicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        LocalDateTime dataFimLocalDateTime = dataFim.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+
+        // Chamar o método com as datas convertidas
+        List<Consulta> consultasUltimoMes = ConsultaDAO.pesquisarConsultasPorMedicoNoPeriodo(medico, dataInicioLocalDateTime, dataFimLocalDateTime);
+
+        //Consulta[] consultasUltimoMes = ConsultaDAO.pesquisarConsultasPorMedicoNoPeriodo(medico, dataInicio.getTime(), dataFim.getTime());
+        List<Procedimento> procedimentosUltimoMes = ProcedimentoDAO.pesquisarProcedimentosPorMedicoNoPeriodo(consultas, dataInicioLocalDateTime, dataFimLocalDateTime);
 
         // Calcular o montante total pago ao médico
         double montanteTotalPago = 0.0;
@@ -129,8 +146,8 @@ public class MedicoController {
         try (Scanner sc = new Scanner(System.in)) {
             MedicoController medicoController = new MedicoController();
             boolean sair = false;
-           
-           //Pessoa pessoaLogin = new Pessoa( "Administrador", "Xablau", "validador", "33334380", "admin", "12345", "DonoFranquia", null, null);
+
+            //Pessoa pessoaLogin = new Pessoa( "Administrador", "Xablau", "validador", "33334380", "admin", "12345", "DonoFranquia", null, null);
             //System.out.println("ID da pessoa logada: " + pessoaLogin.getId());
             //System.out.println("Tipo de usuário da pessoa logada: " + pessoaLogin.getTipoUsuario());
             while (!sair) {
@@ -158,8 +175,7 @@ public class MedicoController {
                         //PessoaController pessoaController = new PessoaController();
                         Pessoa buscarPessoa = null; // Inicializa o objeto como nulo
 
-                       
-						// Aqui você precisa buscar a pessoa pelo ID informado
+                        // Aqui você precisa buscar a pessoa pelo ID informado
                         if (Main.pessoa != null && Main.pessoa.getId() == idBuscaPessoa) {
                             buscarPessoa = Main.pessoa;
                         }
@@ -176,7 +192,6 @@ public class MedicoController {
                         }
                     }
 
-
                     switch (opcao) {
                         case 1: //CADASTRAR
                             if (!permissao) {
@@ -184,19 +199,19 @@ public class MedicoController {
                             } else {
                                 System.out.print("Digite o nome do médico: ");
                                 String nome = sc.nextLine();
-                                
+
                                 System.out.print("Digite o endereço do médico: ");
                                 String endereco = sc.nextLine();
-                                
+
                                 System.out.print("Digite o CPF do médico: ");
                                 String cpf = sc.nextLine();
-                                
+
                                 System.out.print("Digite o telefone do médico: ");
                                 String telefone = sc.nextLine();
-                                
+
                                 System.out.print("Digite o login do médico: ");
                                 String login = sc.nextLine();
-                                
+
                                 System.out.print("Digite a senha do médico: ");
                                 String senha = sc.nextLine();
 
@@ -206,9 +221,7 @@ public class MedicoController {
 
                                 System.out.print("sc.nextLine();Digite a especialidade do médico: ");
                                 String especialidade = sc.nextLine();
-                                
-                                
-                                
+
                                 String tipoUsuario = "Médico";
                                 boolean cadastrado = medicoController.cadastrarMedico(nome, endereco, cpf, login, senha,
                                         telefone, tipoUsuario, crm, especialidade);

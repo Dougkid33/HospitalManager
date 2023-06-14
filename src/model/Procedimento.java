@@ -1,6 +1,8 @@
 package model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import model.enums.EstadoProcedimento;
@@ -11,14 +13,14 @@ public class Procedimento {
     private int id;
     private String nome;
     private Consulta consulta;
-    private Date diaHorario;
+    private LocalDateTime diaHorario;
     private EstadoProcedimento estado;
     private double valor;
     private String laudo;
-    private Date dataCriacao;
-    private Date dataModificacao;
+    private LocalDateTime dataCriacao;
+    private LocalDateTime dataModificacao;
 
-    public Procedimento(int id, String nome, Consulta consulta, Date diaHorario, EstadoProcedimento estadoProcedimento, double valor, String laudo, Date dataCriacao, Date dataModificacao) {
+    public Procedimento(int id, String nome, Consulta consulta, LocalDateTime diaHorario, EstadoProcedimento estadoProcedimento, double valor, String laudo, LocalDateTime dataCriacao, LocalDateTime dataModificacao) {
         this.id = gerarNovoId();
         this.nome = nome;
         this.consulta = consulta;
@@ -54,11 +56,11 @@ public class Procedimento {
         this.consulta = consulta;
     }
 
-    public Date getDiaHorario() {
+    public LocalDateTime getDiaHorario() {
         return diaHorario;
     }
 
-    public void setDiaHorario(Date diaHorario) {
+    public void setDiaHorario(LocalDateTime diaHorario) {
         this.diaHorario = diaHorario;
     }
 
@@ -86,26 +88,28 @@ public class Procedimento {
         this.laudo = laudo;
     }
 
-    public Date getDataCriacao() {
+    public LocalDateTime getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataCriacao(Date dataCriacao) {
+    public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
-    public Date getDataModificacao() {
+    public LocalDateTime getDataModificacao() {
         return dataModificacao;
     }
 
-    public void setDataModificacao(Date dataModificacao) {
+    public void setDataModificacao(LocalDateTime dataModificacao) {
         this.dataModificacao = dataModificacao;
     }
+    
     private static int proximoId = 1;
 
     private static int gerarNovoId() {
         return proximoId++;
     }
+    
     @Override
     public String toString() {
         return "Procedimento{" +
@@ -120,6 +124,7 @@ public class Procedimento {
                 ", Data de Modificação: " + dataModificacao +
                 '}';
     }
+    
     private static EstadoProcedimento gerarEstadoProcedimentoAleatorio() {
         EstadoProcedimento[] estados = EstadoProcedimento.values();
         Random random = new Random();
@@ -127,20 +132,17 @@ public class Procedimento {
         return estados[index];
     }
     
-    
-    
     public static Procedimento gerarProcedimentoAleatorio() {
-
         Random random = new Random();
 
         String nomeProcedimento = "Procedimento " + random.nextInt(1000); // Gera um nome aleatório para o procedimento
         Consulta consulta = Consulta.gerarConsultaAleatoria();
-        Date diaHorario = new Date(); // Defina a data e o horário desejados para o procedimento
-       EstadoProcedimento estadoProcedimento = gerarEstadoProcedimentoAleatorio(); // Gera um estado aleatório a partir dos valores possíveis na array 'estados'
+        LocalDateTime diaHorario = LocalDateTime.now(); // Defina a data e o horário desejados para o procedimento
+        EstadoProcedimento estadoProcedimento = gerarEstadoProcedimentoAleatorio(); // Gera um estado aleatório a partir dos valores possíveis na array 'estados'
         double valorProcedimento = random.nextDouble() * 500; // Gera um valor aleatório entre 0 e 500
         String laudo = "Laudo do procedimento"; // Defina o laudo desejado para o procedimento
 
-        Procedimento procedimento = new Procedimento(gerarNovoId(), nomeProcedimento, consulta, diaHorario, estadoProcedimento, valorProcedimento, laudo, new Date(), new Date());
+        Procedimento procedimento = new Procedimento(gerarNovoId(), nomeProcedimento, consulta, diaHorario, estadoProcedimento, valorProcedimento, laudo, LocalDateTime.now(), LocalDateTime.now());
 
         return procedimento;
     }

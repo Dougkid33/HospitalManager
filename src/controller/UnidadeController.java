@@ -1,6 +1,6 @@
 package controller;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -40,7 +40,7 @@ public class UnidadeController {
 	    unidade.setNome(nome);
 	    unidade.setCidade(cidade);
 	    unidade.setEnderecoUnidade(endereco);
-	    unidade.setDataModificacaoUnidade(new Date());
+	    unidade.setDataModificacaoUnidade(LocalDateTime.now());
 
 	    return unidadeDAO.atualizarUnidade(unidade);
 	}
@@ -130,8 +130,8 @@ public class UnidadeController {
                         		    unidade.setEndereco(endereco);
                         		    unidade.setResponsavel(pessoaResponsavel);
                         		    unidade.setFranquia(franquia);
-                        		    unidade.setDataCriacao(new Date());
-                        		    unidade.setDataModificacao(new Date());
+                        		    unidade.setDataCriacao(LocalDateTime.now());
+                        		    unidade.setDataModificacao(LocalDateTime.now());
                         		    
 
                         		    boolean cadastrado = unidadeController.cadastrarUnidade(unidade);
