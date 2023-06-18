@@ -1,5 +1,6 @@
 package controller;
 
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -142,7 +143,7 @@ public class MedicoController {
         return montanteTotalPago;
     }
 
-    public static void menuMedico() {
+    public static void menuMedico() throws ParseException {
         try (Scanner sc = new Scanner(System.in)) {
             MedicoController medicoController = new MedicoController();
             boolean sair = false;

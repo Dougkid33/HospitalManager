@@ -19,6 +19,10 @@ public class Consulta {
     private Unidade unidade;
     private LocalDateTime dataCriacao;
     private LocalDateTime dataModificacao;
+    
+    public Consulta() {
+    	
+    }
 
     public Consulta(LocalDateTime data, String hora, EstadoConsulta estado, Medico medico, Pessoa paciente, double valor, Unidade unidade, LocalDateTime dataCriacao, LocalDateTime dataModificacao) {
         this.data = data;

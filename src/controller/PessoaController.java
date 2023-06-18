@@ -1,5 +1,6 @@
 package controller;
 
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.InputMismatchException;
@@ -76,7 +77,7 @@ public class PessoaController {
         }
     }
 
-    public static void MenuPessoas() {
+    public static void MenuPessoas() throws ParseException {
         try (Scanner sc = new Scanner(System.in)) {
             PessoaController pessoaController = new PessoaController(); // inicializa a variável aqui
             boolean sair = false;

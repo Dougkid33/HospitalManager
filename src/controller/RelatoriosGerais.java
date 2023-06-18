@@ -2,10 +2,14 @@ package controller;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import static view.Main.exibirMenu;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 import model.Consulta;
@@ -25,23 +29,23 @@ public class RelatoriosGerais {
 			System.out.print("Deseja filtrar por data? (S/N): ");
 			String escolhaData = input.nextLine().trim();
 
-			Date dataInicio = null;
-			Date dataFim = null;
+			LocalDateTime dataInicio = null;
+			LocalDateTime dataFim = null;
 
 			if (escolhaData.equalsIgnoreCase("S")) {
-				System.out.print("Digite a data de início (dd/mm/aaaa): ");
-				String dataInicioStr = input.nextLine();
+			    System.out.print("Digite a data de início (dd/mm/aaaa): ");
+			    String dataInicioStr = input.nextLine();
 
-				System.out.print("Digite a data de fim (dd/mm/aaaa): ");
-				String dataFimStr = input.nextLine();
+			    System.out.print("Digite a data de fim (dd/mm/aaaa): ");
+			    String dataFimStr = input.nextLine();
 
-				try {
-					
-					dataInicio = dateFormat1.parse(dataInicioStr);
-					dataFim = dateFormat1.parse(dataFimStr);
-				} catch (Exception e) {
-					System.out.println("Formato de data inválido. Utilizando todas as consultas.");
-				}
+			    try {
+			        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+			        dataInicio = LocalDateTime.parse(dataInicioStr, formatter);
+			        dataFim = LocalDateTime.parse(dataFimStr, formatter);
+			    } catch (Exception e) {
+			        System.out.println("Formato de data inválido. Utilizando todas as consultas.");
+			    }
 			}
 
 			// Escolha do médico (opcional)
@@ -60,9 +64,9 @@ public class RelatoriosGerais {
 
 			System.out.println();
 
-			Consulta[] consultas = ConsultaController.listarConsultasPorFiltro(dataInicio, dataFim, medico);
+			List<Consulta> consultas = ConsultaController.listarConsultasPorFiltro(dataInicio, dataFim, medico);
 
-			if (consultas.length <= 0) {
+			if (consultas.size() <= 0) {
 				System.out.println("Não foram encontradas consultas com os filtros selecionados.");
 			} else {
 				System.out.println("Consultas encontradas:");
@@ -80,7 +84,7 @@ public class RelatoriosGerais {
 			}
 		}
 	}
-	public static void relatorioADM() {
+	public static void relatorioADM() throws ParseException {
 		try (Scanner scanner = new Scanner(System.in)) {
 			boolean sair = false;
 			int opcaoMenu = -1;
@@ -126,7 +130,7 @@ public class RelatoriosGerais {
 		}
 	}
 
-	public static void menuRelatorio() {
+	public static void menuRelatorio() throws ParseException {
 		try (Scanner scanner = new Scanner(System.in)) {
 			boolean sair = false;
 			int opcaoMenu = -1;

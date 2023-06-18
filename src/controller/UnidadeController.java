@@ -1,5 +1,6 @@
 package controller;
 
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -61,7 +62,7 @@ public class UnidadeController {
 //        }
 //    }
 
-    public static void menuUnidade() {
+    public static void menuUnidade() throws ParseException {
         try (Scanner sc = new Scanner(System.in)) {
             UnidadeController unidadeController = new UnidadeController();
             System.out.println("\n==============================");

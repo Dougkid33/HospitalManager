@@ -1,5 +1,6 @@
 package view;
 
+import java.text.ParseException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -20,7 +21,7 @@ public class Main {
 
     public static Pessoa pessoa;
 
-    public static void menuPrincipal() {
+    public static void menuPrincipal() throws ParseException {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -45,15 +46,15 @@ public class Main {
 
                     break;
                 case "3":
-                    PessoaController.cadastrarPessoasAleatorias();
-                    MedicoController.cadastrarMedicoAleatorias();
-                    FranquiaController.cadastrarFranquiasAleatorias();
-                    //UnidadeController.cadastrarUnidadesAleatorias();
-                    ConsultaController.cadastrarConsultasAleatorias();
-                    InfoConsultaController.cadastrarInfoConsultasAleatorias();
-                    ProcedimentoController.cadastrarProcedimentosAleatorios();
-                    FinanceiroADMController.cadastrarFinanceirosADMAleatorios();
-                    FinanceiroMedicoController.cadastrarFinanceirosMedicosAleatorios();
+//                    PessoaController.cadastrarPessoasAleatorias();
+//                    MedicoController.cadastrarMedicoAleatorias();
+//                    FranquiaController.cadastrarFranquiasAleatorias();
+//                    //UnidadeController.cadastrarUnidadesAleatorias();
+//                    ConsultaController.cadastrarConsultasAleatorias();
+//                    InfoConsultaController.cadastrarInfoConsultasAleatorias();
+//                    ProcedimentoController.cadastrarProcedimentosAleatorios();
+//                    FinanceiroADMController.cadastrarFinanceirosADMAleatorios();
+//                    FinanceiroMedicoController.cadastrarFinanceirosMedicosAleatorios();
                     System.out.println("Dados gerados...");
 
                     break;
@@ -72,7 +73,7 @@ public class Main {
     // MENU INICIO
     @SuppressWarnings("null")
     // MENU INICIO
-    public static boolean login() {
+    public static boolean login() throws ParseException {
         try (Scanner scanner = new Scanner(System.in)) {
             PessoaController pessoaControllerlogin = new PessoaController();
             MedicoController medicoControllerlogin = new MedicoController();
@@ -131,7 +132,7 @@ public class Main {
         }
     }
 
-    public static void exibirMenu() {
+    public static void exibirMenu() throws ParseException {
         boolean sair = false;
 
         while (!sair) {
@@ -220,7 +221,7 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         PessoaController pessoaControl = new PessoaController();
         pessoaControl.resetarIdAutoIncrement();
 

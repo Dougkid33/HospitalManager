@@ -54,7 +54,7 @@ public class ProcedimentoController {
         }
     }
 
-    public static void menuProcedimento() {
+    public static void menuProcedimento() throws ParseException {
     try (Scanner scanner = new Scanner(System.in)) {
         int opcao = 0;
 

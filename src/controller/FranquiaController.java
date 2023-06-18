@@ -1,5 +1,6 @@
 package controller;
 
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import model.Pessoa;
 import model.DAO.FranquiaDao;
@@ -55,7 +56,7 @@ public class FranquiaController {
         return dao.listarFranquias();
     }
 
-    public static void menuFranquia() {
+    public static void menuFranquia() throws ParseException {
         try (Scanner scanner = new Scanner(System.in)) {
             FranquiaController franquiaController = new FranquiaController();
             PessoaController pessoaController = new PessoaController();

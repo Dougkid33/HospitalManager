@@ -1,11 +1,16 @@
 package model.DAO;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import controller.FinanceiroADMController;
 import java.time.ZoneOffset;
+
+import model.ConnectionFactory;
 import model.Consulta;
 import model.Medico;
 import model.Pessoa;
@@ -14,30 +19,62 @@ import model.enums.EstadoConsulta;
 import model.enums.TipoMovimento;
 
 public class ConsultaDAO {
+	
+	private Connection conexao = null;
 
-    private static List<Consulta> consultas = new ArrayList<>();
-
-    public static void cadastrarConsulta(LocalDateTime data, String hora, EstadoConsulta estadoConsulta, Medico medico, Pessoa paciente, double valor, Unidade unidade) {
-        Consulta consulta = new Consulta( data, hora, estadoConsulta, medico, paciente, valor, unidade, LocalDateTime.now(), LocalDateTime.now());
-        consultas.add(consulta);
-
-        double entradaFranquia = consulta.calcularEntradaFranquia();
-        FinanceiroADMController.cadastrarFinanceiro(TipoMovimento.ENTRADA, entradaFranquia, unidade.getNome(), "Consulta #" + consulta.getId());
+    public ConsultaDAO() {
+        this.conexao = ConnectionFactory.getConnection();
     }
 
-    public static void atualizarConsulta(int id, LocalDateTime data, String hora, EstadoConsulta estado, Medico medico, Pessoa paciente, double valor, Unidade unidade) {
-        for (Consulta consulta : consultas) {
-            if (consulta.getId() == id) {
-                consulta.setData(data);
-                consulta.setHora(hora);
-                consulta.setEstado(estado);
-                consulta.setMedico(medico);
-                consulta.setPaciente(paciente);
-                consulta.setValor(valor);
-                consulta.setUnidade(unidade);
-                consulta.setDataModificacao(LocalDateTime.now());
-                break;
-            }
+    private static List<Consulta> consultas = new ArrayList<>();
+    
+    
+    public void cadastrarConsulta(LocalDateTime data, String hora, EstadoConsulta estadoConsulta, Medico medico, Pessoa paciente, double valor, Unidade unidade) {
+        String sql = "INSERT INTO consulta (data, hora, estado, medico_id, paciente_id, valor, unidade_id, data_cadastro, data_modificacao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+            stmt.setObject(1, data);
+            stmt.setString(2, hora);
+            stmt.setString(3, estadoConsulta.toString());
+            stmt.setInt(4, medico.getId());
+            stmt.setInt(5, paciente.getId());
+            stmt.setDouble(6, valor);
+            stmt.setInt(7, unidade.getId());
+            stmt.setObject(8, LocalDateTime.now());
+            stmt.setObject(9, LocalDateTime.now());
+            stmt.executeUpdate();
+            
+            Consulta consulta = new Consulta(); 
+            double entradaFranquia = calcularEntradaFranquia(valor);
+            FinanceiroADMController.cadastrarFinanceiro(TipoMovimento.ENTRADA, entradaFranquia, unidade.getNome(), "Consulta #" + consulta.getId());
+        } catch (SQLException e) {
+            System.out.println("Erro ao cadastrar a consulta no banco de dados: " + e.getMessage());
+        }
+    }
+
+
+
+    private double calcularEntradaFranquia(double valor) {
+
+    	return valor * 0.2;
+	}
+
+
+
+	public void atualizarConsulta(int id, LocalDateTime data, String hora, EstadoConsulta estado, Medico medico, Pessoa paciente, double valor, Unidade unidade) {
+        String sql = "UPDATE consulta SET data = ?, hora = ?, estado = ?, medico_id = ?, paciente_id = ?, valor = ?, unidade_id = ?, data_modificacao = ? WHERE id = ?";
+        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+            stmt.setObject(1, data);
+            stmt.setString(2, hora);
+            stmt.setString(3, estado.toString());
+            stmt.setInt(4, medico.getId());
+            stmt.setInt(5, paciente.getId());
+            stmt.setDouble(6, valor);
+            stmt.setInt(7, unidade.getId());
+            stmt.setObject(8, LocalDateTime.now());
+            stmt.setInt(9, id);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Erro ao atualizar a consulta no banco de dados: " + e.getMessage());
         }
     }
 
