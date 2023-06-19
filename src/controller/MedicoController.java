@@ -129,7 +129,13 @@ public class MedicoController {
         List<Consulta> consultasUltimoMes = ConsultaDAO.pesquisarConsultasPorMedicoNoPeriodo(medico, dataInicioLocalDateTime, dataFimLocalDateTime);
 
         //Consulta[] consultasUltimoMes = ConsultaDAO.pesquisarConsultasPorMedicoNoPeriodo(medico, dataInicio.getTime(), dataFim.getTime());
-        List<Procedimento> procedimentosUltimoMes = ProcedimentoDAO.pesquisarProcedimentosPorMedicoNoPeriodo(consultas, dataInicioLocalDateTime, dataFimLocalDateTime);
+        List<Procedimento> procedimentosUltimoMes = null;
+		try {
+			procedimentosUltimoMes = ProcedimentoController.pesquisarProcedimentosPorMedicoNoPeriodo(consultas, dataInicioLocalDateTime, dataFimLocalDateTime);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
         // Calcular o montante total pago ao médico
         double montanteTotalPago = 0.0;

@@ -1,11 +1,9 @@
 package controller;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -19,40 +17,49 @@ import static view.Main.exibirMenu;
 
 public class ProcedimentoController {
 
-    public static void cadastrarProcedimento(String nome, Consulta consulta, LocalDateTime diaHorario, EstadoProcedimento estado,
-            double valor, String laudo) {
-        ProcedimentoDAO.cadastrarProcedimento(nome, consulta, diaHorario, estado, valor, laudo);
-    }
+	public static void cadastrarProcedimento(String nome, int idConsulta, LocalDateTime diaHorario,
+	        EstadoProcedimento estado, double valor, String laudo) {
+	    ProcedimentoDAO procedimentoDAO = new ProcedimentoDAO();
+	    Consulta consulta = ConsultaController.buscarConsulta(idConsulta);
+	    procedimentoDAO.cadastrarProcedimento(nome, idConsulta, diaHorario, estado, valor, laudo);
+	}
 
-    public static void atualizarProcedimento(int id, String nome, Consulta consulta, LocalDateTime diaHorario,
-            EstadoProcedimento estado, double valor, String laudo) {
-        ProcedimentoDAO.atualizarProcedimento(id, nome, consulta, diaHorario, estado, valor, laudo);
-    }
+	// Ajuste o método cadastrarProcedimento existente para utilizar o novo método no DAO
 
-    public static void removerProcedimento(int id) {
-        ProcedimentoDAO.removerProcedimento(id);
-    }
 
-    public static Procedimento buscarProcedimento(int id) {
-        return ProcedimentoDAO.buscarProcedimento(id);
-    }
+	public static void atualizarProcedimento(int id, String nome, Consulta consulta, LocalDateTime diaHorario,
+	        EstadoProcedimento estado, double valor, String laudo) {
+	    ProcedimentoDAO procedimentoDAO = new ProcedimentoDAO();
+	    procedimentoDAO.atualizarProcedimento(id, nome, consulta, diaHorario, estado, valor, laudo);
+	}
 
-    public static List<Procedimento> listarProcedimentos() {
-        return ProcedimentoDAO.listarProcedimentos();
-    }
+	public static void removerProcedimento(int id) {
+	    ProcedimentoDAO procedimentoDAO = new ProcedimentoDAO();
+	    procedimentoDAO.removerProcedimento(id);
+	}
 
-    public static List<Procedimento> listarProcedimentosPorConsulta(Consulta consulta) {
-        return ProcedimentoDAO.listarProcedimentosPorConsulta(consulta);
-    }
+	public static Procedimento buscarProcedimento(int id) {
+	    ProcedimentoDAO procedimentoDAO = new ProcedimentoDAO();
+	    return procedimentoDAO.buscarProcedimento(id);
+	}
 
-    public static void cadastrarProcedimentosAleatorios() {
-        for (int i = 0; i < 2; i++) {
-            Procedimento procedimento = Procedimento.gerarProcedimentoAleatorio();
-            ProcedimentoDAO.cadastrarProcedimento(procedimento.getNome(), procedimento.getConsulta(),
-                    procedimento.getDiaHorario(), procedimento.getEstado(), procedimento.getValor(),
-                    procedimento.getLaudo());
-        }
-    }
+	public static List<Procedimento> listarProcedimentos() {
+	    ProcedimentoDAO procedimentoDAO = new ProcedimentoDAO();
+	    return procedimentoDAO.listarProcedimentos();
+	}
+
+	public static List<Procedimento> listarProcedimentosPorConsulta(Consulta consulta) {
+	    ProcedimentoDAO procedimentoDAO = new ProcedimentoDAO();
+	    return procedimentoDAO.listarProcedimentosPorConsulta(consulta);
+	}
+
+	public static List<Procedimento> pesquisarProcedimentosPorMedicoNoPeriodo(Consulta consulta, LocalDateTime dataInicio, LocalDateTime dataFim) {
+	    ProcedimentoDAO procedimentoDAO = new ProcedimentoDAO();
+	    return procedimentoDAO.pesquisarProcedimentosPorMedicoNoPeriodo(consulta, dataInicio, dataFim);
+	}
+
+
+
 
     public static void menuProcedimento() throws ParseException {
     try (Scanner scanner = new Scanner(System.in)) {
@@ -95,41 +102,42 @@ public class ProcedimentoController {
                     if (!permissao) {
                         System.out.println("Usuário não tem permissão.");
                     } else {
-                        System.out.println("== Cadastrar Procedimento ==");
+                    	System.out.println("== Cadastrar Procedimento ==");
 
-                        // Ler informações do usuário
-                        System.out.print("Nome: ");
-                        String nome = scanner.nextLine();
-                        System.out.print("ID da Consulta: ");
-                        int idConsulta = scanner.nextInt();
-                        Consulta consulta = ConsultaController.buscarConsulta(idConsulta);
-                        System.out.print("Dia/Horário (dd/MM/yyyy HH:mm): ");
-                        String dataConsultaStr = scanner.nextLine();
-                        LocalDateTime diaHorario = null;
-                        try {
-                            diaHorario = LocalDateTime.parse(dataConsultaStr, DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
-                        } catch (DateTimeParseException e) {
-                            System.out.println("Data/hora inválida!");
-                            return;
-                        }
-                        System.out.println("Digite o estado do Procedimento:     1 - AGENDADO,\r\n"
-                                + "    2 - CANCELADO,\r\n" + "    3 - REALIZADO;");
-                        String estadoStr = scanner.next();
+                    	// Ler informações do usuário
+                    	System.out.print("Nome: ");
+                    	String nome = scanner.nextLine();
+                    	System.out.print("ID da Consulta: ");
+                    	int idConsulta = scanner.nextInt();
+                    	System.out.print("Dia/Horário (dd/MM/yyyy HH:mm): ");
+                    	String dataConsultaStr = scanner.nextLine();
+                    	LocalDateTime diaHorario = null;
+                    	try {
+                    	    diaHorario = LocalDateTime.parse(dataConsultaStr, DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+                    	} catch (DateTimeParseException e) {
+                    	    System.out.println("Data/hora inválida!");
+                    	    return;
+                    	}
+                    	System.out.println("Digite o estado do Procedimento:\n"
+                    	        + "1 - AGENDADO,\n"
+                    	        + "2 - CANCELADO,\n"
+                    	        + "3 - REALIZADO;");
+                    	String estadoStr = scanner.next();
 
-                        EstadoProcedimento estado;
-                        try {
-                            estado = EstadoProcedimento.valueOf(estadoStr);
-                        } catch (IllegalArgumentException e) {
-                            System.out.println("Estado inválido");
-                            return;
-                        }
-                        System.out.print("Valor: ");
-                        double valor = scanner.nextDouble();
-                        System.out.print("Laudo: ");
-                        String laudo = scanner.nextLine();
+                    	EstadoProcedimento estado;
+                    	try {
+                    	    estado = EstadoProcedimento.valueOf(estadoStr);
+                    	} catch (IllegalArgumentException e) {
+                    	    System.out.println("Estado inválido");
+                    	    return;
+                    	}
+                    	System.out.print("Valor: ");
+                    	double valor = scanner.nextDouble();
+                    	System.out.print("Laudo: ");
+                    	String laudo = scanner.nextLine();
 
-                        // Chamar o método cadastrarProcedimento do controller
-                        ProcedimentoController.cadastrarProcedimento(nome, consulta, diaHorario, estado, valor, laudo);
+                    	// Chamar o método cadastrarProcedimento do controller
+                    	ProcedimentoController.cadastrarProcedimento(nome, idConsulta, diaHorario, estado, valor, laudo);
                     }
                     break;
                 case 2:
