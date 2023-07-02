@@ -10,12 +10,12 @@ public class FinanceiroADM {
     private int id;
     TipoMovimento tipoMovimento;
     private double valor;
-    private String unidade;
+    private Unidade unidade;
     private String descritivoMovimento;
     private Date dataCriacao;
     private Date dataModificacao;
 
-    public FinanceiroADM(int id, TipoMovimento tipoMovimento, double valor, String unidade, String descritivoMovimento, Date dataCriacao, Date dataModificacao) {
+    public FinanceiroADM(int id, TipoMovimento tipoMovimento, double valor, Unidade unidade, String descritivoMovimento, Date dataCriacao, Date dataModificacao) {
         this.id = gerarNovoId();
         this.tipoMovimento = tipoMovimento;
         this.valor = valor;
@@ -49,11 +49,11 @@ public class FinanceiroADM {
         this.valor = valor;
     }
 
-    public String getUnidade() {
+    public Unidade getUnidade() {
         return unidade;
     }
 
-    public void setUnidade(String unidade) {
+    public void setUnidade(Unidade unidade) {
         this.unidade = unidade;
     }
 
@@ -85,23 +85,23 @@ public class FinanceiroADM {
     private static int gerarNovoId() {
         return proximoId++;
     }
-    public static FinanceiroADM gerarFinanceiroADMAleatorio() {
-        TipoMovimento[] tiposMovimento = TipoMovimento.values();
-        String[] unidades = {"Unidade A", "Unidade B", "Unidade C", "Unidade D"};
-
-        Random random = new Random();
-
-        TipoMovimento tipoMovimento = tiposMovimento[random.nextInt(tiposMovimento.length)];
-        double valor = random.nextDouble() * 1000;
-        String unidade = unidades[random.nextInt(unidades.length)];
-        String descritivoMovimento = "Movimento " + random.nextInt(1000);
-        Date dataCriacao = new Date();
-        Date dataModificacao = new Date();
-
-        FinanceiroADM financeiroADM = new FinanceiroADM(gerarNovoId(), tipoMovimento, valor, unidade, descritivoMovimento, dataCriacao, dataModificacao);
-
-        return financeiroADM;
-    }
+//    public static FinanceiroADM gerarFinanceiroADMAleatorio() {
+//        TipoMovimento[] tiposMovimento = TipoMovimento.values();
+//        String[] unidades = {"Unidade A", "Unidade B", "Unidade C", "Unidade D"};
+//
+//        Random random = new Random();
+//
+//        TipoMovimento tipoMovimento = tiposMovimento[random.nextInt(tiposMovimento.length)];
+//        double valor = random.nextDouble() * 1000;
+//        String unidade = unidades[random.nextInt(unidades.length)];
+//        String descritivoMovimento = "Movimento " + random.nextInt(1000);
+//        Date dataCriacao = new Date();
+//        Date dataModificacao = new Date();
+//
+//        FinanceiroADM financeiroADM = new FinanceiroADM(gerarNovoId(), tipoMovimento, valor, unidade, descritivoMovimento, dataCriacao, dataModificacao);
+//
+//        return financeiroADM;
+//    }
 
 
 }

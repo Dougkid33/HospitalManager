@@ -210,10 +210,10 @@ public class ConsultaController {
                 	consultaController.cadastrarConsulta(dataConsulta, horaConsulta, estadoConsulta, medico, paciente, valorConsulta, unidade);
                 	System.out.println("Consulta cadastrada com sucesso!");
 
-                	String unidadeNome = unidade.getNome();
+                	
                 	estadoConsulta = EstadoConsulta.AGENDADA;
 
-                	FinanceiroADMController.cadastrarFinanceiro(TipoMovimento.ENTRADA, valorConsulta, unidadeNome, "Consulta");
+                	FinanceiroADMController.cadastrarFinanceiro(TipoMovimento.ENTRADA, valorConsulta, unidade, "Consulta");
                 }
                     break;
                     case 2://EDITAR

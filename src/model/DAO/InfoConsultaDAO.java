@@ -43,7 +43,7 @@ public class InfoConsultaDAO {
             infoConsultas.add(infoConsulta);
 
             double entradaFranquia = infoConsulta.calcularEntradaFranquia();
-            FinanceiroADMController.cadastrarFinanceiro(TipoMovimento.ENTRADA, entradaFranquia, unidade.getNome(), "InfoConsulta #" + infoConsulta.getId());
+            FinanceiroADMController.cadastrarFinanceiro(TipoMovimento.ENTRADA, entradaFranquia, unidade, "InfoConsulta #" + infoConsulta.getId());
         } catch (SQLException e) {
             System.out.println("Erro ao cadastrar a infoConsulta no banco de dados: " + e.getMessage());
         }

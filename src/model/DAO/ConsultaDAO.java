@@ -2,6 +2,7 @@ package model.DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -44,8 +45,10 @@ public class ConsultaDAO {
             stmt.executeUpdate();
             
             Consulta consulta = new Consulta(); 
+            UnidadeDAO unidadeDAO = new UnidadeDAO();
+            Unidade unidadeObj = buscarUnidadePorId(unidade.getId());
             double entradaFranquia = calcularEntradaFranquia(valor);
-            FinanceiroADMController.cadastrarFinanceiro(TipoMovimento.ENTRADA, entradaFranquia, unidade.getNome(), "Consulta #" + consulta.getId());
+            FinanceiroADMController.cadastrarFinanceiro(TipoMovimento.ENTRADA, entradaFranquia, unidadeObj, "Consulta #" + consulta.getId());
         } catch (SQLException e) {
             System.out.println("Erro ao cadastrar a consulta no banco de dados: " + e.getMessage());
         }
@@ -53,7 +56,31 @@ public class ConsultaDAO {
 
 
 
-    private double calcularEntradaFranquia(double valor) {
+    private Unidade buscarUnidadePorId(int id) {
+        // Exemplo fictício de busca da unidade pelo ID em um banco de dados
+        String sql = "SELECT * FROM unidade WHERE id = ?";
+        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+
+                // Crie uma instância de Unidade com os valores recuperados do banco de dados
+                Unidade unidade = new Unidade();
+                // Configurar outros campos da unidade...
+
+                return unidade;
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar a unidade no banco de dados: " + e.getMessage());
+        }
+
+        return null; // Retorna null se a unidade não for encontrada
+	}
+
+
+
+	private double calcularEntradaFranquia(double valor) {
 
     	return valor * 0.2;
 	}
