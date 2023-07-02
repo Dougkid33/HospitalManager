@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,17 +27,21 @@ public class FinanceiroADMDAO {
         String sql = "INSERT INTO financeiroadm (tipoMovimento, valor, unidade, descritivoMovimento, dataCriacao, dataModificacao) "
                 + "VALUES (?, ?, ?, ?, ?, ?)";
 
+        
+        UnidadeDAO unidadeDAO = new UnidadeDAO();
+        Unidade unidadecad =  unidadeDAO.buscarUnidade(unidade.getIdUnidade());            
         try (PreparedStatement statement = conexao.prepareStatement(sql)) {
-
             statement.setString(1, tipoMovimento.name());
             statement.setDouble(2, valor);
-            statement.setInt(3, unidade.getId());
+            statement.setInt(3, unidadecad.getIdUnidade());
+            System.out.println("ID da unidade " + unidadecad.getIdUnidade());
             statement.setString(4, descritivoMovimento);
-            statement.setObject(5, new Date());
-            statement.setObject(6, new Date());
+            LocalDateTime now = LocalDateTime.now();
+            java.sql.Timestamp dateNow = java.sql.Timestamp.valueOf(now);
+            statement.setTimestamp(5, dateNow);
+            statement.setTimestamp(6, dateNow);
 
             statement.executeUpdate();
-
         } catch (SQLException e) {
             System.out.println("Erro ao cadastrar financeiro: " + e.getMessage());
         }
@@ -45,7 +51,6 @@ public class FinanceiroADMDAO {
         String sql = "UPDATE financeiroadm SET tipoMovimento = ?, valor = ?, unidade = ?, descritivoMovimento = ?, dataModificacao = ? WHERE id = ?";
 
         try (PreparedStatement statement = conexao.prepareStatement(sql)) {
-
             statement.setString(1, tipoMovimento.name());
             statement.setDouble(2, valor);
             statement.setInt(3, unidade);
@@ -54,7 +59,6 @@ public class FinanceiroADMDAO {
             statement.setInt(6, id);
 
             statement.executeUpdate();
-
         } catch (SQLException e) {
             System.out.println("Erro ao atualizar financeiro: " + e.getMessage());
         }
@@ -64,10 +68,8 @@ public class FinanceiroADMDAO {
         String sql = "DELETE FROM financeiroadm WHERE id = ?";
 
         try (PreparedStatement statement = conexao.prepareStatement(sql)) {
-
             statement.setInt(1, id);
             statement.executeUpdate();
-
         } catch (SQLException e) {
             System.out.println("Erro ao remover financeiro: " + e.getMessage());
         }
@@ -84,13 +86,13 @@ public class FinanceiroADMDAO {
                 FinanceiroADM financeiro = criarFinanceiroADM(resultSet);
                 financeiros.add(financeiro);
             }
-
         } catch (SQLException e) {
             System.out.println("Erro ao listar financeiros: " + e.getMessage());
         }
 
         return financeiros;
     }
+    
     public FinanceiroADM buscarFinanceiroPorId(int id) {
         String sql = "SELECT * FROM financeiroadm WHERE id = ?";
 
@@ -109,20 +111,17 @@ public class FinanceiroADMDAO {
         return null;
     }
 
-
-
-
     private FinanceiroADM criarFinanceiroADM(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("id");
-        TipoMovimento tipoMovimento = TipoMovimento.valueOf(resultSet.getString("tipo_movimento"));
+        TipoMovimento tipoMovimento = TipoMovimento.valueOf(resultSet.getString("tipoMovimento"));
         double valor = resultSet.getDouble("valor");
-        int franquiaUnidadeId = resultSet.getInt("id_Unidade");
-        String descritivoMovimento = resultSet.getString("descritivo_movimento");
-        Date dataCriacao = resultSet.getDate("data_criacao");
-        Date dataModificacao = resultSet.getDate("data_modificacao");
-        
+        int unidadeId = resultSet.getInt("unidade");
+        String descritivoMovimento = resultSet.getString("descritivoMovimento");
+        Date dataCriacao = resultSet.getDate("dataCriacao");
+        Date dataModificacao = resultSet.getDate("dataModificacao");
+
         UnidadeDAO unidadeDAO = new UnidadeDAO();
-        Unidade unidade = unidadeDAO.buscarUnidade(franquiaUnidadeId);
+        Unidade unidade = unidadeDAO.buscarUnidade(unidadeId);
 
         return new FinanceiroADM(id, tipoMovimento, valor, unidade, descritivoMovimento, dataCriacao, dataModificacao);
     }

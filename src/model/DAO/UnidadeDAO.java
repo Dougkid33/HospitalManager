@@ -115,14 +115,22 @@ public class UnidadeDAO {
         List<Unidade> unidades = new ArrayList<>();
         String query = "SELECT * FROM unidade";
         try (PreparedStatement statement = connection.prepareStatement(query);
-                ResultSet resultSet = statement.executeQuery(query)) {
+                ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String nome = resultSet.getString("nome");
                 String cidade = resultSet.getString("cidade");
                 String endereco = resultSet.getString("endereco");
-                LocalDateTime dataCriacao = resultSet.getTimestamp("dataCriacao").toLocalDateTime();
-                LocalDateTime dataModificacao = resultSet.getTimestamp("dataModificacao").toLocalDateTime();
+                LocalDateTime dataCriacao = null;
+                LocalDateTime dataModificacao = null;
+
+                if (resultSet.getTimestamp("dataCriacao") != null) {
+                    dataCriacao = resultSet.getTimestamp("dataCriacao").toLocalDateTime();
+                }
+                if (resultSet.getTimestamp("dataModificacao") != null) {
+                    dataModificacao = resultSet.getTimestamp("dataModificacao").toLocalDateTime();
+                }
+
                 String cidadeUnidade = resultSet.getString("cidade");
                 String enderecoUnidade = resultSet.getString("endereco");
                 int franquiaUnidadeId = resultSet.getInt("id_franquia");

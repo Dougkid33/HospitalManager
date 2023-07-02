@@ -16,10 +16,10 @@ import java.util.Properties;
 public class ConnectionFactory {
 
     private static final String url = "jdbc:mysql://localhost:3306/manager";
-    //private static final String username = "root";
-    //private static final String password = "1433";
-    private static final String username = "manager";
-    private static final String password = "1234";
+    private static final String username = "root";
+    private static final String password = "1433";
+//    private static final String username = "manager";
+//    private static final String password = "1234";
 
     private static Connection connection;
 
@@ -32,7 +32,7 @@ public class ConnectionFactory {
         properties.setProperty("password", password);
         properties.setProperty("useSSL", "false");
         properties.setProperty("useTimezone", "true");
-        properties.setProperty("serverTimezone", "UTC");
+        properties.setProperty("serverTimezone", "America/Sao_Paulo");
         properties.setProperty("allowPublicKeyRetrieval", "true");
 
         try {
