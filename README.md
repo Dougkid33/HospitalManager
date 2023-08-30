@@ -1,67 +1,65 @@
 # HospitalManager
-Um CRUD de usuarios para gerenciamento de hospital e clinicas. Estudo em Java de toda a matéria de POO( Programação Orientada a Objetos)
-As funcionalidades mínimas que deverão ser entregues são:
-=>CRUD de PESSOA. Informações importantes: id, nome, endereço, CPF, telefone, login, senha, tipoUsuario, dataCriacao, dataModificacao.
-Quem faz ? Todos podem criar uma pessoa e editar dados da pessoa.
-Os usuários podem ser os donos da franquia, donos de uma unidade de franquia, administrativos, médicos e pacientes.
-Existirá sempre um dono da franquia pré-cadastrado.
-As pessoas podem se cadastrar automaticamente. Após o cadastro, as pessoas recebem o papel de paciente.
-O dono da franquia e o dono da unidade podem modificar o estado de uma determinada pessoa.
-Uma pessoa pode ser cadastrada com diferentes papéis. Cada login diferente irá diferenciar os usuários.
-As atividades no software são sempre feitas com o usuário logado.
-=>CRUD de MEDICO. Informações importantes: id, CRM, pessoa, especialidade, dataCriacao, dataModificacao.
-Quem faz ? Donos da franquia e donos de uma unidade de franquia.
-O médico tem apenas uma única especialidade.
-O médico pode trabalhar em qualquer franquia.
-=>CRUD de FRANQUIA. Informações importantes: id, nome, cnpj, cidade, endereço, responsavel (pessoa cadastrada), dataCriacao, dataModificacao. 
-Quem faz ? Donos da franquia.
-=>CRUD de UNIDADE da FRANQUIA. Informações importantes: id, franquia, cidade, endereço, responsavel (pessoa cadastrada), dataCriacao, dataModificacao. 
-Quem faz ? Donos da franquia.
-=>CRUD de CONSULTA. Informações importantes: id, dia e horário, estado (vazio, agendada, cancelada, realizada), medico, paciente, valor, unidade, dataCriacao, dataModificacao.
-Quem faz ? Todos. Pacientes só podem ver as suas consultas.
-O médico/paciente consegue visualizar informações a respeito das consultas.
-O médico/paciente consegue visualizar informações a respeito dos procedimentos.
-O médico consegue visualizar a sua agenda de consultas.
-O médico consegue visualizar as consultas já realizadas por ele.
-=>CRUD de INFO de CONSULTA. Um médico pode registrar informações da consulta e também buscar informações de consultas já feitas por ele. Informações importantes: id, consulta, descricao,  dataCriacao, dataModificacao.
-Quem faz ? Médicos.
-=>CRUD de PROCEDIMENTO. Informações importantes: id, nome,   consulta, dia e horário, estado (vazio, agendada, cancelada, realizada), valor, laudo, dataCriacao, dataModificacao.
-O procedimento pode ser gerado a partir de um consulta ou a partir do interesse de um paciente.
+# Sistema de Gerenciamento Hospitalar - CRUD de Usuários
 
-Quem faz ? Médicos e pacientes (ver).
-=>CRUD FINANCEIRO ADM.  Informações importantes: id, tipo movimento (entrada, saída), valor, unidade, descritivo movimento (consulta, procedimento, salário funcionário, energia, agua, pagamento franquia, ...), dataCriacao, dataModificacao.
-Quem faz ? Donos da franquia, donos de uma unidade de franquia, administrativos.
-A cada consulta/procedimento é gerado uma entrada para a unidade de  franquia.
-=>CRUD de FINANCEIRO MÉDICO. Informações importantes: id, valor medico, estado (agendado, pago), franquia, dataCriacao, dataModificacao.
-Todo dia 01 o software pesquisa todas as consultas e procedimentos feitos pelo médico no último mês e registra no software o montante total pago a ele.
-O médico ganha 70% do valor da consulta. O médico 50% do valor do procedimento.
-=>O software deve conter um calendário para o ano considerado. Todo dia 01, deverá ser pago o valor de R$1000,00 a administradora + 5% do faturamento total da clínica relativo a consultas e procedimentos.
-Quem faz ? Donos da franquia, donos de uma unidade de franquia e  administrativos.
-•	Relatórios
-Gere um relatório com os dados financeiros mensais da FRANQUIA. Estes dados contem as entradas e saídas administrativas e as saídas de pagamentos ao médico.
-Quem faz ? Dono da franquia
+Um sistema de gerenciamento hospitalar destinado ao controle de hospitais e clínicas, implementado em Java com ênfase nos conceitos de Programação Orientada a Objetos (POO). O sistema permite o gerenciamento de usuários, médicos, consultas, procedimentos, finanças e geração de relatórios.
 
-Gere um relatório com os dados financeiros mensais das UNIDADES. O relatório contém as entradas e saídas administrativas e as saídas de pagamentos aos médicos.
-Quem faz ? Dono de uma unidade de franquia.
+## Funcionalidades Mínimas
 
-Gere um relatório de consultas e procedimentos de um dado paciente.
-Quem faz ? Médicos e pacientes.
+### CRUD de Pessoa
 
-Gere um relatório dos valores recebidos pelo médico.
-Quem faz ? Médico
+O CRUD de Pessoa permite a gestão dos seguintes atributos: id, nome, endereço, CPF, telefone, login, senha, tipo de usuário, data de criação e data de modificação. Os usuários com diferentes papéis (donos da franquia, donos de unidade, administrativos, médicos e pacientes) podem criar e editar pessoas. Uma pessoa pode ser cadastrada com múltiplos papéis.
 
-•	Perfis
-=> ADMINISTRADOR (logado)
-Todos os privilégios do software. Esta pessoal tem o privilégio de dono da empresa.
+### CRUD de Médico
 
-=> Responsável pela Franquia (logado)
-Todos os privilégios de uma dada franquia.
+O CRUD de Médico é destinado aos donos da franquia e donos de unidades. Ele abrange informações como id, CRM, pessoa associada, especialidade, data de criação e data de modificação. Um médico possui uma única especialidade e pode trabalhar em qualquer unidade da franquia.
 
-=> Administrativo (logado)
-Gerencia consultas e procedimentos.
+### CRUD de Franquia
 
-=> MÉDICO (logado)
-Gerencia consultas e procedimentos. 
+O CRUD de Franquia é restrito aos donos da franquia e permite a gestão de informações como id, nome, CNPJ, cidade, endereço, pessoa responsável, data de criação e data de modificação.
+
+### CRUD de Unidade da Franquia
+
+Similar ao CRUD de Franquia, o CRUD de Unidade da Franquia permite a gestão de unidades específicas. Os donos da franquia têm acesso a essa funcionalidade.
+
+### CRUD de Consulta
+
+O CRUD de Consulta é acessível a todos os usuários. Pacientes só podem visualizar suas próprias consultas. Médicos e pacientes podem ver detalhes e informações sobre consultas e procedimentos.
+
+### CRUD de Informações de Consulta
+
+Apenas médicos têm acesso ao CRUD de Informações de Consulta. Permite registrar e buscar informações relacionadas às consultas realizadas por eles.
+
+### CRUD de Procedimento
+
+O CRUD de Procedimento, acessível por médicos e pacientes (apenas para visualização), abrange informações como id, nome, consulta associada, dia e horário, estado, valor, laudo, data de criação e data de modificação.
+
+### CRUD Financeiro Administrativo
+
+Destinado a donos da franquia, donos de unidades e administrativos, o CRUD Financeiro Administrativo trata de movimentações financeiras, incluindo tipo de movimento, valor, unidade associada, descrição do movimento, data de criação e data de modificação. Entradas são geradas a partir de consultas/procedimentos.
+
+### CRUD Financeiro Médico
+
+Os médicos podem acessar o CRUD Financeiro Médico. O sistema registra automaticamente o montante total pago ao médico, calculado com base nas consultas e procedimentos realizados por ele.
+
+### Calendário
+
+O software inclui um calendário anual para auxiliar no planejamento.
+
+### Geração de Relatórios
+
+- Relatório de Dados Financeiros Mensais da Franquia: Detalha entradas e saídas administrativas e pagamentos a médicos.
+- Relatório de Dados Financeiros Mensais das Unidades: Inclui entradas, saídas administrativas e pagamentos a médicos.
+- Relatório de Consultas e Procedimentos por Paciente: Médicos e pacientes podem gerar relatórios.
+- Relatório de Valores Recebidos por Médico: Apenas médicos têm acesso.
+
+## Perfis de Usuário
+
+- **Administrador:** Possui todos os privilégios do software e atua como dono da empresa.
+- **Responsável pela Franquia:** Tem privilégios equivalentes aos de uma franquia específica.
+- **Administrativo:** Gerencia consultas e procedimentos.
+- **Médico:** Gerencia consultas, procedimentos e finanças relacionadas.
+
+Este sistema foi desenvolvido como um estudo em Java, com foco em POO, para atender às necessidades de gestão de hospitais e clínicas. Ele permite uma gestão abrangente e eficiente, respeitando os diferentes papéis e responsabilidades dos usuários envolvidos.
 
 •	Observações
 => A aplicação será entregue em 2 etapas. 
